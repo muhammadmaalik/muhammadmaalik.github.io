@@ -3,69 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Engineering Portfolio</title>
+    <title>Muhammad Maalik | Engineering Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Basic CSS for styling - you can make this much fancier later! */
         body {
-            font-family: garamond;
-            margin: 20px;
-            line-height: 1.6;
-            background-color: #f4f4f4;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
             color: #333;
         }
+
         header {
-            background-color: #333;
+            background: linear-gradient(to right, #00796b, #004d40);
             color: white;
-            padding: 1em;
+            padding: 2rem;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        nav {
+            background-color: #004d40;
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
         nav ul {
-            padding: 0;
             list-style: none;
-            text-align: center;
+            margin: 0;
+            padding: 0;
         }
+
         nav ul li {
-            display: inline;
-            margin: 0 10px;
+            display: inline-block;
+            margin: 0 15px;
         }
+
         nav a {
+            text-decoration: none;
             color: white;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #b2dfdb;
+        }
+
+        .section {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #004d40;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #004d40;
+            padding-bottom: 0.5rem;
+        }
+
+        .project, .blog-post {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-left: 4px solid #26a69a;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            transition: transform 0.2s;
+        }
+
+        .project:hover, .blog-post:hover {
+            transform: scale(1.01);
+        }
+
+        .project h3, .blog-post h3 {
+            margin-top: 0;
+            color: #00796b;
+        }
+
+        .project a, .blog-post a {
+            color: #00796b;
             text-decoration: none;
         }
-        .section {
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+
+        .project a:hover, .blog-post a:hover {
+            text-decoration: underline;
         }
-        h2 {
-            color: #333;
-        }
-        .project {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 3px;
-        }
-        .blog-post {
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-        .blog-post h3 {
-            margin-top: 0;
-        }
+
         footer {
             text-align: center;
-            padding-top: 20px;
+            padding: 2rem 1rem;
             color: #777;
+            font-size: 0.9rem;
+            background-color: #eeeeee;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 600px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
+
     <header>
-        <h1>Your Name Here</h1>
-        <p>Aspiring Engineer</p>
+        <h1>Muhammad Maalik</h1>
+        <p>Aspiring Mechanical Engineer</p>
     </header>
 
     <nav>
@@ -81,12 +144,11 @@
         <h2>Projects</h2>
         <div class="project">
             <h3>Hydrogen Engine</h3>
-            <p>Researched with Hydrogen Engines. Used a 50 CC lawn mower gasoline engine. Used tap water and separated water into Oxygen and Hydrogen, collected the hydrogen into the engine's carburetor, and ran tests. The Engine on Hydrogen was much louder and hotter compared to when the engine was on gasoline. </p>
-            <a href="#">https://drive.google.com/drive/folders/1qFipxZ76TXzitJKy8Pf50rXBmf0PfWpl?usp=drive_link</a> (Research Paper)
-            <p>Details about your second awesome project!</p>
-            <a href="#">View Project</a>
+            <p>Researched hydrogen engines using a 50 CC lawn mower gasoline engine. Separated water into Oxygen and Hydrogen, then fed the hydrogen into the carburetor. The engine ran louder and hotter on hydrogen than on gasoline.</p>
+            <a href="https://drive.google.com/drive/folders/1qFipxZ76TXzitJKy8Pf50rXBmf0PfWpl?usp=drive_link" target="_blank">View Research Paper</a>
         </div>
-        </section>
+        <!-- You can duplicate this div for more projects -->
+    </section>
 
     <section id="blogs" class="section">
         <h2>Blogs</h2>
@@ -100,17 +162,17 @@
             <p>More interesting thoughts and ideas you've shared.</p>
             <small>Date Published: [Date]</small>
         </div>
-        </section>
+    </section>
 
     <section id="education" class="section">
         <h2>Education</h2>
         <div>
             <h3>Stony Brook University</h3>
-            <p>BS Mechanical Engineering</p></p>
-            <p>2025-2029</p></p>
-            <p>Any interesting things you learned or achievements.</p>
+            <p>B.S. in Mechanical Engineering</p>
+            <p>2025 - 2029</p>
+            <p>Include interesting courses, clubs, or achievements here!</p>
         </div>
-        </section>
+    </section>
 
     <section id="experience" class="section">
         <h2>Experience</h2>
@@ -120,12 +182,13 @@
             <ul>
                 <li>Point about something you did or learned.</li>
                 <li>Another responsibility or achievement.</li>
-                </ul>
+            </ul>
         </div>
-        </section>
+    </section>
 
     <footer>
-        <p>&copy; [2025] Muhammad Maalik. All rights reserved.</p>
+        <p>&copy; 2025 Muhammad Maalik. All rights reserved.</p>
     </footer>
+
 </body>
 </html>
