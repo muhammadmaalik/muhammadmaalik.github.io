@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Muhammad Maalik | Engineering Portfolio</title>
-  <!-- Coding fonts: JetBrains Mono for code aesthetic -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     * {
@@ -28,8 +27,6 @@
       overflow-x: hidden;
     }
 
-    /* ===== DYNAMIC GRADIENT MESH BACKGROUND ===== */
-    /* This creates an animated gradient that moves around */
     .bg-canvas {
       position: fixed;
       top: 0;
@@ -48,7 +45,6 @@
       50% { transform: scale(1.1) rotate(5deg); }
     }
 
-    /* ===== GRID OVERLAY (Futuristic tech feel) ===== */
     .grid-overlay {
       position: fixed;
       top: 0;
@@ -68,7 +64,6 @@
       100% { transform: translate(50px, 50px); }
     }
 
-    /* ===== HERO SECTION WITH GLITCH EFFECT ===== */
     .hero {
       height: 100vh;
       display: flex;
@@ -79,8 +74,6 @@
       overflow: hidden;
     }
 
-    /* PHOTO LOCATION 1: Hero background image */
-    /* Add your Oppenheimer photo here as a subtle background */
     .hero::before {
       content: '';
       position: absolute;
@@ -110,7 +103,6 @@
       animation: glitch-skew 1s infinite;
     }
 
-    /* Glitch effect animation */
     .glitch::before,
     .glitch::after {
       content: attr(data-text);
@@ -198,7 +190,6 @@
       }
     }
 
-    /* ===== NAVIGATION BAR (Floating glass morphism) ===== */
     nav {
       position: fixed;
       top: 2rem;
@@ -258,7 +249,6 @@
       color: var(--orange);
     }
 
-    /* ===== SECTION DIVIDERS ===== */
     .section-divider {
       padding: 8rem 2rem;
       position: relative;
@@ -299,7 +289,6 @@
       background: linear-gradient(90deg, var(--orange), transparent);
     }
 
-    /* ===== BENTO GRID LAYOUT (Modern card system) ===== */
     .bento-grid {
       max-width: 1400px;
       margin: 0 auto;
@@ -321,8 +310,6 @@
       cursor: pointer;
     }
 
-    /* PHOTO LOCATION 2: Individual card backgrounds */
-    /* Add different Oppenheimer images to each card */
     .bento-card::before {
       content: '';
       position: absolute;
@@ -333,20 +320,6 @@
       background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), transparent);
       opacity: 0;
       transition: opacity 0.5s ease;
-      z-index: 0;
-    }
-
-    /* Example: Add specific images to cards */
-    .bento-card:nth-child(1)::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 200px;
-      height: 200px;
-      background: url('https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=400') center/cover;
-      opacity: 0.03;
-      border-radius: 20px;
       z-index: 0;
     }
 
@@ -421,7 +394,6 @@
       gap: 1rem;
     }
 
-    /* ===== TERMINAL-STYLE EXPERIENCE SECTION ===== */
     .terminal {
       max-width: 900px;
       margin: 4rem auto;
@@ -468,6 +440,11 @@
     .terminal-line:nth-child(2) { animation-delay: 0.3s; }
     .terminal-line:nth-child(3) { animation-delay: 0.5s; }
     .terminal-line:nth-child(4) { animation-delay: 0.7s; }
+    .terminal-line:nth-child(5) { animation-delay: 0.9s; }
+    .terminal-line:nth-child(6) { animation-delay: 1.1s; }
+    .terminal-line:nth-child(7) { animation-delay: 1.3s; }
+    .terminal-line:nth-child(8) { animation-delay: 1.5s; }
+    .terminal-line:nth-child(9) { animation-delay: 1.7s; }
 
     @keyframes terminalType {
       to {
@@ -487,7 +464,6 @@
       color: #fff;
     }
 
-    /* ===== FOOTER ===== */
     footer {
       text-align: center;
       padding: 4rem 2rem;
@@ -498,7 +474,26 @@
       font-size: 0.9rem;
     }
 
-    /* ===== SCROLL INDICATOR ===== */
+    .contact-links {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--orange);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .contact-link:hover {
+      color: var(--cyan);
+    }
+
     .scroll-indicator {
       position: fixed;
       top: 0;
@@ -511,7 +506,6 @@
       transition: transform 0.1s ease;
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .glitch {
         font-size: 2.5rem;
@@ -547,7 +541,6 @@
       }
     }
 
-    /* Fade-in animation for sections */
     .fade-in {
       opacity: 0;
       transform: translateY(30px);
@@ -562,32 +555,28 @@
 </head>
 <body>
 
-  <!-- Scroll progress indicator -->
   <div class="scroll-indicator" id="scrollIndicator"></div>
-
-  <!-- Animated background -->
   <div class="bg-canvas"></div>
   <div class="grid-overlay"></div>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1 class="glitch" data-text="MUHAMMAD MAALIK">MAALIK</h1>>MUHAMMAD</h1>
+      <h1 class="glitch" data-text="MUHAMMAD MAALIK">MUHAMMAD MAALIK</h1>
+      <!-- Reduced explicit mention of "Quantum Mechanics" -->
       <p class="subtitle">PHYSICS × ENGINEERING</p>
     </div>
   </section>
 
-  <!-- Floating Navigation -->
   <nav>
     <ul>
-      <li><a href="#engineering">Engineering</a></li>
-      <li><a href="#physics">Physics</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#research">Research</a></li>
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- Engineering Section -->
-  <section id="engineering" class="section-divider fade-in">
+  <section id="projects" class="section-divider fade-in">
     <div class="section-header">
       <span class="section-number">01</span>
       <h2 class="section-title">ENGINEERING_PROJECTS</h2>
@@ -595,68 +584,67 @@
     
     <div class="bento-grid">
       <div class="bento-card">
-        <div class="card-icon">🔧</div>
-        <h3 class="card-title">Hydrogen Engine</h3>
-        <p class="card-description">Converted a 50cc lawn mower gasoline engine to run on hydrogen. Split water into H₂ and O₂, fed hydrogen into carburetor. Experimental results showed increased temperature and acoustic output compared to gasoline baseline.</p>
-        <a href="https://drive.google.com/drive/folders/1qFipxZ76TXzitJKy8Pf50rXBmf0PfWpl?usp=drive_link" target="_blank" class="card-link">View Research →</a>
-      </div>
-
-      <div class="bento-card">
         <div class="card-icon">🚀</div>
-        <h3 class="card-title">TVC System</h3>
-        <p class="card-description">Thrust Vector Control mechanism using servo-actuated gimbal mount. Arduino UNO microcontroller processes gyroscope data for real-time trajectory correction. Dual-servo TVC + single-servo parachute deployment system for recovery.</p>
+        <h3 class="card-title">Thrust Vector Control</h3>
+        <p class="card-description">Designed and built a TVC system for a 20-inch rocket using Arduino, dual servos, and MPU6050 gyroscope for real-time trajectory correction. Engineered custom gimbal mount for precise thrust vectoring control.</p>
       </div>
 
       <div class="bento-card">
-        <div class="card-icon">💻</div>
-        <h3 class="card-title">Flight Computer</h3>
-        <p class="card-description">Arduino UNO-based flight controller with C++ firmware. Integrates MPU6050 gyroscope sensors via I²C protocol. PID control loop maintains vertical orientation during powered ascent phase. Automated parachute deployment at apogee.</p>
+        <div class="card-icon">✈️</div>
+        <h3 class="card-title">RC 3D Printed Plane</h3>
+        <p class="card-description">Complete radio-controlled aircraft designed in Fusion 360 and manufactured using FDM 3D printing. Features custom aerodynamic profile optimized for stability and maneuverability.</p>
       </div>
 
       <div class="bento-card">
-        <div class="card-icon">🛠️</div>
-        <h3 class="card-title">3D Design & Manufacturing</h3>
-        <p class="card-description">CAD design pipeline using Fusion 360 and OpenRocket for aerodynamic simulation. CURA slicing for FDM 3D printing. PCB design in KiCAD for custom electronics. Created educational STEM projects for K-12 students.</p>
+        <div class="card-icon">🔧</div>
+        <h3 class="card-title">Hydrogen Engine Research</h3>
+        <p class="card-description">Experimental conversion of gasoline engine to hydrogen fuel. Research documented performance metrics including temperature and acoustic output variations compared to baseline gasoline operation.</p>
+        <a href="https://hiddenphysicsblogs.godaddysites.com/" target="_blank" class="card-link">Read Research →</a>
+      </div>
+
+      <div class="bento-card">
+        <div class="card-icon">🖨️</div>
+        <h3 class="card-title">3D Design & CAD</h3>
+        <p class="card-description">Extensive portfolio of mechanical designs using Autodesk Fusion 360. Experience with OpenRocket simulations, CURA slicing, and Arduino IDE for integrated electromechanical systems.</p>
       </div>
     </div>
   </section>
 
-  <!-- Physics Section -->
-  <section id="physics" class="section-divider fade-in">
+  <section id="research" class="section-divider fade-in">
     <div class="section-header">
       <span class="section-number">02</span>
       <h2 class="section-title">PHYSICS_RESEARCH</h2>
     </div>
     
     <div class="bento-grid">
+      <!-- Modified research card: reduced explicit quantum mechanics wording -->
       <div class="bento-card">
         <div class="card-icon">⚛️</div>
-        <h3 class="card-title">Quantum Mechanics</h3>
-        <p class="card-description">Exploring wave-particle duality, quantum superposition, and entanglement phenomena. Research focuses on quantum computing applications and theoretical foundations of modern physics.</p>
+        <h3 class="card-title">Theoretical & Computational Physics</h3>
+        <p class="card-description">Investigating theoretical and computational approaches to complex physical systems, with focus on algorithms for simulation and computing applications. Goal: pursue graduate research in physics and computation.</p>
       </div>
 
       <div class="bento-card">
         <div class="card-icon">🌌</div>
-        <h3 class="card-title">Particle Physics</h3>
-        <p class="card-description">Study of fundamental particles and forces. Investigation of the Standard Model, Higgs mechanism, and beyond-Standard-Model physics. Monthly blog posts documenting latest discoveries.</p>
-        <a href="https://hiddenphysicsblogs.godaddysites.com" target="_blank" class="card-link">Read Blogs →</a>
+        <h3 class="card-title">Black Body Radiation</h3>
+        <p class="card-description">Published comprehensive analysis of black body radiation phenomena. Exploring Planck's law and its implications for modern physics theory development.</p>
+        <a href="https://hiddenphysicsblogs.godaddysites.com/" target="_blank" class="card-link">Read Blog →</a>
       </div>
 
       <div class="bento-card">
         <div class="card-icon">🔬</div>
-        <h3 class="card-title">Experimental Physics</h3>
-        <p class="card-description">Laboratory-based investigations in thermodynamics, electromagnetism, and modern physics. Data analysis using Python and MATLAB for computational modeling.</p>
+        <h3 class="card-title">FEA Analysis</h3>
+        <p class="card-description">Finite Element Analysis Lead at Stony Brook Robotics Team. Conducting structural and fluid dynamics simulations using Ansys Mechanical and Ansys Fluent for competition robot optimization.</p>
       </div>
 
       <div class="bento-card">
-        <div class="card-icon">📐</div>
-        <h3 class="card-title">Theoretical Frameworks</h3>
-        <p class="card-description">Mathematical modeling of physical systems. Differential equations, tensor calculus, and group theory applications in physics research.</p>
+        <div class="card-icon">🔋</div>
+        <h3 class="card-title">Battery Technology</h3>
+        <p class="card-description">Completed Ford EV Engineering simulation analyzing battery chemistries and PID controller tuning. Visualized performance data and examined control systems for electric vehicle applications.</p>
       </div>
     </div>
   </section>
 
-  <!-- Experience Section (Terminal Style) -->
   <section id="experience" class="section-divider fade-in">
     <div class="section-header">
       <span class="section-number">03</span>
@@ -671,154 +659,13 @@
       </div>
       <div class="terminal-body">
         <div class="terminal-line">
-          <span class="terminal-prompt">maalik@portfolio</span>:<span class="terminal-path">~/experience</span>$ <span class="terminal-command">cat internship.txt</span>
+          <span class="terminal-prompt">maalik@portfolio</span>:<span class="terminal-path">~/experience</span>$ <span class="terminal-command">cat current_position.txt</span>
         </div>
         <div class="terminal-line">
-          <span style="color: var(--orange);">Position:</span> Physics Department Intern
+          <span style="color: var(--orange);">Position:</span> Finite Element Analysis (FEA) Lead
         </div>
         <div class="terminal-line">
-          <span style="color: var(--orange);">Organization:</span> Quaid-e-Azam Public School
+          <span style="color: var(--orange);">Organization:</span> Stony Brook Robotics Team
         </div>
         <div class="terminal-line">
-          <span style="color: var(--orange);">Duration:</span> June 2022 - September 2022
-        </div>
-        <div class="terminal-line">
-          <span style="color: var(--orange);">Focus:</span> 3D Printing, CAD Design, Educational Project Development
-        </div>
-        <div class="terminal-line">
-          <span style="color: var(--orange);">Tools:</span> Fusion 360 | CURA | OpenRocket | KiCAD
-        </div>
-        <div class="terminal-line">
-          <span style="color: var(--orange);">Impact:</span> Designed and fabricated hands-on STEM projects for pre-school learners
-        </div>
-        <div class="terminal-line" style="margin-top: 1rem;">
-          <span class="terminal-prompt">maalik@portfolio</span>:<span class="terminal-path">~/experience</span>$ <span class="terminal-command">cat education.txt</span>
-        </div>
-        <div class="terminal-line">
-          <span style="color: var(--cyan);">Degree:</span> B.S. Mechanical Engineering + Physics Double Major
-        </div>
-        <div class="terminal-line">
-          <span style="color: var(--cyan);">Timeline:</span> 2025 - 2029
-        </div>
-        <div class="terminal-line">
-          <span style="color: var(--cyan);">Status:</span> Currently Enrolled ▮
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Muhammad Maalik. All rights reserved.</p>
-    <p style="margin-top: 0.5rem; opacity: 0.6;">Built with curiosity and code.</p>
-  </footer>
-
-  <script>
-    // ===== SCROLL PROGRESS INDICATOR =====
-    window.addEventListener('scroll', () => {
-      const scrollIndicator = document.getElementById('scrollIndicator');
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY / scrollHeight;
-      scrollIndicator.style.transform = `scaleX(${scrolled})`;
-      scrollIndicator.style.width = '100%';
-    });
-
-    // ===== FADE IN ON SCROLL =====
-    const fadeElements = document.querySelectorAll('.fade-in');
-    
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    });
-
-    fadeElements.forEach(element => {
-      fadeObserver.observe(element);
-    });
-
-    // ===== SMOOTH SCROLLING =====
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-
-    // ===== 3D TILT EFFECT ON CARDS =====
-    const cards = document.querySelectorAll('.bento-card');
-    
-    cards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
-      });
-      
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
-      });
-    });
-
-    // ===== PARALLAX EFFECT ON SCROLL =====
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const parallaxElements = document.querySelectorAll('.hero');
-      
-      parallaxElements.forEach(element => {
-        const speed = 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-      });
-    });
-
-    // ===== CURSOR GLOW EFFECT =====
-    const cursor = document.createElement('div');
-    cursor.style.cssText = `
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 107, 53, 0.6), transparent);
-      pointer-events: none;
-      z-index: 9999;
-      filter: blur(10px);
-      transition: transform 0.1s ease;
-    `;
-    document.body.appendChild(cursor);
-
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-
-    // ===== CARD CLICK ANIMATION =====
-    cards.forEach(card => {
-      card.addEventListener('click', function() {
-        this.style.animation = 'pulse 0.6s ease';
-        setTimeout(() => {
-          this.style.animation = '';
-        }, 600);
-      });
-    });
-  </script>
-
-</body>
-</html>
+          <span style="color: v
