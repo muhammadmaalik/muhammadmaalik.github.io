@@ -70,19 +70,29 @@
             box-shadow: 0 5px 30px rgba(0, 255, 135, 0.3);
         }
 
+        /* --- UPDATED LOGO CSS START --- */
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #00ff87;
-            text-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+            display: flex;
+            align-items: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .logo:hover {
-            transform: scale(1.1);
-            text-shadow: 0 0 30px rgba(0, 300, 135, 0.8);
+        /* Creates a subtle pulse effect */
+        .logo svg {
+            filter: drop-shadow(0 0 5px rgba(0, 255, 135, 0.3));
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
+        .logo:hover svg {
+            transform: scale(1.15) rotate(-2deg);
+            filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.8));
+        }
+
+        .logo:hover path.inner-m {
+            stroke: #fff;
+        }
+        /* --- UPDATED LOGO CSS END --- */
 
         .nav-links {
             display: flex;
@@ -614,7 +624,23 @@
     <div class="particles" id="particles"></div>
 
     <nav id="navbar">
-        <div class="logo">LOGO</div>
+        <div class="logo">
+            <svg width="60" height="40" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path d="M10 90 L30 30 L50 90" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/>
+                <path class="inner-m" d="M35 90 L55 30 L75 90 M60 90 L80 30 L100 90" stroke="#00ff87" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#neon-glow)"/>
+                <circle cx="30" cy="30" r="4" fill="#00ff87" />
+                <circle cx="80" cy="30" r="4" fill="#fff" />
+            </svg>
+        </div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -923,4 +949,13 @@
                 const rotateX = (y - centerY) / 10;
                 const rotateY = (centerX - x) / 10;
                 
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
