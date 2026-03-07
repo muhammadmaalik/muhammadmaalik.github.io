@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>MAALIK.SYS — Technical Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet"/>
 <style>
@@ -10,36 +10,33 @@
   --black:#000;--deep:#050a05;--surface:#0a110a;--panel:#0d160d;
   --green:#00ff41;--green-dim:#00cc33;--green-dark:#003310;--green-mid:#007a1f;
   --green-glow:rgba(0,255,65,.15);--green-glow2:rgba(0,255,65,.05);
-  --amber:#ffb700;--red:#ff2244;--cyan:#00ffcc;
-  --muted:rgba(0,255,65,.35);
-  --ff-mono:'Share Tech Mono',monospace;
-  --ff-display:'Orbitron',monospace;
-  --ff-crt:'VT323',monospace;
+  --amber:#ffb700;--red:#ff2244;--cyan:#00ffcc;--muted:rgba(0,255,65,.35);
+  --ff-mono:'Share Tech Mono',monospace;--ff-display:'Orbitron',monospace;--ff-crt:'VT323',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--black);color:var(--green);font-family:var(--ff-mono);font-size:13px;line-height:1.6;overflow-x:hidden;cursor:none;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:var(--green-mid);}
-/* SCANLINES */
+
+/* BOOT */
+#boot{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;}
+.power-btn{width:90px;height:90px;border-radius:50%;border:2px solid #007a1f;background:#050a05;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 0 20px rgba(0,255,65,.1);}
+.power-btn:hover{border-color:#00ff41;box-shadow:0 0 50px rgba(0,255,65,.5);}
+.power-btn:hover svg{stroke:#00ff41;}
+.power-btn svg{width:32px;height:32px;stroke:#007a1f;fill:none;stroke-width:2;stroke-linecap:round;transition:stroke .3s;}
+.boot-lbl{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:.4em;color:rgba(0,255,65,.35);}
+#boot-log{font-size:12px;color:#00cc33;width:min(480px,90vw);height:0;overflow:hidden;line-height:1.9;}
+
+/* OVERLAYS */
 .scanlines{position:fixed;inset:0;pointer-events:none;z-index:9990;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:9989;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.75) 100%);}
-/* CURSOR */
 .cursor{position:fixed;width:16px;height:16px;border:1px solid var(--green);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:screen;}
 .cursor::before{content:'';position:absolute;top:50%;left:50%;width:3px;height:3px;background:var(--green);transform:translate(-50%,-50%);}
 .cursor-trail{position:fixed;width:4px;height:4px;background:var(--green);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);opacity:.35;transition:left .12s,top .12s;}
-/* GLITCH OVERLAY */
 #glitch-overlay{position:fixed;inset:0;z-index:8000;pointer-events:none;opacity:0;}
 #glitch-overlay.active{animation:fullGlitch .55s forwards;}
-@keyframes fullGlitch{0%{opacity:0}5%{opacity:.85;filter:hue-rotate(90deg)}10%{opacity:.2}20%{opacity:.7;filter:hue-rotate(180deg) saturate(3)}30%{opacity:.05}45%{opacity:.5;filter:invert(1)}60%{opacity:.1}80%{opacity:.3}100%{opacity:0}}
-/* BOOT */
-#boot{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transition:opacity .6s ease;cursor:default;}
-#boot.hide{opacity:0 !important;pointer-events:none !important;}
-.power-btn{width:90px;height:90px;border-radius:50%;border:2px solid var(--green-mid);background:var(--deep);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .3s;box-shadow:0 0 20px rgba(0,255,65,.1);pointer-events:all;-webkit-tap-highlight-color:transparent;}
-.power-btn:hover{border-color:var(--green);box-shadow:0 0 50px rgba(0,255,65,.5);}
-.power-btn:hover .pwr-icon{stroke:var(--green);}
-.pwr-icon{width:32px;height:32px;stroke:var(--green-mid);fill:none;stroke-width:2;stroke-linecap:round;transition:stroke .3s;}
-.boot-lbl{font-family:var(--ff-display);font-size:10px;letter-spacing:.4em;color:var(--muted);}
-#boot-log{font-size:12px;color:var(--green-dim);width:min(480px,90vw);height:0;overflow:hidden;transition:height .4s ease;line-height:1.9;}
+@keyframes fullGlitch{0%{opacity:0}10%{opacity:.85;filter:hue-rotate(90deg)}20%{opacity:.2}35%{opacity:.7;filter:hue-rotate(180deg) saturate(3)}50%{opacity:.05}65%{opacity:.5;filter:invert(1)}80%{opacity:.1}100%{opacity:0}}
+
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.9);border-bottom:1px solid var(--green-dark);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:44px;backdrop-filter:blur(6px);}
 .nav-logo{font-family:var(--ff-display);font-size:12px;font-weight:900;letter-spacing:.2em;color:var(--green);text-decoration:none;}
@@ -48,206 +45,184 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.9);bo
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--green);transition:width .3s;}
 .nav-links a:hover,.nav-links a.active-nav{color:var(--green);}
 .nav-links a:hover::after,.nav-links a.active-nav::after{width:100%;}
-.nav-right{display:flex;align-items:center;gap:20px;}
 .sys-status{font-size:9px;letter-spacing:.12em;color:var(--green-dim);display:flex;align-items:center;gap:6px;}
 .status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 6px var(--green);}50%{opacity:.3;box-shadow:none;}}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 6px var(--green);}50%{opacity:.3;}}
+
 /* LAYOUT */
 #app{display:grid;grid-template-columns:220px 1fr;min-height:100vh;padding-top:44px;}
+
 /* SIDEBAR */
 #sidebar{background:var(--deep);border-right:1px solid var(--green-dark);position:sticky;top:44px;height:calc(100vh - 44px);overflow-y:auto;display:flex;flex-direction:column;}
-.sidebar-section{padding:16px;border-bottom:1px solid var(--green-dark);}
-.sidebar-title{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-/* FILE TREE */
-.file-tree{}
-.file-item{display:flex;align-items:center;gap:8px;padding:4px 6px;cursor:none;transition:background .15s;font-size:11px;color:var(--green-dim);border-radius:1px;}
+.sb-sec{padding:14px 16px;border-bottom:1px solid var(--green-dark);}
+.sb-title{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.mini-clock{font-family:var(--ff-crt);font-size:28px;color:var(--green);text-align:center;padding:8px 0;text-shadow:0 0 10px rgba(0,255,65,.4);}
+.mini-date{font-size:9px;letter-spacing:.12em;color:var(--muted);text-align:center;margin-bottom:4px;}
+.file-item{display:flex;align-items:center;gap:8px;padding:4px 6px;cursor:pointer;transition:background .15s;font-size:11px;color:var(--green-dim);}
 .file-item:hover{background:var(--green-glow);color:var(--green);}
-.file-item.active-file{background:var(--green-glow);color:var(--green);border-left:2px solid var(--green);}
-.file-icon{font-size:10px;flex-shrink:0;color:var(--green-mid);}
-.file-folder{padding-left:0;}
+.file-icon{font-size:10px;color:var(--green-mid);}
 .file-child{padding-left:20px;}
-/* REAL SYS MONITOR */
+.file-child2{padding-left:36px;}
 .sysmon-row{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(0,255,65,.05);}
-.sysmon-key{font-size:9px;letter-spacing:.12em;color:var(--muted);}
+.sysmon-key{font-size:9px;letter-spacing:.1em;color:var(--muted);}
 .sysmon-val{font-size:10px;color:var(--green);font-family:var(--ff-display);}
 .sysmon-val.warn{color:var(--amber);}
-.sysmon-val.ok{color:var(--green);}
-.battery-bar{width:100%;height:3px;background:var(--green-dark);margin-top:4px;border-radius:1px;overflow:hidden;}
-.battery-fill{height:100%;background:var(--green);border-radius:1px;transition:width .5s;}
-/* MINI CLOCK */
-.mini-clock{font-family:var(--ff-crt);font-size:28px;color:var(--green);text-align:center;padding:12px 0;text-shadow:0 0 10px rgba(0,255,65,.4);letter-spacing:.05em;}
-.mini-date{font-size:9px;letter-spacing:.15em;color:var(--muted);text-align:center;margin-top:-8px;margin-bottom:8px;}
-/* SIDEBAR LOCATION */
-.loc-block{font-size:10px;color:var(--green-dim);line-height:1.8;}
+.bat-bar{width:100%;height:3px;background:var(--green-dark);margin-top:3px;border-radius:1px;overflow:hidden;}
+.bat-fill{height:100%;background:var(--green);border-radius:1px;transition:width .5s;}
+.loc-block{font-size:10px;color:var(--green-dim);line-height:1.9;}
 .loc-block span{color:var(--muted);}
-/* MAIN CONTENT */
-#main-content{overflow-y:auto;}
+
+/* MAIN */
+#main{overflow-y:auto;}
+
 /* HERO */
-#hero{min-height:calc(100vh - 44px);display:grid;grid-template-columns:1fr 340px;gap:0;position:relative;overflow:hidden;}
+#hero{min-height:calc(100vh - 44px);display:grid;grid-template-columns:1fr 320px;position:relative;overflow:hidden;}
 #matrix-canvas{position:absolute;inset:0;opacity:.06;z-index:0;}
 .hero-left{display:flex;flex-direction:column;justify-content:center;padding:60px 48px;position:relative;z-index:1;}
-.hero-sys-line{font-size:10px;letter-spacing:.25em;color:var(--muted);margin-bottom:20px;}
-.hero-name-block{margin-bottom:16px;}
+.hero-sys{font-size:10px;letter-spacing:.25em;color:var(--muted);margin-bottom:20px;}
 .hero-name{font-family:var(--ff-display);font-size:clamp(40px,6vw,80px);font-weight:900;line-height:.95;letter-spacing:.04em;color:var(--green);text-shadow:0 0 30px rgba(0,255,65,.3);}
-.hero-name-outline{font-family:var(--ff-display);font-size:clamp(40px,6vw,80px);font-weight:900;line-height:.95;letter-spacing:.04em;color:transparent;-webkit-text-stroke:1px var(--green-mid);}
-.hero-tagline{font-family:var(--ff-crt);font-size:20px;color:var(--green-dim);margin-bottom:36px;letter-spacing:.03em;}
-.hero-badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
-.hero-badge{font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:4px 12px;border:1px solid var(--green-dark);color:var(--muted);}
-.hero-badge.hi{border-color:var(--green-mid);color:var(--green-dim);}
-.hero-cta-row{display:flex;gap:10px;flex-wrap:wrap;}
-.btn-primary{font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:10px 22px;border:1px solid var(--green);color:var(--green);background:var(--green-glow);text-decoration:none;transition:all .2s;cursor:none;}
-.btn-primary:hover{background:rgba(0,255,65,.25);box-shadow:0 0 20px rgba(0,255,65,.3);}
-.btn-ghost{font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:10px 22px;border:1px solid var(--green-dark);color:var(--muted);text-decoration:none;transition:all .2s;cursor:none;}
-.btn-ghost:hover{border-color:var(--green-mid);color:var(--green-dim);}
-/* HERO RIGHT — 3D WIREFRAME */
-.hero-right{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;position:relative;z-index:1;border-left:1px solid var(--green-dark);}
-#wireframe-canvas{width:280px;height:280px;}
-.wireframe-label{font-size:9px;letter-spacing:.2em;color:var(--muted);margin-top:10px;text-align:center;}
-/* CORNER DECO */
+.hero-name-out{font-family:var(--ff-display);font-size:clamp(40px,6vw,80px);font-weight:900;line-height:.95;letter-spacing:.04em;color:transparent;-webkit-text-stroke:1px var(--green-mid);}
+.hero-tag{font-family:var(--ff-crt);font-size:20px;color:var(--green-dim);margin:16px 0 32px;}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+.badge{font-size:9px;letter-spacing:.13em;text-transform:uppercase;padding:4px 12px;border:1px solid var(--green-dark);color:var(--muted);}
+.badge.hi{border-color:var(--green-mid);color:var(--green-dim);}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;}
+.btn-p{font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:10px 22px;border:1px solid var(--green);color:var(--green);background:var(--green-glow);text-decoration:none;transition:all .2s;cursor:pointer;}
+.btn-p:hover{background:rgba(0,255,65,.25);box-shadow:0 0 20px rgba(0,255,65,.3);}
+.btn-g{font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:10px 22px;border:1px solid var(--green-dark);color:var(--muted);text-decoration:none;transition:all .2s;cursor:pointer;}
+.btn-g:hover{border-color:var(--green-mid);color:var(--green-dim);}
 .corner{position:absolute;width:32px;height:32px;opacity:.3;}
 .c-tl{top:16px;left:16px;border-top:1px solid var(--green);border-left:1px solid var(--green);}
 .c-tr{top:16px;right:16px;border-top:1px solid var(--green);border-right:1px solid var(--green);}
 .c-bl{bottom:16px;left:16px;border-bottom:1px solid var(--green);border-left:1px solid var(--green);}
 .c-br{bottom:16px;right:16px;border-bottom:1px solid var(--green);border-right:1px solid var(--green);}
+.hero-right{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;position:relative;z-index:1;border-left:1px solid var(--green-dark);}
+#wireframe-canvas{width:260px;height:260px;}
+.wf-label{font-size:9px;letter-spacing:.2em;color:var(--muted);margin-top:8px;}
+.stat-col{width:100%;display:flex;flex-direction:column;gap:6px;margin-top:16px;}
+.stat-box{border:1px solid var(--green-dark);padding:10px 14px;background:#000;}
+.stat-box:hover{border-color:var(--green-mid);}
+.stat-num{font-family:var(--ff-display);font-size:22px;font-weight:700;color:var(--green);text-shadow:0 0 12px rgba(0,255,65,.4);}
+.stat-lbl{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+
 /* SECTIONS */
 .sec-wrap{padding:60px 48px;border-top:1px solid var(--green-dark);}
-.sec-hdr{display:flex;align-items:center;gap:16px;margin-bottom:40px;}
+.sec-hdr{display:flex;align-items:center;gap:16px;margin-bottom:36px;}
 .sec-num{font-family:var(--ff-display);font-size:10px;letter-spacing:.3em;color:var(--green-mid);}
 .sec-title{font-family:var(--ff-display);font-size:clamp(14px,2vw,20px);font-weight:700;letter-spacing:.1em;color:var(--green);}
 .sec-line{flex:1;height:1px;background:var(--green-dark);}
+
 /* TERMINAL */
-#terminal-section{background:var(--deep);}
-#terminal-box{background:#000;border:1px solid var(--green-dark);padding:0;overflow:hidden;}
-.term-titlebar{background:var(--panel);border-bottom:1px solid var(--green-dark);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;}
+#terminal-box{background:#000;border:1px solid var(--green-dark);}
+.term-bar{background:var(--panel);border-bottom:1px solid var(--green-dark);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;}
 .term-dots{display:flex;gap:6px;}
-.term-dot{width:10px;height:10px;border-radius:50%;}
-.term-dot.r{background:#ff5f57;}.term-dot.y{background:#febc2e;}.term-dot.g{background:#28c840;}
-.term-titlebar-text{font-size:10px;letter-spacing:.15em;color:var(--muted);}
-#term-output{padding:16px;min-height:200px;max-height:280px;overflow-y:auto;font-size:12px;line-height:1.9;color:var(--green-dim);}
-#term-output .line-err{color:var(--red);}
-#term-output .line-ok{color:var(--cyan);}
-#term-output .line-warn{color:var(--amber);}
-.term-input-row{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--green-dark);}
-.term-prompt{color:var(--green);white-space:nowrap;font-size:12px;}
-#term-input{flex:1;background:transparent;border:none;outline:none;color:var(--green);font-family:var(--ff-mono);font-size:12px;caret-color:var(--green);}
+.td{width:10px;height:10px;border-radius:50%;}
+.td-r{background:#ff5f57;}.td-y{background:#febc2e;}.td-g{background:#28c840;}
+.term-title{font-size:10px;letter-spacing:.15em;color:var(--muted);}
+#term-out{padding:14px 16px;min-height:180px;max-height:260px;overflow-y:auto;font-size:12px;line-height:1.9;color:var(--green-dim);}
+.t-ok{color:var(--cyan);}.t-err{color:var(--red);}.t-warn{color:var(--amber);}
+.term-in-row{display:flex;align-items:center;gap:8px;padding:8px 16px;border-top:1px solid var(--green-dark);}
+.term-prompt{color:var(--green);font-size:12px;white-space:nowrap;}
+#term-input{flex:1;background:transparent;border:none;outline:none;color:var(--green);font-family:var(--ff-mono);font-size:12px;caret-color:var(--green);cursor:text;}
+
 /* PROJECTS */
 .proj-grid{display:flex;flex-direction:column;gap:2px;}
 .proj-card{border:1px solid var(--green-dark);background:var(--deep);overflow:hidden;position:relative;transition:border-color .3s;}
 .proj-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--green-dark);transition:all .3s;}
 .proj-card.open::before,.proj-card:hover::before{background:var(--green);box-shadow:0 0 10px var(--green);}
 .proj-card.open,.proj-card:hover{border-color:var(--green-mid);}
-.proj-hdr{display:grid;grid-template-columns:56px 1fr auto auto;align-items:center;gap:20px;padding:20px 28px;cursor:none;}
+.proj-hdr{display:grid;grid-template-columns:52px 1fr auto auto;align-items:center;gap:20px;padding:20px 28px;cursor:pointer;}
 .proj-hdr:hover{background:rgba(0,255,65,.02);}
-.proj-idx{font-family:var(--ff-display);font-size:26px;font-weight:900;color:var(--green-dark);transition:color .3s,text-shadow .3s;}
+.proj-idx{font-family:var(--ff-display);font-size:24px;font-weight:900;color:var(--green-dark);transition:color .3s,text-shadow .3s;}
 .proj-card.open .proj-idx,.proj-card:hover .proj-idx{color:var(--green);text-shadow:0 0 16px rgba(0,255,65,.5);}
-.proj-meta{}
-.proj-cat{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.proj-cat{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
 .proj-name{font-family:var(--ff-display);font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--green);}
-.proj-tags-row{display:flex;gap:5px;flex-wrap:wrap;}
+.ptags{display:flex;gap:5px;flex-wrap:wrap;}
 .ptag{font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--green-dark);color:rgba(0,255,65,.3);}
 .proj-card.open .ptag,.proj-card:hover .ptag{border-color:rgba(0,255,65,.2);color:var(--green-dim);}
-.proj-toggle{font-size:18px;color:var(--green-mid);transition:transform .3s;font-family:var(--ff-mono);width:28px;text-align:center;}
+.proj-toggle{font-size:18px;color:var(--green-mid);transition:transform .3s;font-family:var(--ff-mono);width:24px;text-align:center;}
 .proj-card.open .proj-toggle{transform:rotate(45deg);color:var(--green);}
-.proj-body{max-height:0;overflow:hidden;transition:max-height .65s cubic-bezier(.4,0,.2,1);}
+.proj-body{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.4,0,.2,1);}
 .proj-card.open .proj-body{max-height:1400px;}
-.proj-body-inner{border-top:1px solid var(--green-dark);padding:0 28px 28px;}
-/* TABS */
-.proj-tabs{display:flex;border-bottom:1px solid var(--green-dark);margin-bottom:24px;overflow-x:auto;}
-.proj-tab{font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:10px 16px;color:var(--muted);cursor:none;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;margin-bottom:-1px;}
-.proj-tab:hover{color:var(--green-dim);}
-.proj-tab.active{color:var(--green);border-bottom-color:var(--green);background:var(--green-glow2);}
-.proj-pane{display:none;animation:fadeIn .25s ease;}
-.proj-pane.active{display:block;}
+.proj-inner{border-top:1px solid var(--green-dark);padding:0 28px 28px;}
+.tabs{display:flex;border-bottom:1px solid var(--green-dark);margin-bottom:22px;overflow-x:auto;}
+.tab{font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:10px 14px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;margin-bottom:-1px;}
+.tab:hover{color:var(--green-dim);}
+.tab.on{color:var(--green);border-bottom-color:var(--green);background:var(--green-glow2);}
+.pane{display:none;animation:fadeIn .25s ease;}
+.pane.on{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
-/* FILL BLOCK */
-.fill-block{background:var(--panel);border:1px solid var(--green-dark);border-left:2px solid var(--green-mid);padding:16px 20px;font-size:12px;color:var(--green-dim);line-height:1.8;margin-bottom:12px;}
-.fill-block .fl{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-mid);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.fill-block .fl::before{content:'>';color:var(--green);}
-.fill-block ul{padding-left:1.2em;margin-top:4px;}
-.fill-block li{margin-bottom:3px;}
-.fill-block li::marker{color:var(--green);}
-/* METRICS */
-.mrow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;}
-.mbox{border:1px solid var(--green-dark);padding:14px 16px;min-width:100px;flex:1;background:#000;transition:border-color .2s;}
+.fill{background:var(--panel);border:1px solid var(--green-dark);border-left:2px solid var(--green-mid);padding:14px 18px;font-size:12px;color:var(--green-dim);line-height:1.8;margin-bottom:10px;}
+.fill-lbl{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--green-mid);margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.fill-lbl::before{content:'>';color:var(--green);}
+.fill ul{padding-left:1.2em;margin-top:4px;}
+.fill li{margin-bottom:3px;}
+.fill li::marker{color:var(--green);}
+.mrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
+.mbox{border:1px solid var(--green-dark);padding:12px 14px;min-width:90px;flex:1;background:#000;transition:border-color .2s;}
 .mbox:hover{border-color:var(--green-mid);}
-.mbox-num{font-family:var(--ff-display);font-size:24px;font-weight:700;color:var(--green);text-shadow:0 0 12px rgba(0,255,65,.4);}
-.mbox-lbl{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
-/* PHOTOS */
-.photo-row{display:grid;gap:8px;margin:12px 0;}
-.photo-row.two{grid-template-columns:1fr 1fr;}.photo-row.one{grid-template-columns:1fr;}
-.photo-slot{aspect-ratio:16/9;background:var(--panel);border:1px solid var(--green-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;transition:border-color .2s;}
+.mbox-n{font-family:var(--ff-display);font-size:22px;font-weight:700;color:var(--green);text-shadow:0 0 10px rgba(0,255,65,.4);}
+.mbox-l{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.photo-row{display:grid;gap:8px;margin:10px 0;}
+.ph2{grid-template-columns:1fr 1fr;}.ph1{grid-template-columns:1fr;}
+.photo-slot{aspect-ratio:16/9;background:var(--panel);border:1px solid var(--green-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden;transition:border-color .2s;}
 .photo-slot::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(0,255,65,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,.015) 1px,transparent 1px);background-size:20px 20px;}
 .photo-slot:hover{border-color:var(--green-mid);}
-.photo-slot-cap{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 16px;position:relative;z-index:1;}
-.photo-slot-icon{font-size:18px;color:var(--green-dark);position:relative;z-index:1;}
-/* CODE BLOCK */
-.code-block{background:#000;border:1px solid var(--green-dark);padding:16px 20px;font-family:var(--ff-mono);font-size:11px;color:var(--green-dim);line-height:1.85;overflow-x:auto;position:relative;}
-.code-block::before{content:'// technical notes';display:block;color:rgba(0,255,65,.25);font-size:9px;margin-bottom:10px;letter-spacing:.1em;}
+.psc{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 14px;position:relative;z-index:1;}
+.psi{font-size:16px;color:var(--green-dark);position:relative;z-index:1;}
+.code-blk{background:#000;border:1px solid var(--green-dark);padding:14px 18px;font-family:var(--ff-mono);font-size:11px;color:var(--green-dim);line-height:1.85;overflow-x:auto;margin-bottom:10px;}
 .ck{color:#00ffcc;}.cv{color:#7fff7f;}.cc{color:rgba(0,255,65,.3);}
-/* EXT LINKS */
 .link-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
-.ext-link{font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:7px 16px;border:1px solid var(--green-mid);color:var(--green-mid);text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:6px;}
-.ext-link:hover{color:var(--green);border-color:var(--green);background:var(--green-glow);box-shadow:0 0 12px rgba(0,255,65,.2);}
-.ext-link::before{content:'↗';font-size:11px;}
-/* SKILLS RADAR */
-#skills-section{}
-.skill-fill{}
-/* LOGO GRID */
-.stack-group-title{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-mid);margin:28px 0 14px;display:flex;align-items:center;gap:10px;}
-.stack-group-title::after{content:'';flex:1;height:1px;background:var(--green-dark);}
-.logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-bottom:8px;}
-.logo-card{background:var(--panel);border:1px solid var(--green-dark);padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;transition:border-color .25s,background .25s;cursor:default;}
+.elink{font-size:9px;letter-spacing:.13em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--green-mid);color:var(--green-mid);text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.elink:hover{color:var(--green);border-color:var(--green);background:var(--green-glow);box-shadow:0 0 12px rgba(0,255,65,.2);}
+.elink::before{content:'↗';font-size:11px;}
+
+/* SKILLS LOGO GRID */
+.sg-title{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-mid);margin:26px 0 12px;display:flex;align-items:center;gap:10px;}
+.sg-title::after{content:'';flex:1;height:1px;background:var(--green-dark);}
+.logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:10px;}
+.logo-card{background:var(--panel);border:1px solid var(--green-dark);padding:14px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .25s,background .25s;cursor:default;}
 .logo-card:hover{border-color:var(--green-mid);background:var(--surface);}
-.logo-card img{width:48px;height:48px;object-fit:contain;filter:none;transition:transform .2s;}
+.logo-card img{width:44px;height:44px;object-fit:contain;transition:transform .2s;}
 .logo-card:hover img{transform:scale(1.08);}
-.logo-card span{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.4;}
-.logo-card-text{justify-content:center;}
-.logo-text-big{font-size:40px;line-height:1;}
+.logo-card span{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.4;}
+.logo-emoji{font-size:36px;line-height:1;}
+
 /* TIMELINE */
 .timeline{position:relative;padding-left:28px;}
 .timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--green-dark);}
-.tl-item{position:relative;margin-bottom:28px;opacity:0;transform:translateX(-10px);transition:opacity .5s ease,transform .5s ease;}
-.tl-item.revealed{opacity:1;transform:translateX(0);}
+.tl-item{position:relative;margin-bottom:26px;opacity:0;transform:translateX(-10px);transition:opacity .5s,transform .5s;}
+.tl-item.shown{opacity:1;transform:translateX(0);}
 .tl-dot{position:absolute;left:-25px;top:6px;width:8px;height:8px;border:1px solid var(--green-mid);background:var(--black);transition:all .3s;}
-.tl-item:hover .tl-dot{background:var(--green);box-shadow:0 0 10px var(--green);border-color:var(--green);}
-.tl-date{font-size:9px;letter-spacing:.2em;color:var(--green-mid);text-transform:uppercase;margin-bottom:4px;}
+.tl-item:hover .tl-dot{background:var(--green);box-shadow:0 0 10px var(--green);}
+.tl-date{font-size:9px;letter-spacing:.18em;color:var(--green-mid);text-transform:uppercase;margin-bottom:3px;}
 .tl-title{font-family:var(--ff-display);font-size:13px;font-weight:700;color:var(--green);margin-bottom:2px;}
-.tl-org{font-size:11px;color:var(--muted);margin-bottom:6px;}
+.tl-org{font-size:11px;color:var(--muted);margin-bottom:5px;}
 .tl-desc{font-size:11px;color:var(--green-dim);line-height:1.7;}
-/* CONTACT SECTION */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
-.contact-info{}
-.contact-label{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.contact-val{font-size:13px;color:var(--green-dim);margin-bottom:16px;}
-.contact-val a{color:var(--green-dim);text-decoration:none;transition:color .2s;}
-.contact-val a:hover{color:var(--green);}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
+.c-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.c-val{font-size:13px;color:var(--green-dim);margin-bottom:14px;}
+.c-val a{color:var(--green-dim);text-decoration:none;transition:color .2s;}
+.c-val a:hover{color:var(--green);}
+
 /* FOOTER */
-footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;}
-.footer-logo{font-family:var(--ff-display);font-size:16px;font-weight:900;color:var(--green);text-shadow:0 0 20px rgba(0,255,65,.25);}
-.footer-copy{font-size:9px;letter-spacing:.15em;color:rgba(0,255,65,.2);text-transform:uppercase;}
-/* CONTROL PANEL */
-.ctrl-panel{position:fixed;bottom:28px;right:28px;z-index:600;display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
-.ctrl-btn{font-family:var(--ff-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--green-mid);background:rgba(0,0,0,.85);color:var(--green-mid);cursor:none;transition:all .2s;display:flex;align-items:center;gap:6px;}
-.ctrl-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-glow);box-shadow:0 0 12px rgba(0,255,65,.25);}
-.ctrl-btn.active-btn{border-color:var(--green);color:var(--green);background:var(--green-glow);}
-.ctrl-btn .cd{width:5px;height:5px;border-radius:50%;background:var(--green-mid);flex-shrink:0;}
-.ctrl-btn:hover .cd,.ctrl-btn.active-btn .cd{background:var(--green);box-shadow:0 0 7px var(--green);}
+footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;}
+.footer-logo{font-family:var(--ff-display);font-size:16px;font-weight:900;color:var(--green);}
+.footer-copy{font-size:9px;letter-spacing:.13em;color:rgba(0,255,65,.2);text-transform:uppercase;}
+
+/* CTRL */
+.ctrl-panel{position:fixed;bottom:24px;right:24px;z-index:600;display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
+.ctrl-btn{font-family:var(--ff-mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--green-mid);background:rgba(0,0,0,.85);color:var(--green-mid);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.ctrl-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-glow);}
+.ctrl-btn.on{border-color:var(--green);color:var(--green);background:var(--green-glow);}
+.cd{width:5px;height:5px;border-radius:50%;background:var(--green-mid);flex-shrink:0;transition:all .2s;}
+.ctrl-btn:hover .cd,.ctrl-btn.on .cd{background:var(--green);box-shadow:0 0 7px var(--green);}
+
 /* RESPONSIVE */
-@media(max-width:900px){
-  #app{grid-template-columns:1fr;}
-  #sidebar{display:none;}
-  #hero{grid-template-columns:1fr;}
-  .hero-right{display:none;}
-  .skills-layout{grid-template-columns:1fr;}
-  .contact-grid{grid-template-columns:1fr;}
-}
-@media(max-width:600px){
-  .sec-wrap{padding:40px 20px;}
-  .hero-left{padding:40px 20px;}
-  .proj-hdr{grid-template-columns:40px 1fr auto;}
-  .proj-tags-row{display:none;}
-  .photo-row.two{grid-template-columns:1fr;}
-}
+@media(max-width:900px){#app{grid-template-columns:1fr;}#sidebar{display:none;}#hero{grid-template-columns:1fr;}.hero-right{display:none;}.contact-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.sec-wrap,.hero-left{padding:36px 20px;}.proj-hdr{grid-template-columns:40px 1fr auto;}.ptags{display:none;}.ph2{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -260,8 +235,8 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
 <!-- BOOT -->
 <div id="boot">
   <p class="boot-lbl">SYSTEM OFFLINE</p>
-  <button class="power-btn" id="powerBtn">
-    <svg class="pwr-icon" viewBox="0 0 24 24"><path d="M12 2v6M4.93 5.93A9 9 0 1 0 19.07 5.93"/></svg>
+  <button class="power-btn" id="powerBtn" type="button">
+    <svg viewBox="0 0 24 24"><path d="M12 2v6M4.93 5.93A9 9 0 1 0 19.07 5.93"/></svg>
   </button>
   <p class="boot-lbl">MAALIK.SYS v2.6 — CLICK TO INITIALIZE</p>
   <div id="boot-log"></div>
@@ -277,107 +252,88 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
     <a href="#timeline-section">Experience</a>
     <a href="#contact-section">Contact</a>
   </div>
-  <div class="nav-right">
-    <div class="sys-status"><div class="status-dot"></div><span id="nav-clock">00:00:00</span></div>
-  </div>
+  <div class="sys-status"><div class="status-dot"></div><span id="nav-clock">--:--:--</span></div>
 </nav>
 
 <div id="app">
 <!-- SIDEBAR -->
 <aside id="sidebar">
-  <div class="sidebar-section">
-    <div class="mini-clock" id="sidebar-clock">00:00:00</div>
-    <div class="mini-date" id="sidebar-date">LOADING...</div>
+  <div class="sb-sec">
+    <div class="mini-clock" id="sb-clock">--:--:--</div>
+    <div class="mini-date" id="sb-date">LOADING</div>
   </div>
-  <div class="sidebar-section">
-    <div class="sidebar-title">// File Explorer</div>
-    <div class="file-tree">
-      <div class="file-item file-folder" onclick="scrollTo2('hero')"><span class="file-icon">▶</span> MAALIK.SYS/</div>
-      <div class="file-item file-child" onclick="scrollTo2('hero')"><span class="file-icon">◆</span> index.html</div>
-      <div class="file-item file-child" onclick="scrollTo2('projects')"><span class="file-icon">◆</span> projects/</div>
-      <div class="file-item file-child" style="padding-left:36px" onclick="scrollTo2('projects')"><span class="file-icon">·</span> jet.sys</div>
-      <div class="file-item file-child" style="padding-left:36px" onclick="scrollTo2('projects')"><span class="file-icon">·</span> tvc.sys</div>
-      <div class="file-item file-child" style="padding-left:36px" onclick="scrollTo2('projects')"><span class="file-icon">·</span> h2engine.sys</div>
-      <div class="file-item file-child" onclick="scrollTo2('skills-section')"><span class="file-icon">◆</span> skills.json</div>
-      <div class="file-item file-child" onclick="scrollTo2('timeline-section')"><span class="file-icon">◆</span> experience.log</div>
-      <div class="file-item file-child" onclick="scrollTo2('contact-section')"><span class="file-icon">◆</span> contact.cfg</div>
-    </div>
+  <div class="sb-sec">
+    <div class="sb-title">// File Explorer</div>
+    <div class="file-item" onclick="scrollTo('hero')"><span class="file-icon">▶</span> MAALIK.SYS/</div>
+    <div class="file-item file-child" onclick="scrollTo('hero')"><span class="file-icon">◆</span> index.html</div>
+    <div class="file-item file-child" onclick="scrollTo('projects')"><span class="file-icon">◆</span> projects/</div>
+    <div class="file-item file-child2" onclick="scrollTo('projects')"><span class="file-icon">·</span> jet.sys</div>
+    <div class="file-item file-child2" onclick="scrollTo('projects')"><span class="file-icon">·</span> tvc.sys</div>
+    <div class="file-item file-child2" onclick="scrollTo('projects')"><span class="file-icon">·</span> h2engine.sys</div>
+    <div class="file-item file-child" onclick="scrollTo('skills-section')"><span class="file-icon">◆</span> skills.json</div>
+    <div class="file-item file-child" onclick="scrollTo('timeline-section')"><span class="file-icon">◆</span> experience.log</div>
+    <div class="file-item file-child" onclick="scrollTo('contact-section')"><span class="file-icon">◆</span> contact.cfg</div>
   </div>
-  <div class="sidebar-section">
-    <div class="sidebar-title">// Your System</div>
-    <div id="real-sysmon">
-      <div class="sysmon-row"><span class="sysmon-key">STATUS</span><span class="sysmon-val ok" id="sm-online">ONLINE</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">BATTERY</span><span class="sysmon-val" id="sm-bat">--</span></div>
-      <div class="battery-bar"><div class="battery-fill" id="sm-bat-bar" style="width:0%"></div></div>
-      <div class="sysmon-row" style="margin-top:4px"><span class="sysmon-key">CHARGING</span><span class="sysmon-val" id="sm-charging">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">NETWORK</span><span class="sysmon-val" id="sm-net">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">DOWNLINK</span><span class="sysmon-val" id="sm-dl">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">JS HEAP</span><span class="sysmon-val" id="sm-heap">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">CPU CORES</span><span class="sysmon-val" id="sm-cores">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">SCREEN</span><span class="sysmon-val" id="sm-screen">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">DPI RATIO</span><span class="sysmon-val" id="sm-dpi">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">TIMEZONE</span><span class="sysmon-val" id="sm-tz" style="font-size:8px">--</span></div>
-      <div class="sysmon-row"><span class="sysmon-key">PLATFORM</span><span class="sysmon-val" id="sm-platform" style="font-size:8px">--</span></div>
-    </div>
+  <div class="sb-sec">
+    <div class="sb-title">// Your System</div>
+    <div class="sysmon-row"><span class="sysmon-key">STATUS</span><span class="sysmon-val" id="sm-online">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">BATTERY</span><span class="sysmon-val" id="sm-bat">--</span></div>
+    <div class="bat-bar"><div class="bat-fill" id="sm-bat-bar" style="width:0"></div></div>
+    <div class="sysmon-row"><span class="sysmon-key">CHARGING</span><span class="sysmon-val" id="sm-chg">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">NETWORK</span><span class="sysmon-val" id="sm-net">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">DOWNLINK</span><span class="sysmon-val" id="sm-dl">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">JS HEAP</span><span class="sysmon-val" id="sm-heap">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">CPU CORES</span><span class="sysmon-val" id="sm-cores">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">SCREEN</span><span class="sysmon-val" id="sm-screen">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">DPI</span><span class="sysmon-val" id="sm-dpi">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">TIMEZONE</span><span class="sysmon-val" id="sm-tz" style="font-size:8px">--</span></div>
+    <div class="sysmon-row"><span class="sysmon-key">PLATFORM</span><span class="sysmon-val" id="sm-plat" style="font-size:8px">--</span></div>
   </div>
-  <div class="sidebar-section">
-    <div class="sidebar-title">// Location</div>
+  <div class="sb-sec" style="flex:1;">
+    <div class="sb-title">// Quick Info</div>
     <div class="loc-block">
-      <div><span>LAT </span>40.9176° N</div>
-      <div><span>LON </span>73.1237° W</div>
-      <div><span>LOC </span>Stony Brook, NY</div>
-      <div><span>ORG </span>Stony Brook University</div>
-    </div>
-  </div>
-  <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;">
-    <div class="sidebar-title">// Quick Stats</div>
-    <div class="loc-block">
-      <div><span>PROJ </span>3 active</div>
-      <div><span>TOOLS </span>12+</div>
-      <div><span>ROLE  </span>FEA Lead</div>
-      <div><span>YEAR  </span>Class of 2030</div>
+      <div><span>LAT  </span>40.9176 N</div>
+      <div><span>LON  </span>73.1237 W</div>
+      <div><span>LOC  </span>Stony Brook, NY</div>
+      <div><span>ORG  </span>Stony Brook Univ</div>
+      <div><span>ROLE </span>FEA Lead</div>
+      <div><span>YEAR </span>Class of 2030</div>
     </div>
   </div>
 </aside>
 
 <!-- MAIN -->
-<div id="main-content">
+<div id="main">
 
 <!-- HERO -->
 <section id="hero">
   <canvas id="matrix-canvas"></canvas>
   <div class="corner c-tl"></div><div class="corner c-tr"></div>
   <div class="corner c-bl"></div><div class="corner c-br"></div>
-
   <div class="hero-left">
-    <p class="hero-sys-line">[ PORTFOLIO.INIT ] // ME &amp; PHYSICS // STONY BROOK UNIVERSITY</p>
-    <div class="hero-name-block">
-      <div class="hero-name">MUHAMMAD</div>
-      <div class="hero-name-outline">MAALIK</div>
+    <p class="hero-sys">[ PORTFOLIO.INIT ] // ME &amp; PHYSICS // STONY BROOK UNIVERSITY</p>
+    <div class="hero-name">MUHAMMAD</div>
+    <div class="hero-name-out">MAALIK</div>
+    <p class="hero-tag">&gt; Autonomous systems. FEA/CFD. Neural networks. Hardware that thinks.</p>
+    <div class="badge-row">
+      <span class="badge hi">FEA Lead · SBU Robotics</span>
+      <span class="badge hi">Autodesk Ambassador</span>
+      <span class="badge">ME &amp; Physics</span>
+      <span class="badge">Class of 2030</span>
     </div>
-    <p class="hero-tagline">&gt; Autonomous systems. FEA/CFD. Neural networks. Hardware that thinks.</p>
-    <div class="hero-badge-row">
-      <span class="hero-badge hi">FEA Lead · SBU Robotics</span>
-      <span class="hero-badge hi">Autodesk Ambassador</span>
-      <span class="hero-badge">ME &amp; Physics</span>
-      <span class="hero-badge">Class of 2030</span>
-    </div>
-    <div class="hero-cta-row">
-      <a class="btn-primary" href="#projects">View Projects</a>
-      <a class="btn-ghost" href="#terminal-section">Open Terminal</a>
-      <a class="btn-ghost" href="/cdn-cgi/l/email-protection#fd8890988f909c9c919496cfc9bd9a909c9491d39e9290">Contact</a>
+    <div class="cta-row">
+      <a class="btn-p" href="#projects">View Projects</a>
+      <a class="btn-g" href="#terminal-section">Open Terminal</a>
+      <a class="btn-g" href="mailto:umermaalik24@gmail.com">Contact</a>
     </div>
   </div>
-
   <div class="hero-right">
     <canvas id="wireframe-canvas"></canvas>
-    <div class="wireframe-label">// rotating wireframe model</div>
-    <div style="margin-top:20px;width:100%;">
-      <div class="mrow" style="flex-direction:column;gap:6px;">
-        <div class="mbox" style="min-width:0;"><div class="mbox-num">70+</div><div class="mbox-lbl">km/h Jet Speed</div></div>
-        <div class="mbox" style="min-width:0;"><div class="mbox-num">50%+</div><div class="mbox-lbl">TVC Efficiency Gain</div></div>
-        <div class="mbox" style="min-width:0;"><div class="mbox-num">40%</div><div class="mbox-lbl">H₂ RPM Increase</div></div>
-      </div>
+    <div class="wf-label">// rotating wireframe</div>
+    <div class="stat-col">
+      <div class="stat-box"><div class="stat-num">70+</div><div class="stat-lbl">km/h Jet Speed</div></div>
+      <div class="stat-box"><div class="stat-num">50%+</div><div class="stat-lbl">TVC Efficiency Gain</div></div>
+      <div class="stat-box"><div class="stat-num">40%</div><div class="stat-lbl">H2 RPM Increase</div></div>
     </div>
   </div>
 </section>
@@ -386,17 +342,17 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
 <section id="terminal-section" class="sec-wrap">
   <div class="sec-hdr"><span class="sec-num">00 //</span><h2 class="sec-title">Interactive Terminal</h2><div class="sec-line"></div></div>
   <div id="terminal-box">
-    <div class="term-titlebar">
-      <div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div>
-      <div class="term-titlebar-text">maalik@sys:~$ — bash</div>
-      <div style="font-size:9px;color:var(--muted);">type 'help'</div>
+    <div class="term-bar">
+      <div class="term-dots"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div></div>
+      <div class="term-title">maalik@sys:~$</div>
+      <div style="font-size:9px;color:var(--muted)">type 'help'</div>
     </div>
-    <div id="term-output">
+    <div id="term-out">
       <div>MAALIK.SYS v2.6 — Interactive Portfolio Terminal</div>
       <div>Type <span style="color:var(--green)">'help'</span> for available commands.</div>
       <div>&nbsp;</div>
     </div>
-    <div class="term-input-row">
+    <div class="term-in-row">
       <span class="term-prompt">maalik@sys:~$&nbsp;</span>
       <input id="term-input" type="text" autocomplete="off" spellcheck="false" placeholder="enter command..."/>
     </div>
@@ -405,182 +361,104 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
 
 <!-- PROJECTS -->
 <section id="projects" class="sec-wrap">
-  <div class="sec-hdr"><span class="sec-num">01 //</span><h2 class="sec-title">Project Files</h2><div class="sec-line"></div><span style="font-size:9px;letter-spacing:.15em;color:var(--muted);">CLICK ROW TO EXPAND</span></div>
+  <div class="sec-hdr"><span class="sec-num">01 //</span><h2 class="sec-title">Project Files</h2><div class="sec-line"></div><span style="font-size:9px;letter-spacing:.13em;color:var(--muted)">CLICK ROW TO EXPAND</span></div>
   <div class="proj-grid">
 
-    <!-- P1 -->
     <div class="proj-card" id="card1">
       <div class="proj-hdr" onclick="toggleCard('card1')">
         <div class="proj-idx">01</div>
-        <div class="proj-meta">
-          <div class="proj-cat">Autonomous Systems · Aerospace · Neural Networks</div>
-          <div class="proj-name">Fully Autonomous 3-D Printed Jet</div>
-        </div>
-        <div class="proj-tags-row"><span class="ptag">In Progress</span><span class="ptag">Fusion 360</span><span class="ptag">PyTorch</span><span class="ptag">Ansys</span></div>
+        <div><div class="proj-cat">Autonomous Systems · Aerospace · Neural Networks</div><div class="proj-name">Fully Autonomous 3-D Printed Jet</div></div>
+        <div class="ptags"><span class="ptag">In Progress</span><span class="ptag">Fusion 360</span><span class="ptag">PyTorch</span><span class="ptag">Ansys</span></div>
         <div class="proj-toggle">+</div>
       </div>
-      <div class="proj-body"><div class="proj-body-inner">
-        <div class="proj-tabs" id="tabs1">
-          <div class="proj-tab active" onclick="switchTab('tabs1','overview')">Overview</div>
-          <div class="proj-tab" onclick="switchTab('tabs1','design')">Design / CAD</div>
-          <div class="proj-tab" onclick="switchTab('tabs1','simulation')">Simulation</div>
-          <div class="proj-tab" onclick="switchTab('tabs1','code')">Code / NN</div>
-          <div class="proj-tab" onclick="switchTab('tabs1','photos')">Photos</div>
-          <div class="proj-tab" onclick="switchTab('tabs1','results')">Results</div>
-          <div class="proj-tab" onclick="switchTab('tabs1','links')">Links</div>
+      <div class="proj-body"><div class="proj-inner">
+        <div class="tabs" id="t1">
+          <div class="tab on" onclick="swTab('t1','ov')">Overview</div>
+          <div class="tab" onclick="swTab('t1','des')">Design/CAD</div>
+          <div class="tab" onclick="swTab('t1','sim')">Simulation</div>
+          <div class="tab" onclick="swTab('t1','cod')">Code/NN</div>
+          <div class="tab" onclick="swTab('t1','ph')">Photos</div>
+          <div class="tab" onclick="swTab('t1','res')">Results</div>
+          <div class="tab" onclick="swTab('t1','lnk')">Links</div>
         </div>
-        <div class="proj-pane active" data-tab="overview">
-          <div class="mrow"><div class="mbox"><div class="mbox-num">70+</div><div class="mbox-lbl">km/h Speed</div></div><div class="mbox"><div class="mbox-num">TVC</div><div class="mbox-lbl">Thrust Vectoring</div></div><div class="mbox"><div class="mbox-num">NN</div><div class="mbox-lbl">Onboard Neural Net</div></div><div class="mbox"><div class="mbox-num">3D</div><div class="mbox-lbl">Printed Airframe</div></div></div>
-          <div class="fill-block"><div class="fl">Project Overview</div>A fully 3-D-printed fixed-wing jet exceeding 70 km/h with an integrated thrust-vectoring mechanism for hard-cutting manoeuvres and an onboard PyTorch neural network for fully autonomous flight control and precision landing. Designed in Fusion 360 &amp; Inventor; analysed with Ansys Mechanical and Ansys Fluent.</div>
-          <div class="fill-block"><div class="fl">Motivation — fill in</div>What gap or challenge drove this project? Cost of commercial UAVs, desire to integrate ML with hardware, challenge of flight-worthy FDM structures, specific capability goal.</div>
-          <div class="fill-block"><div class="fl">Challenges &amp; Lessons — fill in</div>Hardest problems encountered and how you solved them. Print warping, weight budget, electronics integration, training data scarcity. What you would change on iteration 2.</div>
-        </div>
-        <div class="proj-pane" data-tab="design">
-          <div class="fill-block"><div class="fl">Airframe Design — fill in</div><ul><li>Wing profile selection and aerodynamic rationale</li><li>Fuselage cross-section and structural layout</li><li>Control surface sizing and placement</li><li>How Fusion 360 and Inventor divided responsibilities</li><li>Major design iterations and what drove each revision</li></ul></div>
-          <div class="fill-block"><div class="fl">Thrust-Vectoring Gimbal — fill in</div><ul><li>Degrees of freedom and gimbal geometry</li><li>Servo selection and torque requirements</li><li>Linkage geometry and mechanical advantage</li><li>Print tolerances and assembly strategy</li></ul></div>
-        </div>
-        <div class="proj-pane" data-tab="simulation">
-          <div class="fill-block"><div class="fl">Ansys Fluent — CFD — fill in</div>Boundary conditions, mesh strategy (refinement zones, y+ values), flow regime, key outputs: lift, drag, C_D, pressure distribution across wing surfaces.</div>
-          <div class="fill-block"><div class="fl">Ansys Mechanical — FEA — fill in</div>Load cases (max-G manoeuvre, landing impact), material properties, constraint setup. Max Von Mises stress, safety factor, worst-case deformation.</div>
-          <div class="photo-row two"><div class="photo-slot"><div class="photo-slot-icon">[CFD]</div><div class="photo-slot-cap">Pressure Contour — Cruise Speed</div></div><div class="photo-slot"><div class="photo-slot-icon">[FEA]</div><div class="photo-slot-cap">Stress Distribution — Wing Root</div></div></div>
-        </div>
-        <div class="proj-pane" data-tab="code">
-          <div class="fill-block"><div class="fl">Neural Network Architecture — fill in</div>Input sensors (IMU, pitot, GPS), layer architecture, output control signals, training data source, training metrics.</div>
-          <div class="code-block"><span class="cc"># PyTorch flight controller — architecture placeholder</span>
+        <div class="pane on" data-k="ov"><div class="mrow"><div class="mbox"><div class="mbox-n">70+</div><div class="mbox-l">km/h Speed</div></div><div class="mbox"><div class="mbox-n">TVC</div><div class="mbox-l">Thrust Vectoring</div></div><div class="mbox"><div class="mbox-n">NN</div><div class="mbox-l">Neural Net</div></div><div class="mbox"><div class="mbox-n">3D</div><div class="mbox-l">Printed</div></div></div><div class="fill"><div class="fill-lbl">Project Overview</div>A fully 3-D-printed fixed-wing jet exceeding 70 km/h with a TVC mechanism and an onboard PyTorch neural network for autonomous flight and precision landing. Tools: Fusion 360, Inventor, Ansys Mechanical, Ansys Fluent, PyTorch.</div><div class="fill"><div class="fill-lbl">Motivation — fill in</div>What gap drove this project? Cost of UAVs, ML-hardware integration challenge, FDM structural limits, specific capability goal.</div><div class="fill"><div class="fill-lbl">Challenges and Lessons — fill in</div>Hardest problems and solutions. Print warping, weight budget, electronics, training data. What you'd change on iteration 2.</div></div>
+        <div class="pane" data-k="des"><div class="fill"><div class="fill-lbl">Airframe Design — fill in</div><ul><li>Wing profile and aerodynamic rationale</li><li>Fuselage cross-section and structural layout</li><li>Control surface sizing and placement</li><li>Fusion 360 vs Inventor responsibilities</li><li>Design iterations and what drove each revision</li></ul></div><div class="fill"><div class="fill-lbl">TVC Gimbal — fill in</div><ul><li>Degrees of freedom and gimbal geometry</li><li>Servo selection and torque requirements</li><li>Linkage geometry and mechanical advantage</li><li>Print tolerances and assembly strategy</li></ul></div></div>
+        <div class="pane" data-k="sim"><div class="fill"><div class="fill-lbl">Ansys Fluent CFD — fill in</div>Boundary conditions, mesh strategy, y+ values, flow regime. Key outputs: lift, drag, C_D, pressure distribution.</div><div class="fill"><div class="fill-lbl">Ansys Mechanical FEA — fill in</div>Load cases (max-G, landing), materials, constraints. Max Von Mises stress, safety factor, worst-case deformation.</div><div class="photo-row ph2"><div class="photo-slot"><div class="psi">[CFD]</div><div class="psc">Pressure Contour — Cruise Speed</div></div><div class="photo-slot"><div class="psi">[FEA]</div><div class="psc">Stress Distribution — Wing Root</div></div></div></div>
+        <div class="pane" data-k="cod"><div class="fill"><div class="fill-lbl">Neural Network Architecture — fill in</div>Input sensors (IMU, pitot, GPS), layer architecture, output signals, training data, metrics.</div><div class="code-blk"><span class="cc"># PyTorch flight controller — placeholder</span>
 <span class="ck">class</span> <span class="cv">FlightController</span>(nn.Module):
     <span class="ck">def</span> <span class="cv">__init__</span>(self):
-        <span class="cc"># inputs: IMU 6-DOF, pitot, GPS, barometer</span>
-        self.input_dim  = <span class="cv">12</span>
-        <span class="cc"># outputs: aileron, elevator, rudder, throttle, TVC_x, TVC_y</span>
-        self.output_dim = <span class="cv">6</span>
+        self.input_dim  = <span class="cv">12</span>  <span class="cc"># IMU 6-DOF, pitot, GPS, baro</span>
+        self.output_dim = <span class="cv">6</span>   <span class="cc"># aileron, elevator, rudder, throttle, TVC_x, TVC_y</span>
         <span class="cc"># [ ADD LAYER ARCHITECTURE ]</span>
-    <span class="ck">def</span> <span class="cv">forward</span>(self, state):
-        <span class="cc"># [ ADD FORWARD PASS ]</span>
-        <span class="ck">pass</span></div>
-        </div>
-        <div class="proj-pane" data-tab="photos">
-          <div class="photo-row two"><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Full Airframe — Fusion 360</div></div><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">TVC Gimbal Detail</div></div></div>
-          <div class="photo-row two"><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Exploded View</div></div><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Physical Build Progress</div></div></div>
-          <div class="photo-row one"><div class="photo-slot" style="aspect-ratio:21/9"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Hero Shot — Completed Airframe</div></div></div>
-        </div>
-        <div class="proj-pane" data-tab="results">
-          <div class="mrow"><div class="mbox"><div class="mbox-num">--</div><div class="mbox-lbl">Simulated C_D</div></div><div class="mbox"><div class="mbox-num">--</div><div class="mbox-lbl">Safety Factor</div></div><div class="mbox"><div class="mbox-num">--</div><div class="mbox-lbl">NN Accuracy</div></div><div class="mbox"><div class="mbox-num">--</div><div class="mbox-lbl">TVC Response ms</div></div></div>
-          <div class="fill-block"><div class="fl">Quantified Results — fill in</div>Replace the -- above with real numbers once simulations / flight tests are complete.</div>
-        </div>
-        <div class="proj-pane" data-tab="links">
-          <div class="fill-block"><div class="fl">External Resources</div>Replace # with real URLs once available.</div>
-          <div class="link-row"><a class="ext-link" href="#">GitHub Repository</a><a class="ext-link" href="#">CAD Files</a><a class="ext-link" href="#">Simulation Report</a><a class="ext-link" href="#">Flight Video</a></div>
-        </div>
+    <span class="ck">def</span> <span class="cv">forward</span>(self, x):
+        <span class="ck">pass</span>  <span class="cc"># [ ADD FORWARD PASS ]</span></div></div>
+        <div class="pane" data-k="ph"><div class="photo-row ph2"><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Full Airframe — Fusion 360</div></div><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">TVC Gimbal Detail</div></div></div><div class="photo-row ph2"><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Exploded View</div></div><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Build Progress</div></div></div><div class="photo-row ph1"><div class="photo-slot" style="aspect-ratio:21/9"><div class="psi">[IMG]</div><div class="psc">Hero Shot — Completed Airframe</div></div></div></div>
+        <div class="pane" data-k="res"><div class="mrow"><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">C_D Simulated</div></div><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">Safety Factor</div></div><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">NN Accuracy</div></div><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">TVC Response ms</div></div></div><div class="fill"><div class="fill-lbl">Quantified Results — fill in</div>Replace -- above with real numbers after simulations and flight tests complete.</div></div>
+        <div class="pane" data-k="lnk"><div class="fill"><div class="fill-lbl">External Resources</div>Replace # with real URLs.</div><div class="link-row"><a class="elink" href="#">GitHub</a><a class="elink" href="#">CAD Files</a><a class="elink" href="#">Sim Report</a><a class="elink" href="#">Flight Video</a></div></div>
       </div></div>
     </div>
 
-    <!-- P2 -->
     <div class="proj-card" id="card2">
       <div class="proj-hdr" onclick="toggleCard('card2')">
         <div class="proj-idx">02</div>
-        <div class="proj-meta">
-          <div class="proj-cat">Propulsion · Rocketry · Mechanical Design</div>
-          <div class="proj-name">Thrust Vector Control System</div>
-        </div>
-        <div class="proj-tags-row"><span class="ptag">Completed</span><span class="ptag">Fusion 360</span><span class="ptag">Open Rocket</span></div>
+        <div><div class="proj-cat">Propulsion · Rocketry · Mechanical Design</div><div class="proj-name">Thrust Vector Control System</div></div>
+        <div class="ptags"><span class="ptag">Completed</span><span class="ptag">Fusion 360</span><span class="ptag">Open Rocket</span></div>
         <div class="proj-toggle">+</div>
       </div>
-      <div class="proj-body"><div class="proj-body-inner">
-        <div class="proj-tabs" id="tabs2">
-          <div class="proj-tab active" onclick="switchTab('tabs2','overview')">Overview</div>
-          <div class="proj-tab" onclick="switchTab('tabs2','design')">Design / CAD</div>
-          <div class="proj-tab" onclick="switchTab('tabs2','simulation')">Simulation</div>
-          <div class="proj-tab" onclick="switchTab('tabs2','code')">Calculations</div>
-          <div class="proj-tab" onclick="switchTab('tabs2','photos')">Photos</div>
-          <div class="proj-tab" onclick="switchTab('tabs2','results')">Results</div>
-          <div class="proj-tab" onclick="switchTab('tabs2','links')">Links</div>
+      <div class="proj-body"><div class="proj-inner">
+        <div class="tabs" id="t2">
+          <div class="tab on" onclick="swTab('t2','ov')">Overview</div>
+          <div class="tab" onclick="swTab('t2','des')">Design/CAD</div>
+          <div class="tab" onclick="swTab('t2','sim')">Simulation</div>
+          <div class="tab" onclick="swTab('t2','cod')">Calculations</div>
+          <div class="tab" onclick="swTab('t2','ph')">Photos</div>
+          <div class="tab" onclick="swTab('t2','res')">Results</div>
+          <div class="tab" onclick="swTab('t2','lnk')">Links</div>
         </div>
-        <div class="proj-pane active" data-tab="overview">
-          <div class="mrow"><div class="mbox"><div class="mbox-num">&gt;50%</div><div class="mbox-lbl">Trajectory Gain</div></div><div class="mbox"><div class="mbox-num">200g</div><div class="mbox-lbl">Rocket Weight</div></div><div class="mbox"><div class="mbox-num">20×4"</div><div class="mbox-lbl">Dimensions</div></div></div>
-          <div class="fill-block"><div class="fl">Project Overview</div>A precision TVC system managing rocket trajectory by dynamically adjusting engine position to counteract air currents. Designed in Fusion 360, verified in Open Rocket. Achieved &gt;50% improvement in trajectory-control efficiency vs non-TVC baseline.</div>
-          <div class="fill-block"><div class="fl">Motivation — fill in</div>Why TVC? Limitations of passive fin stabilisation, specific flight scenario, standalone vs larger project.</div>
-        </div>
-        <div class="proj-pane" data-tab="design">
-          <div class="fill-block"><div class="fl">Gimbal Mechanism — fill in</div><ul><li>Servo layout and mechanical configuration</li><li>Linkage geometry and pivot point selection</li><li>Constraints from 20×4 in envelope and 200g budget</li><li>Mounting interface and CG impact</li><li>Fusion 360 iterations</li></ul></div>
-        </div>
-        <div class="proj-pane" data-tab="simulation">
-          <div class="fill-block"><div class="fl">Open Rocket Workflow — fill in</div>TVC deflection modelling, CG/CP stability verification, flight simulation scenarios (crosswind, thrust asymmetry, max-Q).</div>
-          <div class="photo-row two"><div class="photo-slot"><div class="photo-slot-icon">[SIM]</div><div class="photo-slot-cap">CG/CP Stability Output</div></div><div class="photo-slot"><div class="photo-slot-icon">[SIM]</div><div class="photo-slot-cap">Trajectory TVC vs Baseline</div></div></div>
-        </div>
-        <div class="proj-pane" data-tab="code">
-          <div class="code-block"><span class="cc"># TVC hand calculations — fill in values</span>
-<span class="ck">thrust</span>         = <span class="cv">??</span>  <span class="cc"># N — motor rated thrust</span>
-<span class="ck">moment_arm</span>     = <span class="cv">??</span>  <span class="cc"># m — gimbal to CG distance</span>
+        <div class="pane on" data-k="ov"><div class="mrow"><div class="mbox"><div class="mbox-n">&gt;50%</div><div class="mbox-l">Efficiency Gain</div></div><div class="mbox"><div class="mbox-n">200g</div><div class="mbox-l">Rocket Weight</div></div><div class="mbox"><div class="mbox-n">20x4"</div><div class="mbox-l">Dimensions</div></div></div><div class="fill"><div class="fill-lbl">Overview</div>Precision TVC system managing rocket trajectory by adjusting engine position to counteract air currents. Designed in Fusion 360, verified in Open Rocket. &gt;50% improvement in trajectory efficiency vs non-TVC baseline.</div><div class="fill"><div class="fill-lbl">Motivation — fill in</div>Why TVC? Passive fin limitations, specific flight scenario, standalone vs larger project context.</div></div>
+        <div class="pane" data-k="des"><div class="fill"><div class="fill-lbl">Gimbal Mechanism — fill in</div><ul><li>Servo layout and mechanical configuration</li><li>Linkage geometry and pivot selection</li><li>Constraints from 20x4 in envelope and 200g budget</li><li>Mounting interface and CG impact</li><li>Fusion 360 iterations</li></ul></div></div>
+        <div class="pane" data-k="sim"><div class="fill"><div class="fill-lbl">Open Rocket — fill in</div>TVC deflection modelling, CG/CP verification, flight simulation scenarios (crosswind, thrust asymmetry, max-Q).</div><div class="photo-row ph2"><div class="photo-slot"><div class="psi">[SIM]</div><div class="psc">CG/CP Stability</div></div><div class="photo-slot"><div class="psi">[SIM]</div><div class="psc">Trajectory TVC vs Baseline</div></div></div></div>
+        <div class="pane" data-k="cod"><div class="code-blk"><span class="cc"># TVC hand calculations — fill in</span>
+<span class="ck">thrust</span>         = <span class="cv">??</span>  <span class="cc"># N — motor thrust</span>
+<span class="ck">moment_arm</span>     = <span class="cv">??</span>  <span class="cc"># m — gimbal to CG</span>
 <span class="ck">max_deflection</span> = <span class="cv">??</span>  <span class="cc"># degrees</span>
 <span class="ck">servo_torque</span>   = <span class="cv">??</span>  <span class="cc"># kg·cm required</span>
-<span class="cc"># corrective_moment = thrust * sin(deflection) * moment_arm</span></div>
-        </div>
-        <div class="proj-pane" data-tab="photos">
-          <div class="photo-row two"><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Gimbal Assembly — Fusion 360</div></div><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Servo Linkage Detail</div></div></div>
-          <div class="photo-row one"><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Assembled TVC on Rocket</div></div></div>
-        </div>
-        <div class="proj-pane" data-tab="results">
-          <div class="mrow"><div class="mbox"><div class="mbox-num">&gt;50%</div><div class="mbox-lbl">Efficiency Gain</div></div><div class="mbox"><div class="mbox-num">--°</div><div class="mbox-lbl">Deflection Range</div></div><div class="mbox"><div class="mbox-num">--ms</div><div class="mbox-lbl">Response Time</div></div></div>
-          <div class="fill-block"><div class="fl">Results — fill in</div>Trajectory deviation reduction, how the &gt;50% figure was calculated, apogee delta, physical launch results.</div>
-        </div>
-        <div class="proj-pane" data-tab="links">
-          <div class="link-row"><a class="ext-link" href="#">CAD Files</a><a class="ext-link" href="#">Open Rocket File</a><a class="ext-link" href="#">Test Launch Video</a><a class="ext-link" href="#">Design Report</a></div>
-        </div>
+<span class="cc"># corrective_moment = thrust * sin(deflection) * moment_arm</span></div></div>
+        <div class="pane" data-k="ph"><div class="photo-row ph2"><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Gimbal Assembly</div></div><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Servo Linkage</div></div></div><div class="photo-row ph1"><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Assembled TVC on Rocket</div></div></div></div>
+        <div class="pane" data-k="res"><div class="mrow"><div class="mbox"><div class="mbox-n">&gt;50%</div><div class="mbox-l">Efficiency</div></div><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">Deflection</div></div><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">Response ms</div></div></div><div class="fill"><div class="fill-lbl">Results — fill in</div>Trajectory deviation reduction, how the &gt;50% was calculated, apogee delta, launch test data.</div></div>
+        <div class="pane" data-k="lnk"><div class="link-row"><a class="elink" href="#">CAD Files</a><a class="elink" href="#">Open Rocket File</a><a class="elink" href="#">Launch Video</a><a class="elink" href="#">Report</a></div></div>
       </div></div>
     </div>
 
-    <!-- P3 -->
     <div class="proj-card" id="card3">
       <div class="proj-hdr" onclick="toggleCard('card3')">
         <div class="proj-idx">03</div>
-        <div class="proj-meta">
-          <div class="proj-cat">Energy Research · Combustion · Data Analysis</div>
-          <div class="proj-name">Hydrogen Engine Comparative Analysis</div>
-        </div>
-        <div class="proj-tags-row"><span class="ptag">Completed</span><span class="ptag">Python</span><span class="ptag">Research</span></div>
+        <div><div class="proj-cat">Energy Research · Combustion · Data Analysis</div><div class="proj-name">Hydrogen Engine Comparative Analysis</div></div>
+        <div class="ptags"><span class="ptag">Completed</span><span class="ptag">Python</span><span class="ptag">Research</span></div>
         <div class="proj-toggle">+</div>
       </div>
-      <div class="proj-body"><div class="proj-body-inner">
-        <div class="proj-tabs" id="tabs3">
-          <div class="proj-tab active" onclick="switchTab('tabs3','overview')">Overview</div>
-          <div class="proj-tab" onclick="switchTab('tabs3','design')">Methodology</div>
-          <div class="proj-tab" onclick="switchTab('tabs3','simulation')">Analysis</div>
-          <div class="proj-tab" onclick="switchTab('tabs3','code')">Code / Data</div>
-          <div class="proj-tab" onclick="switchTab('tabs3','photos')">Photos</div>
-          <div class="proj-tab" onclick="switchTab('tabs3','results')">Results</div>
-          <div class="proj-tab" onclick="switchTab('tabs3','links')">Links</div>
+      <div class="proj-body"><div class="proj-inner">
+        <div class="tabs" id="t3">
+          <div class="tab on" onclick="swTab('t3','ov')">Overview</div>
+          <div class="tab" onclick="swTab('t3','des')">Methodology</div>
+          <div class="tab" onclick="swTab('t3','sim')">Analysis</div>
+          <div class="tab" onclick="swTab('t3','cod')">Code/Data</div>
+          <div class="tab" onclick="swTab('t3','ph')">Photos</div>
+          <div class="tab" onclick="swTab('t3','res')">Results</div>
+          <div class="tab" onclick="swTab('t3','lnk')">Links</div>
         </div>
-        <div class="proj-pane active" data-tab="overview">
-          <div class="mrow"><div class="mbox"><div class="mbox-num">+40%</div><div class="mbox-lbl">RPM Increase</div></div><div class="mbox"><div class="mbox-num">+60%</div><div class="mbox-lbl">Operating Temp</div></div><div class="mbox"><div class="mbox-num">H₂</div><div class="mbox-lbl">Electrolysis-Derived</div></div></div>
-          <div class="fill-block"><div class="fl">Project Overview</div>Feasibility study investigating electrolysis-derived hydrogen in ICEs vs conventional gasoline. Documented 40% RPM increase and 60% operating temperature increase for the H₂-fuelled engine over gasoline baseline.</div>
-          <div class="fill-block"><div class="fl">Motivation — fill in</div>Why H₂ in ICEs vs fuel cells or BEVs? Core research question, context (independent/course/competition), knowledge gap.</div>
-        </div>
-        <div class="proj-pane" data-tab="design">
-          <div class="fill-block"><div class="fl">Experimental Setup — fill in</div><ul><li>Engine: type, displacement, stock vs modified</li><li>Electrolysis cell: design, electrolyte, electrode material, H₂ production rate</li><li>Instrumentation: RPM, temperature, fuel flow measurement</li><li>Test conditions: load, duration, safety protocols</li></ul></div>
-        </div>
-        <div class="proj-pane" data-tab="simulation">
-          <div class="fill-block"><div class="fl">Combustion Analysis — fill in</div>Energy density, adiabatic flame temperature, laminar flame speed, stoichiometric AFR comparison. Efficiency: brake thermal efficiency, BSFC. Cost framework.</div>
-        </div>
-        <div class="proj-pane" data-tab="code">
-          <div class="code-block"><span class="cc"># Python analysis pipeline</span>
-<span class="ck">import</span> <span class="cv">pandas</span> as pd
-<span class="ck">import</span> <span class="cv">matplotlib.pyplot</span> as plt
-<span class="ck">df_gasoline</span> = pd.read_csv(<span class="cv">'gasoline_runs.csv'</span>)
-<span class="ck">df_hydrogen</span> = pd.read_csv(<span class="cv">'hydrogen_runs.csv'</span>)
+        <div class="pane on" data-k="ov"><div class="mrow"><div class="mbox"><div class="mbox-n">+40%</div><div class="mbox-l">RPM Increase</div></div><div class="mbox"><div class="mbox-n">+60%</div><div class="mbox-l">Operating Temp</div></div><div class="mbox"><div class="mbox-n">H2</div><div class="mbox-l">Electrolysis</div></div></div><div class="fill"><div class="fill-lbl">Overview</div>Feasibility study of electrolysis-derived H2 in ICEs vs gasoline. Documented +40% RPM and +60% operating temperature for the H2-fuelled engine.</div><div class="fill"><div class="fill-lbl">Motivation — fill in</div>Why H2 in ICEs vs fuel cells or BEVs? Core research question and knowledge gap.</div></div>
+        <div class="pane" data-k="des"><div class="fill"><div class="fill-lbl">Experimental Setup — fill in</div><ul><li>Engine: type, displacement, stock vs modified</li><li>Electrolysis cell: design, electrolyte, electrode, H2 rate</li><li>Instruments: RPM, temperature, fuel flow measurement</li><li>Conditions: load, duration, safety protocols</li></ul></div></div>
+        <div class="pane" data-k="sim"><div class="fill"><div class="fill-lbl">Combustion Analysis — fill in</div>Energy density, adiabatic flame temp, laminar flame speed, stoichiometric AFR. Brake thermal efficiency, BSFC, cost framework.</div></div>
+        <div class="pane" data-k="cod"><div class="code-blk"><span class="cc"># Python analysis pipeline</span>
+<span class="ck">import</span> <span class="cv">pandas</span> as pd, <span class="cv">matplotlib.pyplot</span> as plt
+<span class="ck">df_gas</span> = pd.read_csv(<span class="cv">'gasoline_runs.csv'</span>)
+<span class="ck">df_h2</span>  = pd.read_csv(<span class="cv">'hydrogen_runs.csv'</span>)
 <span class="cc"># cols: [time, rpm, temp_exhaust, temp_coolant, fuel_flow, load]</span>
-<span class="cc"># [ ADD YOUR ANALYSIS CODE ]</span></div>
-        </div>
-        <div class="proj-pane" data-tab="photos">
-          <div class="photo-row two"><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Electrolysis Cell Setup</div></div><div class="photo-slot"><div class="photo-slot-icon">[IMG]</div><div class="photo-slot-cap">Engine Test Bench</div></div></div>
-          <div class="photo-row two"><div class="photo-slot"><div class="photo-slot-icon">[CHART]</div><div class="photo-slot-cap">RPM Comparison</div></div><div class="photo-slot"><div class="photo-slot-icon">[CHART]</div><div class="photo-slot-cap">Temperature Comparison</div></div></div>
-        </div>
-        <div class="proj-pane" data-tab="results">
-          <div class="mrow"><div class="mbox"><div class="mbox-num">+40%</div><div class="mbox-lbl">RPM vs Gasoline</div></div><div class="mbox"><div class="mbox-num">+60%</div><div class="mbox-lbl">Exhaust Temp</div></div><div class="mbox"><div class="mbox-num">--</div><div class="mbox-lbl">Thermal Efficiency</div></div><div class="mbox"><div class="mbox-num">--</div><div class="mbox-lbl">Cost / kWh</div></div></div>
-          <div class="fill-block"><div class="fl">Full Results — fill in</div>RPM and temp data across all load conditions, thermal efficiency %, cost comparison, feasibility conclusion.</div>
-        </div>
-        <div class="proj-pane" data-tab="links">
-          <div class="link-row"><a class="ext-link" href="#">Research Paper</a><a class="ext-link" href="#">Python Code</a><a class="ext-link" href="#">Raw Data CSV</a><a class="ext-link" href="#">Slides</a></div>
-        </div>
+<span class="cc"># [ ADD YOUR ANALYSIS CODE ]</span></div></div>
+        <div class="pane" data-k="ph"><div class="photo-row ph2"><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Electrolysis Cell</div></div><div class="photo-slot"><div class="psi">[IMG]</div><div class="psc">Engine Test Bench</div></div></div><div class="photo-row ph2"><div class="photo-slot"><div class="psi">[CHART]</div><div class="psc">RPM Comparison</div></div><div class="photo-slot"><div class="psi">[CHART]</div><div class="psc">Temperature Comparison</div></div></div></div>
+        <div class="pane" data-k="res"><div class="mrow"><div class="mbox"><div class="mbox-n">+40%</div><div class="mbox-l">RPM</div></div><div class="mbox"><div class="mbox-n">+60%</div><div class="mbox-l">Exhaust Temp</div></div><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">Thermal Eff.</div></div><div class="mbox"><div class="mbox-n">--</div><div class="mbox-l">Cost/kWh</div></div></div><div class="fill"><div class="fill-lbl">Full Results — fill in</div>RPM and temp across all load conditions, thermal efficiency %, cost comparison, feasibility conclusion.</div></div>
+        <div class="pane" data-k="lnk"><div class="link-row"><a class="elink" href="#">Research Paper</a><a class="elink" href="#">Python Code</a><a class="elink" href="#">Raw CSV</a><a class="elink" href="#">Slides</a></div></div>
       </div></div>
     </div>
 
@@ -590,8 +468,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
 <!-- SKILLS -->
 <section id="skills-section" class="sec-wrap">
   <div class="sec-hdr"><span class="sec-num">02 //</span><h2 class="sec-title">Technical Stack</h2><div class="sec-line"></div></div>
-
-  <div class="stack-group-title">CAD / Design</div>
+  <div class="sg-title">CAD / Design</div>
   <div class="logo-grid">
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Autodesk_Fusion_360_logo.png/240px-Autodesk_Fusion_360_logo.png" alt="Fusion 360" onerror="this.style.display='none'"/><span>Fusion 360</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Autodesk_Inventor_2021_Logo.png/240px-Autodesk_Inventor_2021_Logo.png" alt="Inventor" onerror="this.style.display='none'"/><span>Inventor</span></div>
@@ -601,23 +478,20 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/PTC_Creo_Parametric_logo.png/240px-PTC_Creo_Parametric_logo.png" alt="Creo" onerror="this.style.display='none'"/><span>Creo</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Siemens_NX_12_Logo.png/240px-Siemens_NX_12_Logo.png" alt="Siemens NX" onerror="this.style.display='none'"/><span>Siemens NX</span></div>
   </div>
-
-  <div class="stack-group-title">Simulation & Analysis</div>
+  <div class="sg-title">Simulation &amp; Analysis</div>
   <div class="logo-grid">
-    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Ansys_logo_2019.png/320px-Ansys_logo_2019.png" alt="Ansys Mechanical" onerror="this.style.display='none'"/><span>Ansys Mechanical</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Ansys_logo_2019.png/320px-Ansys_logo_2019.png" alt="Ansys" onerror="this.style.display='none'"/><span>Ansys Mechanical</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Ansys_logo_2019.png/320px-Ansys_logo_2019.png" alt="Ansys Fluent" onerror="this.style.display='none'"/><span>Ansys Fluent</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/SimScale_Logo.png/320px-SimScale_Logo.png" alt="SimScale" onerror="this.style.display='none'"/><span>SimScale</span></div>
-    <div class="logo-card logo-card-text"><span class="logo-text-big">🚀</span><span>Open Rocket</span></div>
+    <div class="logo-card"><div class="logo-emoji">&#x1F680;</div><span>Open Rocket</span></div>
   </div>
-
-  <div class="stack-group-title">Programming & Software</div>
+  <div class="sg-title">Programming &amp; Tools</div>
   <div class="logo-grid">
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/240px-Python-logo-notext.svg.png" alt="Python" onerror="this.style.display='none'"/><span>Python</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/PyTorch_logo_icon.svg/240px-PyTorch_logo_icon.svg.png" alt="PyTorch" onerror="this.style.display='none'"/><span>PyTorch</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Qiskit-Logo.svg/320px-Qiskit-Logo.svg.png" alt="Qiskit" onerror="this.style.display='none'"/><span>Qiskit</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/KiCad-Logo.svg/240px-KiCad-Logo.svg.png" alt="KiCAD" onerror="this.style.display='none'"/><span>KiCAD</span></div>
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/LaTeX_logo.svg/320px-LaTeX_logo.svg.png" alt="LaTeX" onerror="this.style.display='none'"/><span>LaTeX</span></div>
-    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/240px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png" alt="MS Office" onerror="this.style.display='none'"/><span>MS Office</span></div>
   </div>
 </section>
 
@@ -625,69 +499,40 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
 <section id="timeline-section" class="sec-wrap">
   <div class="sec-hdr"><span class="sec-num">03 //</span><h2 class="sec-title">Experience Log</h2><div class="sec-line"></div></div>
   <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-date">Jan 2026 — Present</div>
-      <div class="tl-title">Autodesk Ambassador</div>
-      <div class="tl-org">Autodesk · Stony Brook, NY</div>
-      <div class="tl-desc">Hosted interdisciplinary workshops for Mechanical, Electrical, and Arts students in advanced Fusion 360, FEA, and rendering techniques.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-date">Sep 2025 — Present</div>
-      <div class="tl-title">FEA Lead</div>
-      <div class="tl-org">Stony Brook Robotics · Stony Brook, NY</div>
-      <div class="tl-desc">Spearheading structural analysis (Ansys Mechanical) for the MATE Rover chassis and robotic claw. Optimised hydrodynamic profile via Ansys Fluent CFD, significantly reducing drag for underwater environments.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-date">Aug 2025 — Present</div>
-      <div class="tl-title">B.S. Mechanical Engineering &amp; Physics</div>
-      <div class="tl-org">Stony Brook University · Class of 2030</div>
-      <div class="tl-desc">Dual-degree programme spanning structural mechanics, fluid dynamics, thermodynamics, quantum physics, and computational methods.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-date">Jul 2022 — Aug 2022</div>
-      <div class="tl-title">Physics Lab Intern</div>
-      <div class="tl-org">Quad-e-Azam Public College</div>
-      <div class="tl-desc">Instructed 50+ students in Solid Edge and KiCAD. Reduced annual project failure rate from 60% to 20%, yielding 40 successful student builds. Mentored teams building self-driving cars and drones.</div>
-    </div>
+    <div class="tl-item" id="tl0"><div class="tl-dot"></div><div class="tl-date">Jan 2026 — Present</div><div class="tl-title">Autodesk Ambassador</div><div class="tl-org">Autodesk · Stony Brook, NY</div><div class="tl-desc">Hosted interdisciplinary workshops for ME, EE, and Arts students in Fusion 360, FEA, and rendering techniques.</div></div>
+    <div class="tl-item" id="tl1"><div class="tl-dot"></div><div class="tl-date">Sep 2025 — Present</div><div class="tl-title">FEA Lead</div><div class="tl-org">Stony Brook Robotics</div><div class="tl-desc">Spearheading structural analysis (Ansys Mechanical) for the MATE Rover chassis and robotic claw. CFD-optimised hydrodynamic profile via Ansys Fluent.</div></div>
+    <div class="tl-item" id="tl2"><div class="tl-dot"></div><div class="tl-date">Aug 2025 — Present</div><div class="tl-title">B.S. Mechanical Engineering &amp; Physics</div><div class="tl-org">Stony Brook University · Class of 2030</div><div class="tl-desc">Dual-degree programme: structural mechanics, fluid dynamics, thermodynamics, quantum physics, and computational methods.</div></div>
+    <div class="tl-item" id="tl3"><div class="tl-dot"></div><div class="tl-date">Jul 2022 — Aug 2022</div><div class="tl-title">Physics Lab Intern</div><div class="tl-org">Quad-e-Azam Public College</div><div class="tl-desc">Instructed 50+ students in Solid Edge and KiCAD. Reduced project failure rate from 60% to 20%, yielding 40 successful builds including self-driving cars and drones.</div></div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact-section" class="sec-wrap">
-  <div class="sec-hdr"><span class="sec-num">04 //</span><h2 class="sec-title">Contact / Config</h2><div class="sec-line"></div></div>
+  <div class="sec-hdr"><span class="sec-num">04 //</span><h2 class="sec-title">Contact</h2><div class="sec-line"></div></div>
   <div class="contact-grid">
-    <div class="contact-info">
-      <div class="contact-label">Email</div>
-      <div class="contact-val"><a href="/cdn-cgi/l/email-protection#bfcad2dacdd2deded3d6d48d8bffd8d2ded6d391dcd0d2"><span class="__cf_email__" data-cfemail="cbbea6aeb9a6aaaaa7a2a0f9ff8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></div>
-      <div class="contact-label">LinkedIn</div>
-      <div class="contact-val"><a href="https://linkedin.com/in/muhammad-maalik/" target="_blank">linkedin.com/in/Muhammad-Maalik</a></div>
-      <div class="contact-label">Location</div>
-      <div class="contact-val">Stony Brook, NY — 40.9176° N, 73.1237° W</div>
-      <div class="contact-label">Institution</div>
-      <div class="contact-val">Stony Brook University · ME &amp; Physics · Class of 2030</div>
+    <div>
+      <div class="c-label">Email</div><div class="c-val"><a href="mailto:umermaalik24@gmail.com">umermaalik24@gmail.com</a></div>
+      <div class="c-label">LinkedIn</div><div class="c-val"><a href="https://linkedin.com/in/muhammad-maalik/" target="_blank">linkedin.com/in/Muhammad-Maalik</a></div>
+      <div class="c-label">Location</div><div class="c-val">Stony Brook, NY</div>
+      <div class="c-label">Institution</div><div class="c-val">Stony Brook University · ME &amp; Physics · Class of 2030</div>
     </div>
     <div>
-      <div class="fill-block"><div class="fl">Open To</div>Research collaborations, internships, project partnerships in aerospace, autonomous systems, and robotics. Currently seeking Summer 2026 internship opportunities.</div>
-      <div class="fill-block"><div class="fl">Add Your Info — fill in</div>Add any other contact methods, portfolio links, or availability information here.</div>
+      <div class="fill"><div class="fill-lbl">Open To</div>Research collaborations, internships, project partnerships in aerospace, autonomous systems, robotics. Seeking Summer 2026 internship opportunities.</div>
+      <div class="fill"><div class="fill-lbl">Add Your Info — fill in</div>Additional contact methods, portfolio links, or availability.</div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">MAALIK.SYS</div>
-  <div style="font-size:10px;color:var(--muted);">Muhammad Maalik · ME &amp; Physics · Stony Brook University</div>
+  <div style="font-size:10px;color:var(--muted)">Muhammad Maalik · ME &amp; Physics · Stony Brook University</div>
   <div class="footer-copy">Portfolio v2.6 · 2026</div>
 </footer>
 
-</div><!-- /main-content -->
+</div><!-- /main -->
 </div><!-- /app -->
 
-<!-- CTRL PANEL -->
+<!-- CONTROL PANEL -->
 <div class="ctrl-panel">
   <button class="ctrl-btn" onclick="triggerGlitch()"><span class="cd"></span>GLITCH</button>
   <button class="ctrl-btn" id="btnMatrix" onclick="toggleMatrix()"><span class="cd"></span>MATRIX</button>
@@ -696,149 +541,59 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
   <button class="ctrl-btn" id="btnLight" onclick="toggleLights()"><span class="cd"></span>LIGHTS</button>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ── CURSOR ───────────────────────────────────── */
-const cur=document.getElementById('cursor'),trail=document.getElementById('trail');
-let mx=0,my=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-  setTimeout(()=>{trail.style.left=mx+'px';trail.style.top=my+'px';},100);
-});
-
-/* ── CLOCK ────────────────────────────────────── */
-function updateClock(){
-  const n=new Date();
-  const t=n.toLocaleTimeString('en-US',{hour12:false});
-  const d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).toUpperCase();
-  document.getElementById('sidebar-clock').textContent=t;
-  document.getElementById('sidebar-date').textContent=d;
-  document.getElementById('nav-clock').textContent=t;
+<script>
+(function(){
+// ── CURSOR
+var cur=document.getElementById('cursor'), trl=document.getElementById('trail');
+if(cur&&trl){
+  document.addEventListener('mousemove',function(e){
+    cur.style.left=e.clientX+'px'; cur.style.top=e.clientY+'px';
+    setTimeout(function(){ trl.style.left=e.clientX+'px'; trl.style.top=e.clientY+'px'; },100);
+  });
 }
-setInterval(updateClock,1000);updateClock();
 
-/* ── REAL SYSTEM MONITOR ─────────────────────── */
-async function initRealMonitor(){
-  // Online status
-  function setOnline(){
-    const el=document.getElementById('sm-online');
-    if(el){el.textContent=navigator.onLine?'ONLINE':'OFFLINE';el.className='sysmon-val '+(navigator.onLine?'ok':'warn');}
-  }
-  setOnline();
-  window.addEventListener('online',setOnline);
-  window.addEventListener('offline',setOnline);
-
-  // CPU cores
-  const cores=document.getElementById('sm-cores');
-  if(cores)cores.textContent=navigator.hardwareConcurrency||'--';
-
-  // Screen
-  const screen_el=document.getElementById('sm-screen');
-  if(screen_el)screen_el.textContent=screen.width+'×'+screen.height;
-
-  // DPI
-  const dpi=document.getElementById('sm-dpi');
-  if(dpi)dpi.textContent=(window.devicePixelRatio||1).toFixed(1)+'x';
-
-  // Timezone
-  const tz=document.getElementById('sm-tz');
-  if(tz)tz.textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||'--';
-
-  // Platform
-  const plat=document.getElementById('sm-platform');
-  if(plat){
-    const ua=navigator.userAgent;
-    let p='Unknown';
-    if(ua.includes('Win'))p='Windows';
-    else if(ua.includes('Mac'))p='macOS';
-    else if(ua.includes('Linux'))p='Linux';
-    else if(ua.includes('Android'))p='Android';
-    else if(ua.includes('iPhone')||ua.includes('iPad'))p='iOS';
-    plat.textContent=p;
-  }
-
-  // JS Heap (Chrome only)
-  function updateHeap(){
-    const el=document.getElementById('sm-heap');
-    if(el&&performance.memory){
-      const mb=(performance.memory.usedJSHeapSize/1048576).toFixed(1);
-      el.textContent=mb+' MB';
-    } else if(el){ el.textContent='N/A'; }
-  }
-  updateHeap();setInterval(updateHeap,2000);
-
-  // Network info
-  const conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
-  const netEl=document.getElementById('sm-net');
-  const dlEl=document.getElementById('sm-dl');
-  if(conn){
-    if(netEl)netEl.textContent=(conn.effectiveType||conn.type||'--').toUpperCase();
-    if(dlEl)dlEl.textContent=conn.downlink?conn.downlink+' Mbps':'--';
-    conn.addEventListener('change',()=>{
-      if(netEl)netEl.textContent=(conn.effectiveType||conn.type||'--').toUpperCase();
-      if(dlEl)dlEl.textContent=conn.downlink?conn.downlink+' Mbps':'--';
-    });
-  } else {
-    if(netEl)netEl.textContent='CONNECTED';
-    if(dlEl)dlEl.textContent='N/A';
-  }
-
-  // Battery
-  if(navigator.getBattery){
-    const bat=await navigator.getBattery();
-    function updateBat(){
-      const pct=Math.round(bat.level*100);
-      const el=document.getElementById('sm-bat');
-      const bar=document.getElementById('sm-bat-bar');
-      const chg=document.getElementById('sm-charging');
-      if(el){el.textContent=pct+'%';el.className='sysmon-val '+(pct<20?'warn':'ok');}
-      if(bar)bar.style.width=pct+'%';
-      if(chg)chg.textContent=bat.charging?'YES ⚡':'NO';
-    }
-    updateBat();
-    bat.addEventListener('levelchange',updateBat);
-    bat.addEventListener('chargingchange',updateBat);
-  } else {
-    const el=document.getElementById('sm-bat');
-    if(el)el.textContent='N/A';
-    const chg=document.getElementById('sm-charging');
-    if(chg)chg.textContent='N/A';
-  }
+// ── CLOCK
+function tick(){
+  try{
+    var n=new Date();
+    var t=n.toLocaleTimeString('en-US',{hour12:false});
+    var d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).toUpperCase();
+    var sc=document.getElementById('sb-clock'); if(sc) sc.textContent=t;
+    var sd=document.getElementById('sb-date');  if(sd) sd.textContent=d;
+    var nc=document.getElementById('nav-clock'); if(nc) nc.textContent=t;
+  }catch(e){}
 }
-// initRealMonitor is called from boot sequence
+setInterval(tick,1000); tick();
 
-/* ── BOOT SEQUENCE ────────────────────────────── */
-const bootLines=[
+// ── BOOT
+var booted=false;
+var bootLines=[
   '> MAALIK.SYS v2.6 initializing...',
   '> Loading kernel modules... OK',
-  '> Mounting /dev/projects... OK',
   '> FEA subsystem: ANSYS_MECHANICAL online',
   '> CFD subsystem: ANSYS_FLUENT online',
-  '> Neural network engine: PYTORCH loaded',
-  '> CAD interface: FUSION360 · INVENTOR · SOLIDWORKS',
-  '> Rocket propulsion module: OPEN_ROCKET ready',
+  '> Neural net engine: PYTORCH loaded',
+  '> CAD interface: FUSION360 / INVENTOR / SOLIDWORKS',
+  '> Rocket module: OPEN_ROCKET ready',
   '> Portfolio database: 3 projects indexed',
-  '> All systems nominal. Launching interface...',
+  '> All systems nominal. Launching...'
 ];
-let booted=false;
+
 function runBoot(){
-  if(booted)return;
+  if(booted) return;
   booted=true;
 
-  // Light up button
-  const btn=document.getElementById('powerBtn');
-  if(btn){btn.style.borderColor='#00ff41';btn.style.boxShadow='0 0 60px rgba(0,255,65,.8)';}
+  var btn=document.getElementById('powerBtn');
+  if(btn){ btn.style.borderColor='#00ff41'; btn.style.boxShadow='0 0 60px rgba(0,255,65,0.8)'; }
 
-  // Show log area
-  const log=document.getElementById('boot-log');
-  if(log){log.style.height='190px';log.style.overflow='hidden';}
+  var log=document.getElementById('boot-log');
+  if(log){ log.style.height='190px'; }
 
-  // Type out boot lines
-  let i=0;
-  const iv=setInterval(()=>{
-    if(i<bootLines.length){
+  var i=0;
+  var iv=setInterval(function(){
+    if(i < bootLines.length){
       if(log){
-        const line=document.createElement('div');
+        var line=document.createElement('div');
         line.textContent=bootLines[i];
         log.appendChild(line);
         log.scrollTop=log.scrollHeight;
@@ -846,339 +601,322 @@ function runBoot(){
       i++;
     } else {
       clearInterval(iv);
-      // After last line, wait then fade out
-      setTimeout(()=>{
-        const bootEl=document.getElementById('boot');
+      setTimeout(function(){
+        var bootEl=document.getElementById('boot');
         if(bootEl){
-          bootEl.style.transition='opacity 0.6s ease';
+          bootEl.style.transition='opacity 0.7s ease';
           bootEl.style.opacity='0';
           bootEl.style.pointerEvents='none';
-          setTimeout(()=>{ bootEl.style.display='none'; },700);
+          setTimeout(function(){ bootEl.style.display='none'; }, 800);
         }
-        // Start all animations
-        try{ startMatrix(); }catch(e){}
-        try{ startWireframe(); }catch(e){}
-        try{ revealTimeline(); }catch(e){}
-        try{ initRealMonitor(); }catch(e){}
-      }, 500);
+        try{ startMatrix(); }catch(e){ console.log('matrix err',e); }
+        try{ startWireframe(); }catch(e){ console.log('wire err',e); }
+        try{ revealTimeline(); }catch(e){ console.log('tl err',e); }
+        try{ initSysMonitor(); }catch(e){ console.log('sys err',e); }
+      }, 400);
     }
-  }, 180);
+  }, 190);
 }
 
-// Attach boot button — multiple methods for maximum compatibility
-window.addEventListener('DOMContentLoaded', function(){
-  var btn = document.getElementById('powerBtn');
-  if(btn){
-    btn.onclick = runBoot;
-    btn.addEventListener('touchend', function(e){ e.preventDefault(); runBoot(); });
-  }
-});
-// Also attach immediately in case DOMContentLoaded already fired
-(function(){
-  var btn = document.getElementById('powerBtn');
-  if(btn){ btn.onclick = runBoot; }
-})();
+var pwrBtn=document.getElementById('powerBtn');
+if(pwrBtn){
+  pwrBtn.onclick=runBoot;
+  pwrBtn.addEventListener('touchend',function(e){ e.preventDefault(); runBoot(); });
+}
 
-/* ── MATRIX RAIN ──────────────────────────────── */
-let mc,mctx,matrixOn=true,matrixRAF,mdrops=[];
-const mchars='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEF><{}()[]';
-function initMatrix(){
+// ── MATRIX
+var mc,mctx,matrixOn=true,matrixRAF,mdrops=[];
+var mchars='アイウエオカキクケコ0123456789ABCDEF><{}[]';
+function startMatrix(){
   mc=document.getElementById('matrix-canvas');
-  if(!mc)return;
+  if(!mc) return;
   mctx=mc.getContext('2d');
-  mc.width=mc.offsetWidth||mc.parentElement.offsetWidth||800;
-  mc.height=mc.offsetHeight||mc.parentElement.offsetHeight||600;
-  window.addEventListener('resize',()=>{
-    if(!mc)return;
+  mc.width=mc.offsetWidth||800;
+  mc.height=mc.offsetHeight||600;
+  mdrops=Array(Math.floor(mc.width/14)+1).fill(1);
+  drawMatrix();
+  window.addEventListener('resize',function(){
+    if(!mc) return;
     mc.width=mc.offsetWidth||800;
     mc.height=mc.offsetHeight||600;
-    mdrops=Array(Math.floor(mc.width/14)).fill(1);
+    mdrops=Array(Math.floor(mc.width/14)+1).fill(1);
   });
 }
-function initDrops(){if(mc)mdrops=Array(Math.floor(mc.width/14)).fill(1);}
 function drawMatrix(){
-  if(!matrixOn||!mc||!mctx)return;
-  mctx.fillStyle='rgba(0,0,0,.05)';
+  if(!matrixOn||!mc||!mctx) return;
+  mctx.fillStyle='rgba(0,0,0,0.05)';
   mctx.fillRect(0,0,mc.width,mc.height);
   mctx.fillStyle='#00ff41';
-  mctx.font='13px Share Tech Mono';
-  mdrops.forEach((y,i)=>{
-    mctx.fillText(mchars[Math.floor(Math.random()*mchars.length)],i*14,y*14);
-    if(y*14>mc.height&&Math.random()>.975)mdrops[i]=0;
+  mctx.font='13px monospace';
+  for(var i=0;i<mdrops.length;i++){
+    mctx.fillText(mchars[Math.floor(Math.random()*mchars.length)],i*14,mdrops[i]*14);
+    if(mdrops[i]*14>mc.height && Math.random()>0.975) mdrops[i]=0;
     mdrops[i]++;
-  });
+  }
   matrixRAF=requestAnimationFrame(drawMatrix);
 }
-function startMatrix(){initMatrix();initDrops();drawMatrix();}
 function toggleMatrix(){
   matrixOn=!matrixOn;
-  const b=document.getElementById('btnMatrix');
-  if(matrixOn){startMatrix();if(b)b.classList.add('active-btn');}
-  else{cancelAnimationFrame(matrixRAF);if(mc&&mctx)mctx.clearRect(0,0,mc.width,mc.height);if(b)b.classList.remove('active-btn');}
+  var b=document.getElementById('btnMatrix');
+  if(matrixOn){ startMatrix(); if(b) b.classList.add('on'); }
+  else{ cancelAnimationFrame(matrixRAF); if(mc&&mctx) mctx.clearRect(0,0,mc.width,mc.height); if(b) b.classList.remove('on'); }
 }
 
-/* ── WIREFRAME ────────────────────────────────── */
-let wc,wctx,wAngle=0;
-const phi=(1+Math.sqrt(5))/2;
-const verts=[
-  [-1,phi,0],[1,phi,0],[-1,-phi,0],[1,-phi,0],
-  [0,-1,phi],[0,1,phi],[0,-1,-phi],[0,1,-phi],
-  [phi,0,-1],[phi,0,1],[-phi,0,-1],[-phi,0,1]
-].map(v=>{const l=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);return v.map(x=>x/l*80);});
-const edges=[
-  [0,1],[0,5],[0,11],[0,7],[0,10],
-  [1,5],[1,9],[1,7],[1,8],
-  [2,3],[2,4],[2,6],[2,10],[2,11],
-  [3,4],[3,6],[3,8],[3,9],
-  [4,5],[4,9],[4,11],
-  [5,9],[5,11],[6,7],[6,8],[6,10],
-  [7,8],[7,10],[8,9],[10,11]
-];
-function rotY(v,a){const c=Math.cos(a),s=Math.sin(a);return[c*v[0]+s*v[2],v[1],-s*v[0]+c*v[2]];}
-function rotX(v,a){const c=Math.cos(a),s=Math.sin(a);return[v[0],c*v[1]-s*v[2],s*v[1]+c*v[2]];}
-function drawWireframe(){
-  if(!wc||!wctx)return;
-  wctx.clearRect(0,0,280,280);
-  const cx=140,cy=140;
-  const rotated=verts.map(v=>rotX(rotY(v,wAngle),wAngle*.4));
-  const z=rotated.map(v=>v[2]);
-  wctx.lineWidth=1;
-  edges.forEach(([a,b])=>{
-    const depth=(z[a]+z[b])/2;
-    const alpha=((depth+100)/200)*.7+.15;
-    wctx.strokeStyle='rgba(0,255,65,'+alpha.toFixed(2)+')';
-    wctx.beginPath();
-    wctx.moveTo(cx+rotated[a][0],cy-rotated[a][1]);
-    wctx.lineTo(cx+rotated[b][0],cy-rotated[b][1]);
-    wctx.stroke();
-  });
-  rotated.forEach(v=>{
-    const alpha=((v[2]+100)/200)*.8+.1;
-    wctx.fillStyle='rgba(0,255,65,'+alpha.toFixed(2)+')';
-    wctx.beginPath();
-    wctx.arc(cx+v[0],cy-v[1],2,0,Math.PI*2);
-    wctx.fill();
-  });
-  wAngle+=.008;
-  requestAnimationFrame(drawWireframe);
-}
+// ── WIREFRAME
+var wc,wctx,wAngle=0;
+var PHI=(1+Math.sqrt(5))/2;
+var wVerts=[[-1,PHI,0],[1,PHI,0],[-1,-PHI,0],[1,-PHI,0],[0,-1,PHI],[0,1,PHI],[0,-1,-PHI],[0,1,-PHI],[PHI,0,-1],[PHI,0,1],[-PHI,0,-1],[-PHI,0,1]].map(function(v){var l=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);return v.map(function(x){return x/l*80;});});
+var wEdges=[[0,1],[0,5],[0,11],[0,7],[0,10],[1,5],[1,9],[1,7],[1,8],[2,3],[2,4],[2,6],[2,10],[2,11],[3,4],[3,6],[3,8],[3,9],[4,5],[4,9],[4,11],[5,9],[5,11],[6,7],[6,8],[6,10],[7,8],[7,10],[8,9],[10,11]];
+function rotY(v,a){var c=Math.cos(a),s=Math.sin(a);return[c*v[0]+s*v[2],v[1],-s*v[0]+c*v[2]];}
+function rotX(v,a){var c=Math.cos(a),s=Math.sin(a);return[v[0],c*v[1]-s*v[2],s*v[1]+c*v[2]];}
 function startWireframe(){
   wc=document.getElementById('wireframe-canvas');
-  if(!wc)return;
+  if(!wc) return;
   wctx=wc.getContext('2d');
-  wc.width=280;wc.height=280;
+  wc.width=260; wc.height=260;
   drawWireframe();
 }
+function drawWireframe(){
+  if(!wc||!wctx) return;
+  wctx.clearRect(0,0,260,260);
+  var cx=130,cy=130;
+  var rot=wVerts.map(function(v){ return rotX(rotY(v,wAngle),wAngle*0.4); });
+  var z=rot.map(function(v){ return v[2]; });
+  wctx.lineWidth=1;
+  for(var e=0;e<wEdges.length;e++){
+    var a=wEdges[e][0],b=wEdges[e][1];
+    var depth=(z[a]+z[b])/2;
+    var alpha=((depth+100)/200)*0.7+0.15;
+    wctx.strokeStyle='rgba(0,255,65,'+alpha.toFixed(2)+')';
+    wctx.beginPath();
+    wctx.moveTo(cx+rot[a][0],cy-rot[a][1]);
+    wctx.lineTo(cx+rot[b][0],cy-rot[b][1]);
+    wctx.stroke();
+  }
+  for(var i=0;i<rot.length;i++){
+    var alpha2=((rot[i][2]+100)/200)*0.8+0.1;
+    wctx.fillStyle='rgba(0,255,65,'+alpha2.toFixed(2)+')';
+    wctx.beginPath();
+    wctx.arc(cx+rot[i][0],cy-rot[i][1],2,0,Math.PI*2);
+    wctx.fill();
+  }
+  wAngle+=0.008;
+  requestAnimationFrame(drawWireframe);
+}
 
-/* ── RADAR CHART ──────────────────────────────── */
-function drawRadar(){
-  const rc=document.getElementById('radar-canvas');
-  const rctx=rc.getContext('2d');
-  rc.width=260;rc.height=260;
-  const cx=130,cy=130,R=100;
-  const cats=['CAD','FEA/CFD','Python','Rockets','NN/ML','PCB'];
-  const vals=[.95,.90,.82,.88,.70,.72];
-  const N=cats.length;
-  // grid
-  for(let r=1;r<=4;r++){
-    rctx.strokeStyle=`rgba(0,255,65,${.08+r*.03})`;
-    rctx.lineWidth=1;
-    rctx.beginPath();
-    for(let i=0;i<N;i++){
-      const a=(i/N)*Math.PI*2-Math.PI/2;
-      const x=cx+Math.cos(a)*R*(r/4);
-      const y=cy+Math.sin(a)*R*(r/4);
-      i===0?rctx.moveTo(x,y):rctx.lineTo(x,y);
+// ── REAL SYSTEM MONITOR
+function initSysMonitor(){
+  try{
+    // Online
+    function setOnline(){
+      var el=document.getElementById('sm-online');
+      if(el){ el.textContent=navigator.onLine?'ONLINE':'OFFLINE'; el.className='sysmon-val '+(navigator.onLine?'':'warn'); }
     }
-    rctx.closePath();rctx.stroke();
-  }
-  // spokes
-  for(let i=0;i<N;i++){
-    const a=(i/N)*Math.PI*2-Math.PI/2;
-    rctx.strokeStyle='rgba(0,255,65,.12)';rctx.lineWidth=1;
-    rctx.beginPath();rctx.moveTo(cx,cy);
-    rctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);
-    rctx.stroke();
-  }
-  // data polygon
-  rctx.beginPath();
-  vals.forEach((v,i)=>{
-    const a=(i/N)*Math.PI*2-Math.PI/2;
-    const x=cx+Math.cos(a)*R*v;
-    const y=cy+Math.sin(a)*R*v;
-    i===0?rctx.moveTo(x,y):rctx.lineTo(x,y);
-  });
-  rctx.closePath();
-  rctx.fillStyle='rgba(0,255,65,.1)';rctx.fill();
-  rctx.strokeStyle='rgba(0,255,65,.7)';rctx.lineWidth=1.5;rctx.stroke();
-  // dots + labels
-  vals.forEach((v,i)=>{
-    const a=(i/N)*Math.PI*2-Math.PI/2;
-    const x=cx+Math.cos(a)*R*v;
-    const y=cy+Math.sin(a)*R*v;
-    rctx.fillStyle='var(--green)';
-    rctx.beginPath();rctx.arc(x,y,3,0,Math.PI*2);rctx.fill();
-    const lx=cx+Math.cos(a)*(R+18);
-    const ly=cy+Math.sin(a)*(R+18);
-    rctx.fillStyle='rgba(0,255,65,.55)';
-    rctx.font='9px Share Tech Mono';
-    rctx.textAlign='center';rctx.textBaseline='middle';
-    rctx.fillText(cats[i],lx,ly);
-  });
+    setOnline();
+    window.addEventListener('online',setOnline);
+    window.addEventListener('offline',setOnline);
+    // Cores
+    var c=document.getElementById('sm-cores'); if(c) c.textContent=navigator.hardwareConcurrency||'N/A';
+    // Screen
+    var s=document.getElementById('sm-screen'); if(s) s.textContent=screen.width+'x'+screen.height;
+    // DPI
+    var d=document.getElementById('sm-dpi'); if(d) d.textContent=(window.devicePixelRatio||1).toFixed(1)+'x';
+    // TZ
+    var tz=document.getElementById('sm-tz'); if(tz) tz.textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||'N/A';
+    // Platform
+    var pl=document.getElementById('sm-plat');
+    if(pl){
+      var ua=navigator.userAgent;
+      var p='Unknown';
+      if(ua.indexOf('Win')>-1) p='Windows';
+      else if(ua.indexOf('Mac')>-1) p='macOS';
+      else if(ua.indexOf('Android')>-1) p='Android';
+      else if(ua.indexOf('iPhone')>-1||ua.indexOf('iPad')>-1) p='iOS';
+      else if(ua.indexOf('Linux')>-1) p='Linux';
+      pl.textContent=p;
+    }
+    // Heap
+    function updateHeap(){
+      var el=document.getElementById('sm-heap');
+      if(!el) return;
+      if(performance&&performance.memory) el.textContent=(performance.memory.usedJSHeapSize/1048576).toFixed(1)+' MB';
+      else el.textContent='N/A';
+    }
+    updateHeap(); setInterval(updateHeap,2000);
+    // Network
+    var conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+    var ne=document.getElementById('sm-net'), dl=document.getElementById('sm-dl');
+    if(conn){
+      if(ne) ne.textContent=(conn.effectiveType||conn.type||'--').toUpperCase();
+      if(dl) dl.textContent=conn.downlink?conn.downlink+' Mbps':'N/A';
+    } else {
+      if(ne) ne.textContent='CONNECTED';
+      if(dl) dl.textContent='N/A';
+    }
+    // Battery
+    if(navigator.getBattery){
+      navigator.getBattery().then(function(bat){
+        function upBat(){
+          var pct=Math.round(bat.level*100);
+          var el=document.getElementById('sm-bat'); if(el){ el.textContent=pct+'%'; el.className='sysmon-val'+(pct<20?' warn':''); }
+          var bar=document.getElementById('sm-bat-bar'); if(bar) bar.style.width=pct+'%';
+          var chg=document.getElementById('sm-chg'); if(chg) chg.textContent=bat.charging?'YES':'NO';
+        }
+        upBat();
+        bat.addEventListener('levelchange',upBat);
+        bat.addEventListener('chargingchange',upBat);
+      }).catch(function(){});
+    } else {
+      var be=document.getElementById('sm-bat'); if(be) be.textContent='N/A';
+    }
+  }catch(err){ console.log('sysmon err',err); }
 }
-drawRadar();
 
-function revealSkills(){} // logo grid — no bars needed
-
-/* ── TIMELINE REVEAL ──────────────────────────── */
-function revealTimeline(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');}});
-  },{threshold:.15});
-  document.querySelectorAll('.tl-item').forEach((t,i)=>{
-    t.style.transitionDelay=i*.1+'s';
-    obs.observe(t);
-  });
-}
-
-/* ── TERMINAL ─────────────────────────────────── */
-const termOut=document.getElementById('term-output');
-const termIn=document.getElementById('term-input');
-const commands={
-  help(){return[
-    {t:'ok',m:'Available commands:'},
-    {t:'',m:'  whoami       — display identity'},
-    {t:'',m:'  projects     — list all projects'},
-    {t:'',m:'  skills       — dump skill matrix'},
-    {t:'',m:'  experience   — show experience log'},
-    {t:'',m:'  contact      — display contact info'},
-    {t:'',m:'  status       — system status check'},
-    {t:'',m:'  glitch       — trigger glitch effect'},
-    {t:'',m:'  matrix       — toggle matrix rain'},
-    {t:'',m:'  flicker      — trigger screen flicker'},
-    {t:'',m:'  lights       — toggle ambient lights'},
-    {t:'',m:'  clear        — clear terminal'},
-    {t:'',m:'  cat [file]   — read a file (try: cat projects.sys)'},
-  ];},
-  whoami(){return[{t:'ok',m:'Muhammad Maalik — ME & Physics, Stony Brook University'},{t:'ok',m:'FEA Lead @ Stony Brook Robotics | Autodesk Ambassador'},{t:'ok',m:'Stony Brook, NY — umermaalik24@gmail.com'}];},
-  projects(){return[{t:'ok',m:'[01] Fully Autonomous 3-D Printed Jet .......... IN PROGRESS'},{t:'ok',m:'[02] Thrust Vector Control System ............. COMPLETED'},{t:'ok',m:'[03] Hydrogen Engine Comparative Analysis ..... COMPLETED'}];},
-  skills(){return[{t:'ok',m:'CAD: Fusion360(95%) Inventor(88%) SolidWorks(80%) Creo(70%)'},{t:'ok',m:'SIM: Ansys Mech(90%) Ansys Fluent(85%) OpenRocket(88%)'},{t:'ok',m:'CODE: Python(82%) PyTorch(70%) KiCAD(72%) LaTeX(78%)'}];},
-  experience(){return[{t:'ok',m:'Jan 2026 → Now  : Autodesk Ambassador, Stony Brook'},{t:'ok',m:'Sep 2025 → Now  : FEA Lead, Stony Brook Robotics'},{t:'ok',m:'Aug 2025 → Now  : B.S. ME & Physics, Stony Brook Univ'},{t:'ok',m:'Jul 2022 → Aug 2022: Physics Lab Intern, Quad-e-Azam'}];},
-  contact(){return[{t:'ok',m:'EMAIL  : umermaalik24@gmail.com'},{t:'ok',m:'LINKEDIN: linkedin.com/in/Muhammad-Maalik'},{t:'ok',m:'LOCATION: Stony Brook, NY (40.9°N 73.1°W)'}];},
-  status(){return[
-    {t:'ok',m:'> FEA subsystem ......... ONLINE'},
-    {t:'ok',m:'> CFD subsystem ......... ONLINE'},
-    {t:'ok',m:'> Neural net engine ..... ONLINE'},
-    {t:'ok',m:'> Matrix rain ........... '+(matrixOn?'ACTIVE':'STANDBY')},
-    {t:'ok',m:'> Scanlines ............. '+(scanlinesOn?'ON':'OFF')},
-    {t:'ok',m:'> All systems nominal.'},
-  ];},
-  glitch(){triggerGlitch();return[{t:'warn',m:'> GLITCH TRIGGERED'}];},
-  matrix(){toggleMatrix();return[{t:'warn',m:'> MATRIX TOGGLED'}];},
-  flicker(){triggerFlicker();return[{t:'warn',m:'> FLICKER TRIGGERED'}];},
-  lights(){toggleLights();return[{t:'warn',m:'> LIGHTS TOGGLED'}];},
-  clear(){termOut.innerHTML='';return[];},
-  'cat projects.sys'(){return[
-    {t:'ok',m:'// projects.sys'},
-    {t:'',m:'[JET]  status: IN_PROGRESS | speed: 70+km/h | NN: PyTorch | TVC: true'},
-    {t:'',m:'[TVC]  status: COMPLETE    | efficiency_gain: >50% | rocket: 20x4in 200g'},
-    {t:'',m:'[H2]   status: COMPLETE    | rpm_gain: +40% | temp_gain: +60%'},
-  ];},
+// ── TERMINAL
+var termOut=document.getElementById('term-out');
+var termIn=document.getElementById('term-input');
+var cmds={
+  help:function(){return [{c:'ok',m:'Commands: whoami, projects, skills, experience, contact, status, glitch, matrix, flicker, lights, clear, cat projects.sys'}];},
+  whoami:function(){return [{c:'ok',m:'Muhammad Maalik — ME & Physics, Stony Brook University'},{c:'ok',m:'FEA Lead @ SBU Robotics | Autodesk Ambassador | Class of 2030'}];},
+  projects:function(){return [{c:'ok',m:'[01] Autonomous 3D Printed Jet ........... IN PROGRESS'},{c:'ok',m:'[02] Thrust Vector Control System ........ COMPLETED'},{c:'ok',m:'[03] Hydrogen Engine Analysis ............ COMPLETED'}];},
+  skills:function(){return [{c:'ok',m:'CAD: Fusion360 Inventor SolidWorks SolidEdge Onshape Creo NX'},{c:'ok',m:'SIM: Ansys-Mech Ansys-Fluent SimScale OpenRocket'},{c:'ok',m:'CODE: Python PyTorch Qiskit KiCAD LaTeX'}];},
+  experience:function(){return [{c:'ok',m:'Jan 2026+ : Autodesk Ambassador'},{c:'ok',m:'Sep 2025+ : FEA Lead, Stony Brook Robotics'},{c:'ok',m:'Aug 2025+ : B.S. ME & Physics, Stony Brook Univ'},{c:'ok',m:'Jul 2022  : Physics Lab Intern'}];},
+  contact:function(){return [{c:'ok',m:'EMAIL    : umermaalik24@gmail.com'},{c:'ok',m:'LINKEDIN : linkedin.com/in/Muhammad-Maalik'},{c:'ok',m:'LOCATION : Stony Brook, NY'}];},
+  status:function(){return [{c:'ok',m:'FEA: ONLINE | CFD: ONLINE | NN: ONLINE | Matrix: '+(matrixOn?'ACTIVE':'OFF')+' | All nominal.'}];},
+  glitch:function(){triggerGlitch();return [{c:'warn',m:'> GLITCH TRIGGERED'}];},
+  matrix:function(){toggleMatrix();return [{c:'warn',m:'> MATRIX TOGGLED'}];},
+  flicker:function(){triggerFlicker();return [{c:'warn',m:'> FLICKER TRIGGERED'}];},
+  lights:function(){toggleLights();return [{c:'warn',m:'> LIGHTS TOGGLED'}];},
+  clear:function(){if(termOut)termOut.innerHTML='';return[];},
+  'cat projects.sys':function(){return [{c:'ok',m:'[JET] status:IN_PROGRESS speed:70+kmh NN:PyTorch TVC:true'},{c:'ok',m:'[TVC] status:COMPLETE efficiency:>50% rocket:20x4in 200g'},{c:'ok',m:'[H2]  status:COMPLETE rpm:+40% temp:+60%'}];}
 };
-function termPrint(lines){
-  lines.forEach(l=>{
-    const d=document.createElement('div');
-    if(l.t==='ok')d.className='line-ok';
-    else if(l.t==='err')d.className='line-err';
-    else if(l.t==='warn')d.className='line-warn';
-    d.textContent=l.m||l;
+function tPrint(lines){
+  if(!termOut) return;
+  lines.forEach(function(l){
+    var d=document.createElement('div');
+    if(l.c) d.className='t-'+l.c;
+    d.textContent=l.m;
     termOut.appendChild(d);
   });
   termOut.scrollTop=termOut.scrollHeight;
 }
-termIn.addEventListener('keydown',e=>{
-  if(e.key!=='Enter')return;
-  const raw=termIn.value.trim();
-  if(!raw)return;
-  const echo=document.createElement('div');
-  echo.style.color='rgba(0,255,65,.5)';
-  echo.textContent='maalik@sys:~$ '+raw;
-  termOut.appendChild(echo);
-  const cmd=raw.toLowerCase();
-  if(commands[cmd]){
-    const result=commands[cmd]();
-    if(result.length)termPrint(result);
-  } else {
-    termPrint([{t:'err',m:'command not found: '+raw+' (type "help")'}]);
-  }
-  termIn.value='';
-  termOut.scrollTop=termOut.scrollHeight;
-});
-
-/* ── CARD EXPAND ──────────────────────────────── */
-function toggleCard(id){
-  const card=document.getElementById(id);
-  const wasOpen=card.classList.contains('open');
-  document.querySelectorAll('.proj-card').forEach(c=>c.classList.remove('open'));
-  if(!wasOpen)card.classList.add('open');
-}
-function switchTab(tabsId,tabName){
-  const container=document.getElementById(tabsId);
-  const card=container.closest('.proj-card');
-  container.querySelectorAll('.proj-tab').forEach(t=>{
-    const fn=t.getAttribute('onclick')||'';
-    t.classList.toggle('active',fn.includes("'"+tabName+"'"));
+if(termIn){
+  termIn.addEventListener('keydown',function(e){
+    if(e.key!=='Enter') return;
+    var raw=termIn.value.trim();
+    if(!raw) return;
+    var echo=document.createElement('div');
+    echo.style.color='rgba(0,255,65,0.5)';
+    echo.textContent='maalik@sys:~$ '+raw;
+    if(termOut) termOut.appendChild(echo);
+    var fn=cmds[raw.toLowerCase()];
+    if(fn) tPrint(fn());
+    else tPrint([{c:'err',m:'not found: '+raw+' (type help)'}]);
+    termIn.value='';
+    if(termOut) termOut.scrollTop=termOut.scrollHeight;
   });
-  card.querySelectorAll('.proj-pane').forEach(p=>p.classList.toggle('active',p.dataset.tab===tabName));
 }
 
-/* ── CTRL EFFECTS ─────────────────────────────── */
+// ── CARD EXPAND
+function toggleCard(id){
+  var card=document.getElementById(id);
+  if(!card) return;
+  var wasOpen=card.classList.contains('open');
+  document.querySelectorAll('.proj-card').forEach(function(c){ c.classList.remove('open'); });
+  if(!wasOpen) card.classList.add('open');
+}
+
+// ── TAB SWITCH
+function swTab(tabsId,key){
+  var container=document.getElementById(tabsId);
+  if(!container) return;
+  var card=container.closest('.proj-card');
+  container.querySelectorAll('.tab').forEach(function(t){
+    var fn=t.getAttribute('onclick')||'';
+    t.classList.toggle('on', fn.indexOf("'"+key+"'")>-1);
+  });
+  card.querySelectorAll('.pane').forEach(function(p){
+    p.classList.toggle('on', p.dataset.k===key);
+  });
+}
+
+// ── SCROLL TO
+function scrollTo(id){
+  var el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+// ── TIMELINE REVEAL
+function revealTimeline(){
+  var items=document.querySelectorAll('.tl-item');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('shown'); });
+  },{threshold:0.15});
+  items.forEach(function(item,i){
+    item.style.transitionDelay=(i*0.1)+'s';
+    obs.observe(item);
+  });
+}
+
+// ── GLITCH
 function triggerGlitch(){
-  const o=document.getElementById('glitch-overlay');
-  o.style.background='#000';o.classList.add('active');
-  document.querySelectorAll('.proj-name,.hero-name,.sec-title,.tl-title').forEach(el=>{
-    const orig=el.textContent;const sc='#@!%&*X$01><';let t=0;
-    const iv=setInterval(()=>{
-      el.textContent=orig.split('').map(c=>Math.random()<.35?sc[Math.floor(Math.random()*sc.length)]:c).join('');
-      if(++t>10){clearInterval(iv);el.textContent=orig;}
+  var o=document.getElementById('glitch-overlay');
+  if(o){ o.classList.add('active'); setTimeout(function(){ o.classList.remove('active'); },600); }
+  document.querySelectorAll('.proj-name,.hero-name,.hero-name-out,.sec-title,.tl-title').forEach(function(el){
+    var orig=el.textContent;
+    var sc='#@!%&*X$01><';
+    var t=0;
+    var iv=setInterval(function(){
+      el.textContent=orig.split('').map(function(c){ return Math.random()<0.35?sc[Math.floor(Math.random()*sc.length)]:c; }).join('');
+      if(++t>10){ clearInterval(iv); el.textContent=orig; }
     },45);
   });
-  setTimeout(()=>o.classList.remove('active'),650);
 }
 
-let scanlinesOn=true;
+// ── SCANLINES
+var scOn=true;
 function toggleScanlines(){
-  scanlinesOn=!scanlinesOn;
-  document.querySelector('.scanlines').style.opacity=scanlinesOn?'1':'0';
-  document.getElementById('btnScan').classList.toggle('active-btn',scanlinesOn);
+  scOn=!scOn;
+  var sl=document.querySelector('.scanlines');
+  if(sl) sl.style.opacity=scOn?'1':'0';
+  var b=document.getElementById('btnScan');
+  if(b) b.classList.toggle('on',scOn);
 }
 
+// ── FLICKER
 function triggerFlicker(){
-  let f=0;
-  const iv=setInterval(()=>{
-    document.body.style.opacity=Math.random()<.35?'0.2':'1';
-    if(++f>18){clearInterval(iv);document.body.style.opacity='1';}
+  var f=0;
+  var iv=setInterval(function(){
+    document.body.style.opacity=Math.random()<0.35?'0.15':'1';
+    if(++f>20){ clearInterval(iv); document.body.style.opacity='1'; }
   },55);
 }
 
-let lightsOn=true;
+// ── LIGHTS
+var lightsOn=true;
 function toggleLights(){
   lightsOn=!lightsOn;
-  const intensity=lightsOn?1:0;
   document.documentElement.style.setProperty('--green',lightsOn?'#00ff41':'#00661a');
   document.documentElement.style.setProperty('--green-dim',lightsOn?'#00cc33':'#004d14');
-  document.querySelectorAll('.mbox-num,.hero-name,.footer-logo,.proj-idx')
-    .forEach(el=>el.style.textShadow=lightsOn?'':'none');
-  document.getElementById('btnLight').classList.toggle('active-btn',!lightsOn);
+  var b=document.getElementById('btnLight');
+  if(b) b.classList.toggle('on',!lightsOn);
 }
 
-/* ── SCROLL ACTIVE NAV ────────────────────────── */
-const navAnchors=document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll',()=>{
-  const y=window.scrollY;
-  let cur='hero';
-  ['hero','terminal-section','projects','skills-section','timeline-section','contact-section'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el&&y>=el.offsetTop-200)cur=id;
+// ── NAV SCROLL HIGHLIGHT
+window.addEventListener('scroll',function(){
+  var y=window.scrollY;
+  var sections=['hero','terminal-section','projects','skills-section','timeline-section','contact-section'];
+  var cur='hero';
+  sections.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el&&y>=el.offsetTop-200) cur=id;
   });
-  navAnchors.forEach(a=>a.classList.toggle('active-nav',a.getAttribu
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.classList.toggle('active-nav', a.getAttribute('href')==='#'+cur);
+  });
+},{passive:true});
+
+})(); // end IIFE
+</script>
+</body>
+</html>
