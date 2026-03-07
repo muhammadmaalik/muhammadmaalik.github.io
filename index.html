@@ -67,13 +67,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.9);bo
 .file-icon{font-size:10px;flex-shrink:0;color:var(--green-mid);}
 .file-folder{padding-left:0;}
 .file-child{padding-left:20px;}
-/* SYS MONITOR */
-.sys-monitor{}
-.monitor-row{margin-bottom:10px;}
-.monitor-label{font-size:9px;letter-spacing:.12em;color:var(--muted);margin-bottom:3px;display:flex;justify-content:space-between;}
-.monitor-bar{height:4px;background:var(--green-dark);border-radius:1px;overflow:hidden;}
-.monitor-fill{height:100%;background:var(--green);border-radius:1px;transition:width 1s ease;box-shadow:0 0 6px var(--green);}
-.monitor-val{font-family:var(--ff-display);font-size:9px;color:var(--green);}
+/* REAL SYS MONITOR */
+.sysmon-row{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(0,255,65,.05);}
+.sysmon-key{font-size:9px;letter-spacing:.12em;color:var(--muted);}
+.sysmon-val{font-size:10px;color:var(--green);font-family:var(--ff-display);}
+.sysmon-val.warn{color:var(--amber);}
+.sysmon-val.ok{color:var(--green);}
+.battery-bar{width:100%;height:3px;background:var(--green-dark);margin-top:4px;border-radius:1px;overflow:hidden;}
+.battery-fill{height:100%;background:var(--green);border-radius:1px;transition:width .5s;}
 /* MINI CLOCK */
 .mini-clock{font-family:var(--ff-crt);font-size:28px;color:var(--green);text-align:center;padding:12px 0;text-shadow:0 0 10px rgba(0,255,65,.4);letter-spacing:.05em;}
 .mini-date{font-size:9px;letter-spacing:.15em;color:var(--muted);text-align:center;margin-top:-8px;margin-bottom:8px;}
@@ -191,19 +192,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.9);bo
 .ext-link::before{content:'↗';font-size:11px;}
 /* SKILLS RADAR */
 #skills-section{}
-.skills-layout{display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:start;}
-.skills-list{}
-.skill-cat{margin-bottom:24px;}
-.skill-cat-title{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-mid);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.skill-cat-title::after{content:'';flex:1;height:1px;background:var(--green-dark);}
-.skill-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
-.skill-name{font-size:11px;color:var(--green-dim);width:130px;flex-shrink:0;}
-.skill-bar{flex:1;height:3px;background:var(--green-dark);border-radius:1px;overflow:hidden;}
-.skill-fill{height:100%;background:linear-gradient(to right,var(--green-mid),var(--green));border-radius:1px;transform:scaleX(0);transform-origin:left;transition:transform .8s ease;}
-.skill-fill.revealed{transform:scaleX(1);}
-.skill-pct{font-size:9px;color:var(--muted);width:30px;text-align:right;flex-shrink:0;}
-/* RADAR CANVAS */
-#radar-canvas{width:260px;height:260px;}
+.skill-fill{}
+/* LOGO GRID */
+.stack-group-title{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-mid);margin:28px 0 14px;display:flex;align-items:center;gap:10px;}
+.stack-group-title::after{content:'';flex:1;height:1px;background:var(--green-dark);}
+.logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-bottom:8px;}
+.logo-card{background:var(--panel);border:1px solid var(--green-dark);padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;transition:border-color .25s,background .25s;cursor:default;}
+.logo-card:hover{border-color:var(--green-mid);background:var(--surface);}
+.logo-card img{width:48px;height:48px;object-fit:contain;filter:none;transition:transform .2s;}
+.logo-card:hover img{transform:scale(1.08);}
+.logo-card span{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.4;}
+.logo-card-text{justify-content:center;}
+.logo-text-big{font-size:40px;line-height:1;}
 /* TIMELINE */
 .timeline{position:relative;padding-left:28px;}
 .timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--green-dark);}
@@ -305,28 +305,20 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
     </div>
   </div>
   <div class="sidebar-section">
-    <div class="sidebar-title">// System Monitor</div>
-    <div class="sys-monitor">
-      <div class="monitor-row">
-        <div class="monitor-label"><span>CPU</span><span class="monitor-val" id="cpu-val">0%</span></div>
-        <div class="monitor-bar"><div class="monitor-fill" id="cpu-bar" style="width:0%"></div></div>
-      </div>
-      <div class="monitor-row">
-        <div class="monitor-label"><span>RAM</span><span class="monitor-val" id="ram-val">0%</span></div>
-        <div class="monitor-bar"><div class="monitor-fill" id="ram-bar" style="width:0%"></div></div>
-      </div>
-      <div class="monitor-row">
-        <div class="monitor-label"><span>FEA</span><span class="monitor-val" id="fea-val">0%</span></div>
-        <div class="monitor-bar"><div class="monitor-fill" id="fea-bar" style="width:0%"></div></div>
-      </div>
-      <div class="monitor-row">
-        <div class="monitor-label"><span>CFD</span><span class="monitor-val" id="cfd-val">0%</span></div>
-        <div class="monitor-bar"><div class="monitor-fill" id="cfd-bar" style="width:0%"></div></div>
-      </div>
-      <div class="monitor-row">
-        <div class="monitor-label"><span>NN</span><span class="monitor-val" id="nn-val">0%</span></div>
-        <div class="monitor-bar"><div class="monitor-fill" id="nn-bar" style="width:0%"></div></div>
-      </div>
+    <div class="sidebar-title">// Your System</div>
+    <div id="real-sysmon">
+      <div class="sysmon-row"><span class="sysmon-key">STATUS</span><span class="sysmon-val ok" id="sm-online">ONLINE</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">BATTERY</span><span class="sysmon-val" id="sm-bat">--</span></div>
+      <div class="battery-bar"><div class="battery-fill" id="sm-bat-bar" style="width:0%"></div></div>
+      <div class="sysmon-row" style="margin-top:4px"><span class="sysmon-key">CHARGING</span><span class="sysmon-val" id="sm-charging">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">NETWORK</span><span class="sysmon-val" id="sm-net">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">DOWNLINK</span><span class="sysmon-val" id="sm-dl">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">JS HEAP</span><span class="sysmon-val" id="sm-heap">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">CPU CORES</span><span class="sysmon-val" id="sm-cores">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">SCREEN</span><span class="sysmon-val" id="sm-screen">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">DPI RATIO</span><span class="sysmon-val" id="sm-dpi">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">TIMEZONE</span><span class="sysmon-val" id="sm-tz" style="font-size:8px">--</span></div>
+      <div class="sysmon-row"><span class="sysmon-key">PLATFORM</span><span class="sysmon-val" id="sm-platform" style="font-size:8px">--</span></div>
     </div>
   </div>
   <div class="sidebar-section">
@@ -374,7 +366,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
     <div class="hero-cta-row">
       <a class="btn-primary" href="#projects">View Projects</a>
       <a class="btn-ghost" href="#terminal-section">Open Terminal</a>
-      <a class="btn-ghost" href="mailto:umermaalik24@gmail.com">Contact</a>
+      <a class="btn-ghost" href="/cdn-cgi/l/email-protection#fd8890988f909c9c919496cfc9bd9a909c9491d39e9290">Contact</a>
     </div>
   </div>
 
@@ -599,37 +591,34 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
 <!-- SKILLS -->
 <section id="skills-section" class="sec-wrap">
   <div class="sec-hdr"><span class="sec-num">02 //</span><h2 class="sec-title">Technical Stack</h2><div class="sec-line"></div></div>
-  <div class="skills-layout">
-    <div class="skills-list">
-      <div class="skill-cat">
-        <div class="skill-cat-title">CAD / Design</div>
-        <div class="skill-bar-row"><span class="skill-name">Fusion 360</span><div class="skill-bar"><div class="skill-fill" style="--w:.95"></div></div><span class="skill-pct">95%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">Autodesk Inventor</span><div class="skill-bar"><div class="skill-fill" style="--w:.88"></div></div><span class="skill-pct">88%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">SolidWorks</span><div class="skill-bar"><div class="skill-fill" style="--w:.80"></div></div><span class="skill-pct">80%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">Solid Edge</span><div class="skill-bar"><div class="skill-fill" style="--w:.75"></div></div><span class="skill-pct">75%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">Onshape / Creo</span><div class="skill-bar"><div class="skill-fill" style="--w:.70"></div></div><span class="skill-pct">70%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">Siemens NX</span><div class="skill-bar"><div class="skill-fill" style="--w:.60"></div></div><span class="skill-pct">60%</span></div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-title">Simulation</div>
-        <div class="skill-bar-row"><span class="skill-name">Ansys Mechanical</span><div class="skill-bar"><div class="skill-fill" style="--w:.90"></div></div><span class="skill-pct">90%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">Ansys Fluent CFD</span><div class="skill-bar"><div class="skill-fill" style="--w:.85"></div></div><span class="skill-pct">85%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">Open Rocket</span><div class="skill-bar"><div class="skill-fill" style="--w:.88"></div></div><span class="skill-pct">88%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">SimScale</span><div class="skill-bar"><div class="skill-fill" style="--w:.65"></div></div><span class="skill-pct">65%</span></div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-title">Programming</div>
-        <div class="skill-bar-row"><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-fill" style="--w:.82"></div></div><span class="skill-pct">82%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">PyTorch</span><div class="skill-bar"><div class="skill-fill" style="--w:.70"></div></div><span class="skill-pct">70%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">KiCAD</span><div class="skill-bar"><div class="skill-fill" style="--w:.72"></div></div><span class="skill-pct">72%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">LaTeX</span><div class="skill-bar"><div class="skill-fill" style="--w:.78"></div></div><span class="skill-pct">78%</span></div>
-        <div class="skill-bar-row"><span class="skill-name">Qiskit</span><div class="skill-bar"><div class="skill-fill" style="--w:.50"></div></div><span class="skill-pct">50%</span></div>
-      </div>
-    </div>
-    <div>
-      <canvas id="radar-canvas"></canvas>
-      <div style="text-align:center;font-size:9px;letter-spacing:.15em;color:var(--muted);margin-top:8px;">// competency radar</div>
-    </div>
+
+  <div class="stack-group-title">CAD / Design</div>
+  <div class="logo-grid">
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Autodesk_Fusion_360_logo.png/240px-Autodesk_Fusion_360_logo.png" alt="Fusion 360" onerror="this.style.display='none'"/><span>Fusion 360</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Autodesk_Inventor_2021_Logo.png/240px-Autodesk_Inventor_2021_Logo.png" alt="Inventor" onerror="this.style.display='none'"/><span>Inventor</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/SolidWorks_Logo.svg/320px-SolidWorks_Logo.svg.png" alt="SolidWorks" onerror="this.style.display='none'"/><span>SolidWorks</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Siemens_Solid_Edge_Logo_2019.png/240px-Siemens_Solid_Edge_Logo_2019.png" alt="Solid Edge" onerror="this.style.display='none'"/><span>Solid Edge</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Onshape_logo.png/240px-Onshape_logo.png" alt="Onshape" onerror="this.style.display='none'"/><span>Onshape</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/PTC_Creo_Parametric_logo.png/240px-PTC_Creo_Parametric_logo.png" alt="Creo" onerror="this.style.display='none'"/><span>Creo</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Siemens_NX_12_Logo.png/240px-Siemens_NX_12_Logo.png" alt="Siemens NX" onerror="this.style.display='none'"/><span>Siemens NX</span></div>
+  </div>
+
+  <div class="stack-group-title">Simulation & Analysis</div>
+  <div class="logo-grid">
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Ansys_logo_2019.png/320px-Ansys_logo_2019.png" alt="Ansys Mechanical" onerror="this.style.display='none'"/><span>Ansys Mechanical</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Ansys_logo_2019.png/320px-Ansys_logo_2019.png" alt="Ansys Fluent" onerror="this.style.display='none'"/><span>Ansys Fluent</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/SimScale_Logo.png/320px-SimScale_Logo.png" alt="SimScale" onerror="this.style.display='none'"/><span>SimScale</span></div>
+    <div class="logo-card logo-card-text"><span class="logo-text-big">🚀</span><span>Open Rocket</span></div>
+  </div>
+
+  <div class="stack-group-title">Programming & Software</div>
+  <div class="logo-grid">
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/240px-Python-logo-notext.svg.png" alt="Python" onerror="this.style.display='none'"/><span>Python</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/PyTorch_logo_icon.svg/240px-PyTorch_logo_icon.svg.png" alt="PyTorch" onerror="this.style.display='none'"/><span>PyTorch</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Qiskit-Logo.svg/320px-Qiskit-Logo.svg.png" alt="Qiskit" onerror="this.style.display='none'"/><span>Qiskit</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/KiCad-Logo.svg/240px-KiCad-Logo.svg.png" alt="KiCAD" onerror="this.style.display='none'"/><span>KiCAD</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/LaTeX_logo.svg/320px-LaTeX_logo.svg.png" alt="LaTeX" onerror="this.style.display='none'"/><span>LaTeX</span></div>
+    <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/240px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png" alt="MS Office" onerror="this.style.display='none'"/><span>MS Office</span></div>
   </div>
 </section>
 
@@ -674,7 +663,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
   <div class="contact-grid">
     <div class="contact-info">
       <div class="contact-label">Email</div>
-      <div class="contact-val"><a href="mailto:umermaalik24@gmail.com">umermaalik24@gmail.com</a></div>
+      <div class="contact-val"><a href="/cdn-cgi/l/email-protection#bfcad2dacdd2deded3d6d48d8bffd8d2ded6d391dcd0d2"><span class="__cf_email__" data-cfemail="cbbea6aeb9a6aaaaa7a2a0f9ff8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></div>
       <div class="contact-label">LinkedIn</div>
       <div class="contact-val"><a href="https://linkedin.com/in/muhammad-maalik/" target="_blank">linkedin.com/in/Muhammad-Maalik</a></div>
       <div class="contact-label">Location</div>
@@ -708,7 +697,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:32p
   <button class="ctrl-btn" id="btnLight" onclick="toggleLights()"><span class="cd"></span>LIGHTS</button>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ───────────────────────────────────── */
 const cur=document.getElementById('cursor'),trail=document.getElementById('trail');
 let mx=0,my=0;
@@ -729,23 +718,95 @@ function updateClock(){
 }
 setInterval(updateClock,1000);updateClock();
 
-/* ── SYS MONITOR ──────────────────────────────── */
-function randRange(a,b){return Math.floor(Math.random()*(b-a)+a);}
-const monitors=[
-  {bar:'cpu-bar',val:'cpu-val',base:45,range:30},
-  {bar:'ram-bar',val:'ram-val',base:55,range:20},
-  {bar:'fea-bar',val:'fea-val',base:30,range:50},
-  {bar:'cfd-bar',val:'cfd-val',base:20,range:60},
-  {bar:'nn-bar', val:'nn-val', base:10,range:70},
-];
-function updateMonitors(){
-  monitors.forEach(m=>{
-    const v=Math.min(99,m.base+randRange(0,m.range));
-    document.getElementById(m.bar).style.width=v+'%';
-    document.getElementById(m.val).textContent=v+'%';
-  });
+/* ── REAL SYSTEM MONITOR ─────────────────────── */
+async function initRealMonitor(){
+  // Online status
+  function setOnline(){
+    const el=document.getElementById('sm-online');
+    if(el){el.textContent=navigator.onLine?'ONLINE':'OFFLINE';el.className='sysmon-val '+(navigator.onLine?'ok':'warn');}
+  }
+  setOnline();
+  window.addEventListener('online',setOnline);
+  window.addEventListener('offline',setOnline);
+
+  // CPU cores
+  const cores=document.getElementById('sm-cores');
+  if(cores)cores.textContent=navigator.hardwareConcurrency||'--';
+
+  // Screen
+  const screen_el=document.getElementById('sm-screen');
+  if(screen_el)screen_el.textContent=screen.width+'×'+screen.height;
+
+  // DPI
+  const dpi=document.getElementById('sm-dpi');
+  if(dpi)dpi.textContent=(window.devicePixelRatio||1).toFixed(1)+'x';
+
+  // Timezone
+  const tz=document.getElementById('sm-tz');
+  if(tz)tz.textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||'--';
+
+  // Platform
+  const plat=document.getElementById('sm-platform');
+  if(plat){
+    const ua=navigator.userAgent;
+    let p='Unknown';
+    if(ua.includes('Win'))p='Windows';
+    else if(ua.includes('Mac'))p='macOS';
+    else if(ua.includes('Linux'))p='Linux';
+    else if(ua.includes('Android'))p='Android';
+    else if(ua.includes('iPhone')||ua.includes('iPad'))p='iOS';
+    plat.textContent=p;
+  }
+
+  // JS Heap (Chrome only)
+  function updateHeap(){
+    const el=document.getElementById('sm-heap');
+    if(el&&performance.memory){
+      const mb=(performance.memory.usedJSHeapSize/1048576).toFixed(1);
+      el.textContent=mb+' MB';
+    } else if(el){ el.textContent='N/A'; }
+  }
+  updateHeap();setInterval(updateHeap,2000);
+
+  // Network info
+  const conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  const netEl=document.getElementById('sm-net');
+  const dlEl=document.getElementById('sm-dl');
+  if(conn){
+    if(netEl)netEl.textContent=(conn.effectiveType||conn.type||'--').toUpperCase();
+    if(dlEl)dlEl.textContent=conn.downlink?conn.downlink+' Mbps':'--';
+    conn.addEventListener('change',()=>{
+      if(netEl)netEl.textContent=(conn.effectiveType||conn.type||'--').toUpperCase();
+      if(dlEl)dlEl.textContent=conn.downlink?conn.downlink+' Mbps':'--';
+    });
+  } else {
+    if(netEl)netEl.textContent='CONNECTED';
+    if(dlEl)dlEl.textContent='N/A';
+  }
+
+  // Battery
+  if(navigator.getBattery){
+    const bat=await navigator.getBattery();
+    function updateBat(){
+      const pct=Math.round(bat.level*100);
+      const el=document.getElementById('sm-bat');
+      const bar=document.getElementById('sm-bat-bar');
+      const chg=document.getElementById('sm-charging');
+      if(el){el.textContent=pct+'%';el.className='sysmon-val '+(pct<20?'warn':'ok');}
+      if(bar)bar.style.width=pct+'%';
+      if(chg)chg.textContent=bat.charging?'YES ⚡':'NO';
+    }
+    updateBat();
+    bat.addEventListener('levelchange',updateBat);
+    bat.addEventListener('chargingchange',updateBat);
+  } else {
+    const el=document.getElementById('sm-bat');
+    if(el)el.textContent='N/A';
+    const chg=document.getElementById('sm-charging');
+    if(chg)chg.textContent='N/A';
+  }
 }
-setInterval(updateMonitors,1800);updateMonitors();
+initRealMonitor();
 
 /* ── BOOT SEQUENCE ────────────────────────────── */
 const bootLines=[
@@ -924,23 +985,7 @@ function drawRadar(){
 }
 drawRadar();
 
-/* ── SKILL BARS REVEAL ────────────────────────── */
-function revealSkills(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.querySelectorAll('.skill-fill').forEach((f,i)=>{
-          setTimeout(()=>{
-            f.style.width=(parseFloat(f.style.getPropertyValue('--w'))*100)+'%';
-            f.classList.add('revealed');
-          },i*60);
-        });
-        obs.unobserve(e.target);
-      }
-    });
-  },{threshold:.2});
-  document.querySelectorAll('.skill-cat').forEach(c=>obs.observe(c));
-}
+function revealSkills(){} // logo grid — no bars needed
 
 /* ── TIMELINE REVEAL ──────────────────────────── */
 function revealTimeline(){
@@ -1093,14 +1138,4 @@ window.addEventListener('scroll',()=>{
     const el=document.getElementById(id);
     if(el&&y>=el.offsetTop-200)cur=id;
   });
-  navAnchors.forEach(a=>a.classList.toggle('active-nav',a.getAttribute('href')==='#'+cur));
-},{ passive:true });
-
-/* ── SIDEBAR FILE CLICK ───────────────────────── */
-function scrollTo2(id){
-  const el=document.getElementById(id);
-  if(el)el.scrollIntoView({behavior:'smooth'});
-}
-</script>
-</body>
-</html>
+  navAnchors.forEach(a=>a.classList.toggle('active-nav',a.getAttribu
