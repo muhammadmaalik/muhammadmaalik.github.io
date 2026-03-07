@@ -16,6 +16,42 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--black);color:var(--green);font-family:var(--ff-mono);font-size:13px;line-height:1.6;overflow-x:hidden;cursor:none;}
+/* BLINK */
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.blink{animation:blink 1s step-end infinite;}
+/* BRACKET DECORATOR */
+.bracket-l::before{content:'[';color:var(--green-mid);margin-right:4px;}
+.bracket-r::after{content:']';color:var(--green-mid);margin-left:4px;}
+/* SCAN SWEEP on section hover */
+.sec-wrap{position:relative;}
+.sec-wrap::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--green),transparent);opacity:0;transition:opacity .3s;pointer-events:none;}
+.sec-wrap:hover::after{opacity:0.4;}
+/* CORNER PULSE on hero */
+.corner{position:absolute;width:36px;height:36px;opacity:.4;}
+.c-tl::before,.c-tr::before,.c-bl::before,.c-br::before{content:'';position:absolute;width:4px;height:4px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+.c-tl::before{bottom:-2px;right:-2px;}
+.c-tr::before{bottom:-2px;left:-2px;}
+.c-bl::before{top:-2px;right:-2px;}
+.c-br::before{top:-2px;left:-2px;}
+/* FILE ICON color */
+.file-icon{font-size:10px;color:var(--green);min-width:12px;}
+/* HERO SYS LINE with cursor blink */
+.hero-sys::after{content:'█';color:var(--green);animation:blink 1s step-end infinite;font-size:10px;}
+/* PROJ TOGGLE larger, more visible */
+.proj-toggle{font-size:22px;color:var(--green-mid);transition:transform .3s,color .3s,text-shadow .3s;font-family:var(--ff-mono);width:28px;text-align:center;line-height:1;}
+.proj-card.open .proj-toggle{transform:rotate(45deg);color:var(--green);text-shadow:0 0 10px var(--green);}
+/* TL dot bigger */
+.tl-dot{position:absolute;left:-25px;top:5px;width:10px;height:10px;border:1px solid var(--green-mid);background:var(--black);transition:all .3s;}
+.tl-item:hover .tl-dot{background:var(--green);box-shadow:0 0 12px var(--green);border-color:var(--green);}
+/* NAV active indicator */
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 6px var(--green);}
+/* CTRL dot */
+.cd{width:6px;height:6px;border-radius:50%;background:var(--green-mid);flex-shrink:0;transition:all .2s;}
+.ctrl-btn:hover .cd,.ctrl-btn.on .cd{background:var(--green);box-shadow:0 0 8px var(--green);}
+/* MBOX hover glow */
+.mbox:hover{border-color:var(--green-mid);background:rgba(0,255,65,.02);}
+/* LOGO card img placeholder text */
+.logo-card-fb{font-family:var(--ff-display);font-size:8px;color:var(--green-mid);text-align:center;padding:10px 4px 4px;line-height:1.5;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:var(--green-mid);}
 
 /* BOOT */
@@ -30,9 +66,9 @@ body{background:var(--black);color:var(--green);font-family:var(--ff-mono);font-
 /* OVERLAYS */
 .scanlines{position:fixed;inset:0;pointer-events:none;z-index:9990;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:9989;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.75) 100%);}
-.cursor{position:fixed;width:16px;height:16px;border:1px solid var(--green);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:screen;}
-.cursor::before{content:'';position:absolute;top:50%;left:50%;width:3px;height:3px;background:var(--green);transform:translate(-50%,-50%);}
-.cursor-trail{position:fixed;width:4px;height:4px;background:var(--green);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);opacity:.35;transition:left .12s,top .12s;}
+.cursor{position:fixed;width:18px;height:18px;border:1px solid var(--green);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:screen;left:-100px;top:-100px;box-shadow:0 0 6px rgba(0,255,65,.4);}
+.cursor::before{content:'';position:absolute;top:50%;left:50%;width:4px;height:4px;background:var(--green);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 4px var(--green);}
+.cursor-trail{position:fixed;width:6px;height:6px;background:var(--green);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);opacity:.25;transition:left .15s ease,top .15s ease;left:-100px;top:-100px;}
 #glitch-overlay{position:fixed;inset:0;z-index:8000;pointer-events:none;opacity:0;}
 #glitch-overlay.active{animation:fullGlitch .55s forwards;}
 @keyframes fullGlitch{0%{opacity:0}10%{opacity:.85;filter:hue-rotate(90deg)}20%{opacity:.2}35%{opacity:.7;filter:hue-rotate(180deg) saturate(3)}50%{opacity:.05}65%{opacity:.5;filter:invert(1)}80%{opacity:.1}100%{opacity:0}}
@@ -76,7 +112,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.9);bo
 #main{overflow-y:auto;}
 
 /* HERO */
-#hero{min-height:calc(100vh - 44px);display:grid;grid-template-columns:1fr 320px;position:relative;overflow:hidden;}
+#hero{min-height:calc(100vh - 44px);display:grid;grid-template-columns:1fr 320px;position:relative;overflow:hidden;} /* corners use position:relative on hero */
 #matrix-canvas{position:absolute;inset:0;opacity:.06;z-index:0;}
 .hero-left{display:flex;flex-direction:column;justify-content:center;padding:60px 48px;position:relative;z-index:1;}
 .hero-sys{font-size:10px;letter-spacing:.25em;color:var(--muted);margin-bottom:20px;}
@@ -113,7 +149,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.9);bo
 .sec-line{flex:1;height:1px;background:var(--green-dark);}
 
 /* TERMINAL */
-#terminal-box{background:#000;border:1px solid var(--green-dark);}
+#terminal-box{background:#000;border:1px solid var(--green-dark);position:relative;}#terminal-box::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,255,65,.015) 3px,rgba(0,255,65,.015) 4px);pointer-events:none;z-index:1;}
 .term-bar{background:var(--panel);border-bottom:1px solid var(--green-dark);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;}
 .term-dots{display:flex;gap:6px;}
 .td{width:10px;height:10px;border-radius:50%;}
@@ -234,11 +270,12 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
 
 <!-- BOOT -->
 <div id="boot">
-  <p class="boot-lbl">SYSTEM OFFLINE</p>
+  <p class="boot-lbl">// SYSTEM OFFLINE <span class="blink">█</span></p>
   <button class="power-btn" id="powerBtn" type="button">
     <svg viewBox="0 0 24 24"><path d="M12 2v6M4.93 5.93A9 9 0 1 0 19.07 5.93"/></svg>
   </button>
   <p class="boot-lbl">MAALIK.SYS v2.6 — CLICK TO INITIALIZE</p>
+  <p style="font-size:9px;letter-spacing:.2em;color:rgba(0,255,65,.2);">[ AUTONOMOUS SYSTEMS · FEA/CFD · NEURAL NETWORKS ]</p>
   <div id="boot-log"></div>
 </div>
 
@@ -252,8 +289,9 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
     <a href="#timeline-section">Experience</a>
     <a href="#contact-section">Contact</a>
   </div>
-  <div class="sys-status"><div class="status-dot"></div><span id="nav-clock">--:--:--</span></div>
+  <div class="sys-status"><div class="status-dot"></div><span id="nav-clock">--:--:--</span><span class="blink" style="margin-left:4px;color:var(--green);font-size:8px;">▮</span></div>
 </nav>
+<div style="position:fixed;top:44px;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--green),transparent);opacity:0.15;z-index:499;pointer-events:none;"></div>
 
 <div id="app">
 <!-- SIDEBAR -->
@@ -263,19 +301,19 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
     <div class="mini-date" id="sb-date">LOADING</div>
   </div>
   <div class="sb-sec">
-    <div class="sb-title">// File Explorer</div>
-    <div class="file-item" onclick="scrollTo('hero')"><span class="file-icon">▶</span> MAALIK.SYS/</div>
-    <div class="file-item file-child" onclick="scrollTo('hero')"><span class="file-icon">◆</span> index.html</div>
-    <div class="file-item file-child" onclick="scrollTo('projects')"><span class="file-icon">◆</span> projects/</div>
-    <div class="file-item file-child2" onclick="scrollTo('projects')"><span class="file-icon">·</span> jet.sys</div>
-    <div class="file-item file-child2" onclick="scrollTo('projects')"><span class="file-icon">·</span> tvc.sys</div>
-    <div class="file-item file-child2" onclick="scrollTo('projects')"><span class="file-icon">·</span> h2engine.sys</div>
-    <div class="file-item file-child" onclick="scrollTo('skills-section')"><span class="file-icon">◆</span> skills.json</div>
-    <div class="file-item file-child" onclick="scrollTo('timeline-section')"><span class="file-icon">◆</span> experience.log</div>
-    <div class="file-item file-child" onclick="scrollTo('contact-section')"><span class="file-icon">◆</span> contact.cfg</div>
+    <div class="sb-title">◈ File Explorer</div>
+    <div class="file-item" onclick="goTo('hero')"><span class="file-icon">▶</span> MAALIK.SYS/</div>
+    <div class="file-item file-child" onclick="goTo('hero')"><span class="file-icon">◆</span> index.html</div>
+    <div class="file-item file-child" onclick="goTo('projects')"><span class="file-icon">◆</span> projects/</div>
+    <div class="file-item file-child2" onclick="goTo('projects')"><span class="file-icon">·</span> jet.sys</div>
+    <div class="file-item file-child2" onclick="goTo('projects')"><span class="file-icon">·</span> tvc.sys</div>
+    <div class="file-item file-child2" onclick="goTo('projects')"><span class="file-icon">·</span> h2engine.sys</div>
+    <div class="file-item file-child" onclick="goTo('skills-section')"><span class="file-icon">◆</span> skills.json</div>
+    <div class="file-item file-child" onclick="goTo('timeline-section')"><span class="file-icon">◆</span> experience.log</div>
+    <div class="file-item file-child" onclick="goTo('contact-section')"><span class="file-icon">◆</span> contact.cfg</div>
   </div>
   <div class="sb-sec">
-    <div class="sb-title">// Your System</div>
+    <div class="sb-title">◈ Your System</div>
     <div class="sysmon-row"><span class="sysmon-key">STATUS</span><span class="sysmon-val" id="sm-online">--</span></div>
     <div class="sysmon-row"><span class="sysmon-key">BATTERY</span><span class="sysmon-val" id="sm-bat">--</span></div>
     <div class="bat-bar"><div class="bat-fill" id="sm-bat-bar" style="width:0"></div></div>
@@ -290,7 +328,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
     <div class="sysmon-row"><span class="sysmon-key">PLATFORM</span><span class="sysmon-val" id="sm-plat" style="font-size:8px">--</span></div>
   </div>
   <div class="sb-sec" style="flex:1;">
-    <div class="sb-title">// Quick Info</div>
+    <div class="sb-title">◈ Quick Info</div>
     <div class="loc-block">
       <div><span>LAT  </span>40.9176 N</div>
       <div><span>LON  </span>73.1237 W</div>
@@ -311,7 +349,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
   <div class="corner c-tl"></div><div class="corner c-tr"></div>
   <div class="corner c-bl"></div><div class="corner c-br"></div>
   <div class="hero-left">
-    <p class="hero-sys">[ PORTFOLIO.INIT ] // ME &amp; PHYSICS // STONY BROOK UNIVERSITY</p>
+    <p class="hero-sys"><span style="color:var(--green)">▶</span> [ PORTFOLIO.INIT ] // ME &amp; PHYSICS // STONY BROOK UNIVERSITY</p>
     <div class="hero-name">MUHAMMAD</div>
     <div class="hero-name-out">MAALIK</div>
     <p class="hero-tag">&gt; Autonomous systems. FEA/CFD. Neural networks. Hardware that thinks.</p>
@@ -324,9 +362,10 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
     <div class="cta-row">
       <a class="btn-p" href="#projects">View Projects</a>
       <a class="btn-g" href="#terminal-section">Open Terminal</a>
-      <a class="btn-g" href="mailto:umermaalik24@gmail.com">Contact</a>
+      <a class="btn-g" href="/cdn-cgi/l/email-protection#6f1a020a1d020e0e0306045d5b2f08020e0603410c0002">Contact</a>
     </div>
   </div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--green-mid),transparent);opacity:0.3;z-index:2;"></div>
   <div class="hero-right">
     <canvas id="wireframe-canvas"></canvas>
     <div class="wf-label">// rotating wireframe</div>
@@ -340,7 +379,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
 
 <!-- TERMINAL -->
 <section id="terminal-section" class="sec-wrap">
-  <div class="sec-hdr"><span class="sec-num">00 //</span><h2 class="sec-title">Interactive Terminal</h2><div class="sec-line"></div></div>
+  <div class="sec-hdr"><span class="sec-num bracket-l bracket-r">00 //</span><h2 class="sec-title">Interactive Terminal</h2><div class="sec-line"></div></div>
   <div id="terminal-box">
     <div class="term-bar">
       <div class="term-dots"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div></div>
@@ -353,7 +392,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
       <div>&nbsp;</div>
     </div>
     <div class="term-in-row">
-      <span class="term-prompt">maalik@sys:~$&nbsp;</span>
+      <span class="term-prompt">maalik@sys:~$&nbsp;</span><span class="blink" style="color:var(--green);margin-right:4px;">▮</span>
       <input id="term-input" type="text" autocomplete="off" spellcheck="false" placeholder="enter command..."/>
     </div>
   </div>
@@ -361,7 +400,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
 
 <!-- PROJECTS -->
 <section id="projects" class="sec-wrap">
-  <div class="sec-hdr"><span class="sec-num">01 //</span><h2 class="sec-title">Project Files</h2><div class="sec-line"></div><span style="font-size:9px;letter-spacing:.13em;color:var(--muted)">CLICK ROW TO EXPAND</span></div>
+  <div class="sec-hdr"><span class="sec-num bracket-l bracket-r">01 //</span><h2 class="sec-title">Project Files</h2><div class="sec-line"></div><span style="font-size:9px;letter-spacing:.13em;color:var(--muted)">CLICK ROW TO EXPAND</span></div>
   <div class="proj-grid">
 
     <div class="proj-card" id="card1">
@@ -467,7 +506,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
 
 <!-- SKILLS -->
 <section id="skills-section" class="sec-wrap">
-  <div class="sec-hdr"><span class="sec-num">02 //</span><h2 class="sec-title">Technical Stack</h2><div class="sec-line"></div></div>
+  <div class="sec-hdr"><span class="sec-num bracket-l bracket-r">02 //</span><h2 class="sec-title">Technical Stack</h2><div class="sec-line"></div></div>
   <div class="sg-title">CAD / Design</div>
   <div class="logo-grid">
     <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Autodesk_Fusion_360_logo.png/240px-Autodesk_Fusion_360_logo.png" alt="Fusion 360" onerror="this.style.display='none'"/><span>Fusion 360</span></div>
@@ -497,7 +536,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
 
 <!-- TIMELINE -->
 <section id="timeline-section" class="sec-wrap">
-  <div class="sec-hdr"><span class="sec-num">03 //</span><h2 class="sec-title">Experience Log</h2><div class="sec-line"></div></div>
+  <div class="sec-hdr"><span class="sec-num bracket-l bracket-r">03 //</span><h2 class="sec-title">Experience Log</h2><div class="sec-line"></div></div>
   <div class="timeline">
     <div class="tl-item" id="tl0"><div class="tl-dot"></div><div class="tl-date">Jan 2026 — Present</div><div class="tl-title">Autodesk Ambassador</div><div class="tl-org">Autodesk · Stony Brook, NY</div><div class="tl-desc">Hosted interdisciplinary workshops for ME, EE, and Arts students in Fusion 360, FEA, and rendering techniques.</div></div>
     <div class="tl-item" id="tl1"><div class="tl-dot"></div><div class="tl-date">Sep 2025 — Present</div><div class="tl-title">FEA Lead</div><div class="tl-org">Stony Brook Robotics</div><div class="tl-desc">Spearheading structural analysis (Ansys Mechanical) for the MATE Rover chassis and robotic claw. CFD-optimised hydrodynamic profile via Ansys Fluent.</div></div>
@@ -508,10 +547,10 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
 
 <!-- CONTACT -->
 <section id="contact-section" class="sec-wrap">
-  <div class="sec-hdr"><span class="sec-num">04 //</span><h2 class="sec-title">Contact</h2><div class="sec-line"></div></div>
+  <div class="sec-hdr"><span class="sec-num bracket-l bracket-r">04 //</span><h2 class="sec-title">Contact</h2><div class="sec-line"></div></div>
   <div class="contact-grid">
     <div>
-      <div class="c-label">Email</div><div class="c-val"><a href="mailto:umermaalik24@gmail.com">umermaalik24@gmail.com</a></div>
+      <div class="c-label">Email</div><div class="c-val"><a href="/cdn-cgi/l/email-protection#bdc8d0d8cfd0dcdcd1d4d68f89fddad0dcd4d193ded2d0"><span class="__cf_email__" data-cfemail="c1b4aca4b3aca0a0ada8aaf3f581a6aca0a8adefa2aeac">[email&#160;protected]</span></a></div>
       <div class="c-label">LinkedIn</div><div class="c-val"><a href="https://linkedin.com/in/muhammad-maalik/" target="_blank">linkedin.com/in/Muhammad-Maalik</a></div>
       <div class="c-label">Location</div><div class="c-val">Stony Brook, NY</div>
       <div class="c-label">Institution</div><div class="c-val">Stony Brook University · ME &amp; Physics · Class of 2030</div>
@@ -523,6 +562,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
   </div>
 </section>
 
+<div style="height:1px;background:linear-gradient(to right,transparent,var(--green-mid),transparent);opacity:0.4;"></div>
 <footer>
   <div class="footer-logo">MAALIK.SYS</div>
   <div style="font-size:10px;color:var(--muted)">Muhammad Maalik · ME &amp; Physics · Stony Brook University</div>
@@ -541,7 +581,7 @@ footer{background:var(--deep);border-top:1px solid var(--green-dark);padding:28p
   <button class="ctrl-btn" id="btnLight" onclick="toggleLights()"><span class="cd"></span>LIGHTS</button>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
 // ── CURSOR
 var cur=document.getElementById('cursor'), trl=document.getElementById('trail');
@@ -841,7 +881,7 @@ function swTab(tabsId,key){
 }
 
 // ── SCROLL TO
-function scrollTo(id){
+function goTo(id){
   var el=document.getElementById(id);
   if(el) el.scrollIntoView({behavior:'smooth'});
 }
@@ -907,16 +947,4 @@ window.addEventListener('scroll',function(){
   var y=window.scrollY;
   var sections=['hero','terminal-section','projects','skills-section','timeline-section','contact-section'];
   var cur='hero';
-  sections.forEach(function(id){
-    var el=document.getElementById(id);
-    if(el&&y>=el.offsetTop-200) cur=id;
-  });
-  document.querySelectorAll('.nav-links a').forEach(function(a){
-    a.classList.toggle('active-nav', a.getAttribute('href')==='#'+cur);
-  });
-},{passive:true});
-
-})(); // end IIFE
-</script>
-</body>
-</html>
+  sections.forEach(function(id)
