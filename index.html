@@ -32,9 +32,9 @@ body{background:var(--black);color:var(--green);font-family:var(--ff-mono);font-
 #glitch-overlay.active{animation:fullGlitch .55s forwards;}
 @keyframes fullGlitch{0%{opacity:0}5%{opacity:.85;filter:hue-rotate(90deg)}10%{opacity:.2}20%{opacity:.7;filter:hue-rotate(180deg) saturate(3)}30%{opacity:.05}45%{opacity:.5;filter:invert(1)}60%{opacity:.1}80%{opacity:.3}100%{opacity:0}}
 /* BOOT */
-#boot{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transition:opacity .8s;}
+#boot{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transition:opacity .8s;cursor:default;}
 #boot.hide{opacity:0;pointer-events:none;}
-.power-btn{width:90px;height:90px;border-radius:50%;border:2px solid var(--green-mid);background:var(--deep);cursor:none;display:flex;align-items:center;justify-content:center;position:relative;transition:all .3s;box-shadow:0 0 20px rgba(0,255,65,.1);}
+.power-btn{width:90px;height:90px;border-radius:50%;border:2px solid var(--green-mid);background:var(--deep);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .3s;box-shadow:0 0 20px rgba(0,255,65,.1);pointer-events:all;-webkit-tap-highlight-color:transparent;}
 .power-btn:hover{border-color:var(--green);box-shadow:0 0 50px rgba(0,255,65,.5);}
 .power-btn:hover .pwr-icon{stroke:var(--green);}
 .pwr-icon{width:32px;height:32px;stroke:var(--green-mid);fill:none;stroke-width:2;stroke-linecap:round;transition:stroke .3s;}
@@ -806,7 +806,7 @@ async function initRealMonitor(){
     if(chg)chg.textContent='N/A';
   }
 }
-initRealMonitor();
+// initRealMonitor is called from boot sequence
 
 /* ── BOOT SEQUENCE ────────────────────────────── */
 const bootLines=[
@@ -822,27 +822,34 @@ const bootLines=[
   '> All systems nominal. Launching interface...',
 ];
 let booted=false;
-document.getElementById('powerBtn').addEventListener('click',function(){
-  if(booted)return;booted=true;
-  this.style.borderColor='var(--green)';
-  this.style.boxShadow='0 0 60px rgba(0,255,65,.7)';
+function runBoot(){
+  if(booted)return;
+  booted=true;
+  const btn=document.getElementById('powerBtn');
+  if(btn){btn.style.borderColor='var(--green)';btn.style.boxShadow='0 0 60px rgba(0,255,65,.7)';}
   const log=document.getElementById('boot-log');
-  log.classList.add('show');
+  if(log)log.classList.add('show');
   let i=0;
   const iv=setInterval(()=>{
     if(i<bootLines.length){
-      log.innerHTML+=bootLines[i]+'<br/>';
-      log.scrollTop=log.scrollHeight;i++;
+      if(log){log.innerHTML+=bootLines[i]+'<br/>';log.scrollTop=log.scrollHeight;}
+      i++;
     } else {
       clearInterval(iv);
       setTimeout(()=>{
-        document.getElementById('boot').classList.add('hide');
-        setTimeout(()=>document.getElementById('boot').style.display='none',900);
-        startMatrix();startWireframe();revealSkills();revealTimeline();
-      },500);
+        const b=document.getElementById('boot');
+        if(b){b.classList.add('hide');setTimeout(()=>b.style.display='none',900);}
+        startMatrix();startWireframe();revealSkills();revealTimeline();initRealMonitor();
+      },400);
     }
   },200);
-});
+}
+const pwrBtn=document.getElementById('powerBtn');
+if(pwrBtn){
+  pwrBtn.addEventListener('click',runBoot);
+  pwrBtn.addEventListener('touchend',function(e){e.preventDefault();runBoot();});
+  pwrBtn.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')runBoot();});
+}
 
 /* ── MATRIX RAIN ──────────────────────────────── */
 const mc=document.getElementById('matrix-canvas');
