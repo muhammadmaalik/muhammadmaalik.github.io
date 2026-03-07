@@ -948,3 +948,46 @@ window.addEventListener('scroll',function(){
   var sections=['hero','terminal-section','projects','skills-section','timeline-section','contact-section'];
   var cur='hero';
   sections.forEach(function(id)
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const powerBtn = document.getElementById("powerBtn");
+    const bootScreen = document.getElementById("boot");
+    const bootLog = document.getElementById("boot-log");
+    const glitchOverlay = document.getElementById("glitch-overlay");
+
+    if (powerBtn) {
+      powerBtn.addEventListener("click", () => {
+        // 1. Disable the button to prevent multiple clicks
+        powerBtn.style.pointerEvents = "none";
+        
+        // 2. Expand the log and show boot text
+        if (bootLog) {
+          bootLog.style.height = "auto";
+          bootLog.innerHTML = "SYSTEM WAKING...<br/>LOADING KERNEL [MAALIK.SYS v2.6]...<br/>MOUNTING VIRTUAL DOM...<br/>ACCESS GRANTED.";
+        }
+
+        // 3. Trigger your CSS glitch animation
+        if (glitchOverlay) {
+          glitchOverlay.classList.add("active");
+        }
+
+        // 4. Fade out and remove the boot screen after a short delay
+        setTimeout(() => {
+          bootScreen.style.transition = "opacity 0.5s ease-out";
+          bootScreen.style.opacity = "0";
+          
+          // Remove from DOM flow after fade
+          setTimeout(() => {
+            bootScreen.style.display = "none";
+            
+            // Clean up glitch class so it can be reused later if needed
+            if (glitchOverlay) glitchOverlay.classList.remove("active");
+          }, 500); 
+        }, 800); // 800ms delay lets the user see the boot text
+      });
+    }
+  });
+</script>
+</body>
+</html>
