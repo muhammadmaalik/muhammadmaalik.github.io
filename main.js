@@ -110,7 +110,7 @@ const renderer = new THREE.WebGLRenderer({
   alpha: false,
   powerPreference: "high-performance",
 });
-renderer.setClearColor(0x7b96a8, 1);
+renderer.setClearColor(0xffffff, 1);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.25;
@@ -211,8 +211,8 @@ function highlight(id) {
     const on = id && obj.userData.part === id;
     for (const material of materials) {
       if (!material.emissive) continue;
-      material.emissive.set(on ? 0x6d7a1a : 0x000000);
-      material.emissiveIntensity = on ? 0.55 : 0;
+      material.emissive.set(on ? 0xffffff : 0x000000);
+      material.emissiveIntensity = on ? 0.35 : 0;
     }
   });
 }
@@ -414,7 +414,7 @@ loader.load(
     const shadow = new THREE.Mesh(
       new THREE.CircleGeometry(Math.max(size.x, size.z) * 0.46, 48),
       new THREE.MeshBasicMaterial({
-        color: 0x243846,
+        color: 0x111111,
         transparent: true,
         opacity: 0.28,
         depthWrite: false,

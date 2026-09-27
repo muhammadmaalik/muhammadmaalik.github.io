@@ -11,11 +11,20 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <script>
+      if (new URLSearchParams(location.search).has("embed")) {
+        document.documentElement.classList.add("embed");
+      }
+    </script>
     <style>
+      body {
+        background: #fff;
+        color: #111;
+      }
       .blog-page {
-        width: min(720px, calc(100% - 40px));
+        width: min(680px, calc(100% - 36px));
         margin: 0 auto;
-        padding: 28px 0 64px;
+        padding: 22px 0 48px;
       }
       .blog-top {
         display: flex;
@@ -25,7 +34,10 @@
         margin-bottom: 28px;
       }
       .blog-top a {
-        color: #edff39;
+        color: #111;
+      }
+      html.embed .blog-top {
+        display: none;
       }
       .blog-page h1 {
         font-size: 48px;
@@ -33,7 +45,7 @@
       }
       .post {
         padding: 22px 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.22);
+        border-top: 1px solid #111;
       }
       .post h2 {
         font-size: 28px;
@@ -42,17 +54,16 @@
       .post time {
         display: block;
         margin-top: 6px;
-        color: #f0c989;
-        font-size: 14px;
+        font-style: italic;
+        font-size: 16px;
       }
       .post p {
         margin: 12px 0 0;
-        color: #d7e6ef;
-        line-height: 1.55;
+        line-height: 1.5;
         white-space: pre-wrap;
       }
       .empty {
-        color: #9db4c4;
+        font-style: italic;
       }
       .tools {
         margin-top: 8px;
@@ -64,15 +75,17 @@
       .unlock button {
         border: 0;
         background: transparent;
-        color: #edff39;
+        color: #111;
         cursor: pointer;
         padding: 0;
+        text-decoration: underline;
+        text-underline-offset: 3px;
       }
       .editor,
       .unlock {
         margin-top: 28px;
         padding-top: 18px;
-        border-top: 1px solid rgba(255, 255, 255, 0.22);
+        border-top: 1px solid #111;
         display: grid;
         gap: 10px;
       }
@@ -81,10 +94,10 @@
       .unlock input {
         width: 100%;
         font: inherit;
-        color: #fff;
-        background: #17364c;
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        border-radius: 10px;
+        color: #111;
+        background: #fff;
+        border: 1px solid #111;
+        border-radius: 0;
         padding: 10px 12px;
       }
       .editor textarea {
@@ -93,15 +106,15 @@
       }
       .save {
         justify-self: start;
-        background: #edff39 !important;
-        color: #10190c !important;
-        border-radius: 999px;
-        padding: 8px 14px !important;
+        background: #111 !important;
+        color: #fff !important;
+        text-decoration: none !important;
+        padding: 6px 12px !important;
       }
       .note {
         margin: 0;
-        color: #9db4c4;
-        font-size: 14px;
+        font-style: italic;
+        font-size: 16px;
       }
       [hidden] {
         display: none !important;
@@ -112,7 +125,7 @@
     <main class="blog-page">
       <div class="blog-top">
         <h1>Blogs</h1>
-        <a href="./index.html">Portfolio</a>
+        <a class="back-home" href="./index.html" target="_top">Portfolio</a>
       </div>
       <div id="posts"></div>
       <p class="empty" id="empty" hidden>No posts yet.</p>
