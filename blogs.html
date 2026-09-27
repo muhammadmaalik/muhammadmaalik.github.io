@@ -140,10 +140,30 @@
       const editor = document.querySelector("#editor");
       const keyInput = document.querySelector("#key");
       const keyError = document.querySelector("#key-error");
+      const REPO_FILE =
+        "https://raw.githubusercontent.com/muhammadmaalik/muhammadmaalik.github.io/main/blogs.json";
+      let saveUrl = "./blogs.json";
       let posts = [];
       let snapshot = "";
       let key = sessionStorage.getItem("blog-key") || "";
       let editing = false;
+
+      function localPage() {
+        return location.hostname === "127.0.0.1" || location.hostname === "localhost";
+      }
+
+      async function resolveSaveUrl() {
+        if (localPage()) return "./blogs.json";
+        try {
+          const response = await fetch("./editor.json", { cache: "no-store" });
+          if (!response.ok) return "./blogs.json";
+          const data = await response.json();
+          if (!data.save) return "./blogs.json";
+          return data.save.replace(/\/$/, "") + "/blogs.json";
+        } catch {
+          return "./blogs.json";
+        }
+      }
 
       function escapeText(value) {
         return value
@@ -235,10 +255,28 @@
         title.focus();
       }
 
+      async function readJson(url) {
+        const response = await fetch(url, { cache: "no-store" });
+        if (!response.ok) throw new Error(String(response.status));
+        return response.json();
+      }
+
       async function loadPosts() {
         if (editing) return;
-        const response = await fetch("./blogs.json", { cache: "no-store" });
-        const next = await response.json();
+        const urls = [];
+        if (!localPage() && saveUrl.startsWith("http")) urls.push(saveUrl);
+        urls.push(REPO_FILE + "?t=" + Date.now());
+        urls.push("./blogs.json?t=" + Date.now());
+        let next = null;
+        for (const url of urls) {
+          try {
+            next = await readJson(url);
+            break;
+          } catch {
+            next = null;
+          }
+        }
+        if (!Array.isArray(next)) return;
         const text = JSON.stringify(next);
         if (text === snapshot) return;
         snapshot = text;
@@ -246,23 +284,38 @@
         if (!editing) render();
       }
 
+      function rejectSave(message) {
+        key = "";
+        sessionStorage.removeItem("blog-key");
+        unlock.hidden = false;
+        document.querySelector("#key-row").hidden = false;
+        editor.hidden = true;
+        keyError.textContent = message;
+        keyError.hidden = false;
+        render();
+      }
+
       async function savePosts() {
-        const response = await fetch("./blogs.json", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Blog-Key": key,
-          },
-          body: JSON.stringify(posts),
-        });
+        let response;
+        try {
+          response = await fetch(saveUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Blog-Key": key,
+            },
+            body: JSON.stringify(posts),
+          });
+        } catch {
+          rejectSave("Publishing needs this computer to be on. The key itself did not change.");
+          throw new Error("save failed");
+        }
+        if (response.status === 403) {
+          rejectSave("That key does not match.");
+          throw new Error("save failed");
+        }
         if (!response.ok) {
-          key = "";
-          sessionStorage.removeItem("blog-key");
-          unlock.hidden = false;
-          document.querySelector("#key-row").hidden = false;
-          editor.hidden = true;
-          keyError.hidden = false;
-          render();
+          rejectSave("GitHub cannot store the post by itself. Open the site on this computer, or try again in a moment.");
           throw new Error("save failed");
         }
         snapshot = JSON.stringify(posts);
@@ -317,7 +370,10 @@
         editor.hidden = false;
       }
 
-      loadPosts();
+      resolveSaveUrl().then((url) => {
+        saveUrl = url;
+        loadPosts();
+      });
       setInterval(() => {
         if (!editing && document.activeElement !== document.querySelector("#title") && document.activeElement !== document.querySelector("#body")) {
           loadPosts();
