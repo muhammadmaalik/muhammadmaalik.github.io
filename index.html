@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Muhammad Maalik — Mechanical design.</title>
+    <meta
+      name="description"
+      content="Portfolio of Muhammad Maalik, a mechanical engineering and physics student at Stony Brook. Turn a 3D model of his printed jet, and read a short note on a student satellite."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#scene">Skip to the airplane</a>
+    <div class="page" id="top">
+      <header class="bar">
+        <a class="wordmark" href="#top">Umer Maalik</a>
+        <nav class="jump" aria-label="Sections">
+          <a href="#scene">Plane</a>
+          <a href="#psisat">PsiSat</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#leadership">Leadership</a>
+          <a href="#technical">Technical</a>
+          <a href="./blogs.html">Blogs</a>
+        </nav>
+        <p class="bar-place">Stony Brook</p>
+      </header>
+
+      <div class="studio">
+      <div class="wrap">
+      <section class="intro">
+        <div>
+          <h1>Turn the airplane.</h1>
+          <p class="intro-lead">A 3D-printed jet, modeled in Fusion 360.</p>
+          <p class="intro-hint" id="status" role="status">Select a point to begin.</p>
+        </div>
+        <aside class="intro-side">
+          <p>Mechanical engineering and physics. Hardware from a sketch to a part that can be built.</p>
+          <p class="degree">B.S. · Stony Brook University · 2025–2030</p>
+          <a class="resume" href="./resume.pdf">Résumé PDF</a>
+        </aside>
+      </section>
+
+      <section class="stage" id="scene" aria-label="Interactive airplane">
+        <div class="frame">
+          <canvas
+            id="view"
+            tabindex="0"
+            aria-label="3D view of the printed jet. Drag to rotate. Use the arrow keys to turn it."
+          ></canvas>
+          <p class="loading" id="loading">Opening the model…</p>
+          <p class="fallback" id="fallback" hidden>
+            This browser could not show the 3D model. The original CAD file is
+            <code>iterated_plane_step.step</code> in this folder.
+          </p>
+          <div class="hotspots" id="hotspots"></div>
+          <p class="drag-hint">Drag to turn · scroll to zoom</p>
+        </div>
+
+        <section class="panel" id="panel" hidden aria-labelledby="panel-title">
+          <div class="panel-head">
+            <h2 id="panel-title"></h2>
+            <button type="button" class="back" id="panel-close">Back</button>
+          </div>
+          <p class="panel-lead" id="panel-lead"></p>
+          <ul class="facts" id="panel-facts"></ul>
+        </section>
+      </section>
+      </div>
+      </div>
+
+      <div class="dossier">
+      <section class="sheet" id="about">
+        <div class="about-grid">
+          <div>
+            <p class="kicker">About</p>
+            <h2>Designed, then checked.</h2>
+            <p>
+              I study mechanical engineering and physics at Stony Brook. The work
+              below is parts, models, and analysis: a printed jet, a student
+              satellite, and the jobs where those tools get used.
+            </p>
+          </div>
+          <div class="stat">
+            <strong>Stony Brook University</strong>
+            <span>B.S. Mechanical Engineering &amp; Physics, August 2025 – May 2030. The résumé PDF is in the header.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature" id="psisat">
+        <div class="feature-grid">
+          <div>
+            <p class="kicker">Project · satellite</p>
+            <h2>PsiSat</h2>
+            <p>
+              A student satellite about the size of a large mug. It is a metal
+              box meant to orbit a few hundred kilometers up and notice short,
+              bright flashes of high-energy light, called gamma-ray bursts. A
+              crystal inside lights up when a flash hits it, and a sensor reads
+              that light.
+            </p>
+            <p>
+              I started the project, gathered the team, and wrote the proposal
+              for NASA’s CubeSat Launch Initiative. The aluminum shell is modeled
+              in Fusion 360, with six thin layers of electronics inside. It has
+              not launched. Jackson Boyle and Christian Tumanda are on the proposal.
+            </p>
+            <p>
+              <a href="https://github.com/leosgxsbu/Psi_Sat-1U-CubeSat-">Repository</a>
+              ·
+              <a href="https://leosgxsbu.github.io/Psi_Sat-1U-CubeSat-/">Project site</a>
+            </p>
+          </div>
+          <div class="facts-side">
+            <div><b>Size</b> About 10 × 10 × 11 cm</div>
+            <div><b>Mass</b> Under 1.33 kg</div>
+            <div><b>Shell</b> Aluminum, modeled in Fusion 360</div>
+            <div><b>Status</b> Design study, not yet flown · July 2026 – present</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="split">
+      <section class="stack" id="experience">
+        <p class="kicker">Experience</p>
+        <h2>Where I’ve worked</h2>
+        <article class="role">
+          <div class="role-top">
+            <h3>Mechanical engineering intern</h3>
+            <span class="when">Jun 2026 – now</span>
+          </div>
+          <p class="org">East End Assemblies · Long Island, NY</p>
+          <p>Parts and assemblies in Fusion 360 and SolidWorks, from an early idea to a model that can be manufactured.</p>
+        </article>
+        <article class="role">
+          <div class="role-top">
+            <h3>FEA lead</h3>
+            <span class="when">Sep 2025 – now</span>
+          </div>
+          <p class="org">Stony Brook Robotics</p>
+          <p>Structural and fluid studies in Ansys for the MATE underwater rover: how the chassis holds pressure, and how to cut drag in the water.</p>
+        </article>
+        <article class="role">
+          <div class="role-top">
+            <h3>Teaching assistant</h3>
+          </div>
+          <p class="org">AMS 261 · Multivariable Calculus · Stony Brook</p>
+          <p>Teaching assistant for multivariable calculus.</p>
+        </article>
+        <article class="role">
+          <div class="role-top">
+            <h3>Autodesk ambassador</h3>
+            <span class="when">Jan 2026 – now</span>
+          </div>
+          <p class="org">Stony Brook</p>
+          <p>A workshop for mechanical, electrical, and arts students on Fusion 360, finite-element analysis, and rendering.</p>
+        </article>
+      </section>
+
+      <section class="lead-card" id="leadership">
+        <p class="kicker">Leadership</p>
+        <h2>Teams I started or led</h2>
+        <ul class="lead-list">
+          <li>Started PsiSat, recruited the team, and lined up faculty advising for the NASA proposal.</li>
+          <li>FEA lead on Stony Brook Robotics: the studies the rover team uses before the design is locked.</li>
+          <li>Autodesk ambassador: taught engineering and arts students to model, analyze, and render.</li>
+        </ul>
+      </section>
+      </div>
+
+      <section id="projects">
+        <p class="kicker">Projects</p>
+        <h2 class="section-title">Three builds</h2>
+        <div class="project-grid">
+          <article class="project">
+            <h3>3D-printed jet</h3>
+            <p class="tag">Dec 2025 – present · Fusion 360, Inventor, Ansys</p>
+            <p>A custom jet around two 80 mm electric fans. The model above is that file. Aimed past 70 km/h, with work on tilting the thrust and on flying and landing by itself.</p>
+            <p><a href="#scene">Open the 3D view</a></p>
+          </article>
+          <article class="project">
+            <h3>PsiSat</h3>
+            <p class="tag">Jul 2026 – present · Fusion 360, EasyEDA</p>
+            <p>The mug-sized satellite: aluminum chassis, stacked boards, and a proposal for a NASA student launch.</p>
+            <p><a href="#psisat">Read PsiSat</a></p>
+          </article>
+          <article class="project">
+            <h3>Thrust vector control</h3>
+            <p class="tag">Fusion 360, OpenRocket</p>
+            <p>Steering for a rocket about 20 by 4 inches and 200 grams. Motors, a controller, and boards sit in a tight space, mounted so vibration does not break them. The engine tilts to hold the path.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="skill-board" id="technical">
+        <p class="kicker">Technical</p>
+        <h2>Tools</h2>
+        <div class="skill-grid">
+          <div class="skill-col">
+            <h3>CAD</h3>
+            <div class="chips">
+              <span>Siemens NX</span><span>SolidWorks</span><span>Fusion 360</span>
+              <span>Inventor</span><span>Creo</span><span>Onshape</span><span>Solid Edge</span>
+            </div>
+          </div>
+          <div class="skill-col">
+            <h3>Analysis</h3>
+            <div class="chips">
+              <span>Ansys Mechanical</span><span>Ansys Fluent</span><span>Workbench</span>
+              <span>LS-DYNA</span><span>OpenFOAM</span><span>SimScale</span>
+            </div>
+          </div>
+          <div class="skill-col">
+            <h3>Software</h3>
+            <div class="chips">
+              <span>Python</span><span>KiCad</span><span>PyTorch</span>
+              <span>Qiskit</span><span>OpenRocket</span><span>LaTeX</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      <footer class="foot">
+        <ul class="notes" id="notes">
+          <li>
+            <span>Printed jet</span>
+            Twin 80 mm electric fans
+          </li>
+          <li>
+            <span>Student satellite</span>
+            A box about ten centimeters wide
+          </li>
+          <li>
+            <span>East End Assemblies</span>
+            Mechanical engineering intern
+          </li>
+          <li>
+            <span>Stony Brook Robotics</span>
+            Structures and airflow
+          </li>
+        </ul>
+        <div class="baseline">
+          <p>Muhammad Maalik — Design portfolio</p>
+          <p id="baseline-note">Drag the model, then choose a point.</p>
+        </div>
+        <nav class="links" aria-label="Contact">
+          <a href="https://www.linkedin.com/in/muhammadmaalik">LinkedIn</a>
+          <a href="mailto:umermaalik24@gmail.com">umermaalik24@gmail.com</a>
+          <a href="https://github.com/leosgxsbu/Psi_Sat-1U-CubeSat-">CubeSat repository</a>
+        </nav>
+      </footer>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three.module.js",
+          "three/addons/": "./vendor/addons/"
+        }
+      }
+    </script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

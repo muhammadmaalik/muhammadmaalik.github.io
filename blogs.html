@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blogs — Muhammad Maalik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .blog-page {
+        width: min(720px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 28px 0 64px;
+      }
+      .blog-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .blog-top a {
+        color: #edff39;
+      }
+      .blog-page h1 {
+        font-size: 48px;
+        letter-spacing: -0.04em;
+      }
+      .post {
+        padding: 22px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.22);
+      }
+      .post h2 {
+        font-size: 28px;
+        letter-spacing: -0.03em;
+      }
+      .post time {
+        display: block;
+        margin-top: 6px;
+        color: #f0c989;
+        font-size: 14px;
+      }
+      .post p {
+        margin: 12px 0 0;
+        color: #d7e6ef;
+        line-height: 1.55;
+        white-space: pre-wrap;
+      }
+      .empty {
+        color: #9db4c4;
+      }
+      .tools {
+        margin-top: 8px;
+        display: flex;
+        gap: 14px;
+      }
+      .tools button,
+      .editor button,
+      .unlock button {
+        border: 0;
+        background: transparent;
+        color: #edff39;
+        cursor: pointer;
+        padding: 0;
+      }
+      .editor,
+      .unlock {
+        margin-top: 28px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.22);
+        display: grid;
+        gap: 10px;
+      }
+      .editor input,
+      .editor textarea,
+      .unlock input {
+        width: 100%;
+        font: inherit;
+        color: #fff;
+        background: #17364c;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 10px;
+        padding: 10px 12px;
+      }
+      .editor textarea {
+        min-height: 160px;
+        resize: vertical;
+      }
+      .save {
+        justify-self: start;
+        background: #edff39 !important;
+        color: #10190c !important;
+        border-radius: 999px;
+        padding: 8px 14px !important;
+      }
+      .note {
+        margin: 0;
+        color: #9db4c4;
+        font-size: 14px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="blog-page">
+      <div class="blog-top">
+        <h1>Blogs</h1>
+        <a href="./index.html">Portfolio</a>
+      </div>
+      <div id="posts"></div>
+      <p class="empty" id="empty" hidden>No posts yet.</p>
+
+      <form class="unlock" id="unlock">
+        <button type="button" id="show-edit">Edit</button>
+        <div id="key-row" hidden>
+          <input id="key" type="password" autocomplete="current-password" placeholder="Editor key" />
+          <button type="submit">Unlock</button>
+          <p class="note" id="key-error" hidden>That key does not match.</p>
+        </div>
+      </form>
+
+      <form class="editor" id="editor" hidden>
+        <p class="note">Saving here updates the page for anyone who has it open.</p>
+        <input id="title" name="title" placeholder="Title" required />
+        <textarea id="body" name="body" placeholder="Write" required></textarea>
+        <button class="save" type="submit">Publish</button>
+      </form>
+    </main>
+    <script>
+      const postsEl = document.querySelector("#posts");
+      const emptyEl = document.querySelector("#empty");
+      const unlock = document.querySelector("#unlock");
+      const editor = document.querySelector("#editor");
+      const keyInput = document.querySelector("#key");
+      const keyError = document.querySelector("#key-error");
+      let posts = [];
+      let snapshot = "";
+      let key = sessionStorage.getItem("blog-key") || "";
+      let editing = false;
+
+      function escapeText(value) {
+        return value
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+      }
+
+      function stamp() {
+        return new Date().toISOString();
+      }
+
+      function showDate(value) {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "";
+        return date.toLocaleString(undefined, {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        });
+      }
+
+      function render() {
+        postsEl.replaceChildren();
+        emptyEl.hidden = posts.length > 0;
+        for (const post of posts) {
+          const article = document.createElement("article");
+          article.className = "post";
+          const title = document.createElement("h2");
+          title.textContent = post.title;
+          const time = document.createElement("time");
+          time.dateTime = post.updated || "";
+          time.textContent = showDate(post.updated);
+          const body = document.createElement("p");
+          body.textContent = post.body;
+          article.append(title, time, body);
+          if (key) {
+            const tools = document.createElement("div");
+            tools.className = "tools";
+            const edit = document.createElement("button");
+            edit.type = "button";
+            edit.textContent = "Edit";
+            edit.addEventListener("click", () => beginEdit(post, article));
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.textContent = "Delete";
+            remove.addEventListener("click", () => removePost(post));
+            tools.append(edit, remove);
+            article.append(tools);
+          }
+          postsEl.append(article);
+        }
+      }
+
+      function beginEdit(post, article) {
+        editing = true;
+        article.replaceChildren();
+        const form = document.createElement("form");
+        form.className = "editor";
+        const title = document.createElement("input");
+        title.value = post.title;
+        const body = document.createElement("textarea");
+        body.value = post.body;
+        const save = document.createElement("button");
+        save.className = "save";
+        save.type = "submit";
+        save.textContent = "Save";
+        const cancel = document.createElement("button");
+        cancel.type = "button";
+        cancel.textContent = "Cancel";
+        cancel.addEventListener("click", () => {
+          editing = false;
+          render();
+        });
+        form.append(title, body, save, cancel);
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          post.title = title.value.trim();
+          post.body = body.value.trim();
+          post.updated = stamp();
+          if (!post.title || !post.body) return;
+          await savePosts();
+          editing = false;
+          render();
+        });
+        article.append(form);
+        title.focus();
+      }
+
+      async function loadPosts() {
+        if (editing) return;
+        const response = await fetch("./blogs.json", { cache: "no-store" });
+        const next = await response.json();
+        const text = JSON.stringify(next);
+        if (text === snapshot) return;
+        snapshot = text;
+        posts = next;
+        if (!editing) render();
+      }
+
+      async function savePosts() {
+        const response = await fetch("./blogs.json", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Blog-Key": key,
+          },
+          body: JSON.stringify(posts),
+        });
+        if (!response.ok) {
+          key = "";
+          sessionStorage.removeItem("blog-key");
+          unlock.hidden = false;
+          document.querySelector("#key-row").hidden = false;
+          editor.hidden = true;
+          keyError.hidden = false;
+          render();
+          throw new Error("save failed");
+        }
+        snapshot = JSON.stringify(posts);
+      }
+
+      async function removePost(post) {
+        editing = false;
+        posts = posts.filter((item) => item !== post);
+        await savePosts();
+        render();
+      }
+
+      document.querySelector("#show-edit").addEventListener("click", () => {
+        document.querySelector("#key-row").hidden = false;
+        keyInput.focus();
+      });
+
+      unlock.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        key = keyInput.value.trim();
+        keyError.hidden = true;
+        try {
+          await loadPosts();
+          await savePosts();
+          sessionStorage.setItem("blog-key", key);
+          unlock.hidden = true;
+          editor.hidden = false;
+          render();
+        } catch {
+          key = "";
+          sessionStorage.removeItem("blog-key");
+        }
+      });
+
+      editor.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const title = document.querySelector("#title");
+        const body = document.querySelector("#body");
+        posts.unshift({
+          title: title.value.trim(),
+          body: body.value.trim(),
+          updated: stamp(),
+        });
+        await savePosts();
+        title.value = "";
+        body.value = "";
+        render();
+      });
+
+      if (key) {
+        unlock.hidden = true;
+        editor.hidden = false;
+      }
+
+      loadPosts();
+      setInterval(() => {
+        if (!editing && document.activeElement !== document.querySelector("#title") && document.activeElement !== document.querySelector("#body")) {
+          loadPosts();
+        }
+      }, 2000);
+    </script>
+  </body>
+</html>
