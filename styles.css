@@ -28,8 +28,9 @@ html,
 body {
   margin: 0;
   min-height: 100%;
-  background: var(--paper);
-  color: var(--ink);
+  background: #ffffff;
+  color: #111111;
+  color-scheme: light;
 }
 
 body {
@@ -73,9 +74,18 @@ p {
 
 .topline {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 28px 0 36px;
+}
+
+.identity {
+  display: flex;
   align-items: baseline;
   gap: 28px;
-  padding: 28px min(460px, 46vw) 0 36px;
+  flex-wrap: wrap;
+  padding-top: 8px;
 }
 
 .mark {
@@ -85,11 +95,9 @@ p {
 }
 
 .diagram {
-  position: absolute;
-  top: 8px;
-  right: 16px;
-  width: min(460px, 44vw);
+  width: min(520px, 52vw);
   height: auto;
+  flex: 0 1 520px;
 }
 
 .desk {
@@ -356,14 +364,18 @@ canvas {
 
 @media (max-width: 800px) {
   .topline {
-    padding: 18px 96px 0 18px;
+    flex-direction: column;
+    padding: 18px 18px 0;
+    gap: 12px;
+  }
+
+  .identity {
     gap: 16px;
   }
 
   .diagram {
-    width: 132px;
-    right: 8px;
-    top: 52px;
+    width: 100%;
+    max-width: 520px;
   }
 
   .workspace {
