@@ -168,7 +168,7 @@
       async function resolveSaveUrl() {
         if (localPage()) return "./blogs.json";
         try {
-          const response = await fetch("./editor.json?v=6", { cache: "no-store" });
+          const response = await fetch("./editor.json?v=7", { cache: "no-store" });
           if (!response.ok) return "./blogs.json";
           const data = await response.json();
           if (!data.save) return "./blogs.json";
