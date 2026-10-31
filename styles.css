@@ -107,10 +107,10 @@ p {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(190px, 240px) minmax(0, 680px);
+  grid-template-columns: minmax(190px, 240px) minmax(0, 680px) minmax(190px, 280px);
   gap: 36px;
   align-items: start;
-  width: min(1080px, calc(100% - 56px));
+  width: min(1380px, calc(100% - 56px));
   margin: 0 auto;
   padding: 10vh 0 10vh;
 }
@@ -147,6 +147,80 @@ p {
 
 .reading {
   min-height: 40vh;
+}
+
+.mechanical-horse {
+  position: sticky;
+  top: 12vh;
+  align-self: start;
+  margin: -7vh 0 0;
+  color: var(--ink);
+}
+
+.mechanical-horse svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: contrast(1.06);
+}
+
+.mechanical-horse p {
+  margin: -9px 0 0;
+  border-top: 1px solid var(--ink);
+  padding-top: 7px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.mechanical-horse p span {
+  color: #666;
+  font-style: italic;
+}
+
+.horse-shadow {
+  fill: #111;
+  opacity: 0.2;
+  filter: url("#soft-shadow");
+}
+
+.gear-large {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: horse-gear-clockwise 16s linear infinite;
+}
+
+.gear-small {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: horse-gear-counter 9s linear infinite;
+}
+
+.horse-tail {
+  transform-origin: 98px 250px;
+  animation: horse-tail 7s ease-in-out infinite;
+}
+
+@keyframes horse-gear-clockwise {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes horse-gear-counter {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes horse-tail {
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
 }
 
 .pane[hidden] {
@@ -386,5 +460,35 @@ canvas {
 
   .drawers {
     margin-top: 0;
+  }
+
+  .mechanical-horse {
+    position: relative;
+    top: auto;
+    width: min(78vw, 320px);
+    margin: 4vh auto 0;
+  }
+}
+
+@media (min-width: 801px) and (max-width: 1120px) {
+  .workspace {
+    grid-template-columns: minmax(170px, 210px) minmax(0, 1fr);
+    width: calc(100% - 48px);
+  }
+
+  .mechanical-horse {
+    position: relative;
+    top: auto;
+    grid-column: 2;
+    width: min(42vw, 280px);
+    margin: 2vh 0 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gear-large,
+  .gear-small,
+  .horse-tail {
+    animation: none;
   }
 }
