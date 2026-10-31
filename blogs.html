@@ -116,6 +116,31 @@
         font-style: italic;
         font-size: 16px;
       }
+      .key-row {
+        display: grid;
+        gap: 10px;
+      }
+      .remember {
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .remember input {
+        width: auto;
+        margin: 0;
+        accent-color: #111;
+      }
+      .editor-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+      }
+      .save:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
       [hidden] {
         display: none !important;
       }
@@ -132,62 +157,63 @@
 
       <form class="unlock" id="unlock">
         <button type="button" id="show-edit">Edit</button>
-        <div id="key-row" hidden>
-          <input id="key" type="password" autocomplete="current-password" placeholder="Editor key" />
-          <button type="submit">Unlock</button>
+        <div id="key-row" class="key-row" hidden>
+          <input id="key" type="password" autocomplete="off" placeholder="Editor key" />
+          <label class="remember"><input id="remember" type="checkbox" /> Remember on this device</label>
+          <button type="submit" id="unlock-button">Unlock</button>
+          <p class="note" id="key-help"></p>
           <p class="note" id="key-error" hidden>That key does not match.</p>
         </div>
       </form>
 
       <form class="editor" id="editor" hidden>
-        <p class="note">Saving here updates the page for anyone who has it open.</p>
+        <div class="editor-top">
+          <p class="note" id="editor-note"></p>
+          <button type="button" id="lock">Lock</button>
+        </div>
         <input id="title" name="title" placeholder="Title" required />
-        <textarea id="body" name="body" placeholder="Write" required></textarea>
-        <button class="save" type="submit">Publish</button>
+        <textarea id="body" name="body" placeholder="Write. Leave a blank line between paragraphs." required></textarea>
+        <button class="save" type="submit" id="publish">Publish</button>
+        <p class="note" id="save-status" hidden></p>
       </form>
     </main>
     <script>
+      // Readers get blogs.json straight from the site. The editor saves either
+      // to the local serve.py (while working on this computer) or, on the live
+      // site, commits blogs.json to GitHub with a token scoped to this repo.
+      const GITHUB = {
+        owner: "muhammadmaalik",
+        repo: "muhammadmaalik.github.io",
+        branch: "main",
+        file: "blogs.json",
+      };
+
       const postsEl = document.querySelector("#posts");
       const emptyEl = document.querySelector("#empty");
       const unlock = document.querySelector("#unlock");
+      const keyRow = document.querySelector("#key-row");
       const editor = document.querySelector("#editor");
       const keyInput = document.querySelector("#key");
+      const remember = document.querySelector("#remember");
+      const keyHelp = document.querySelector("#key-help");
       const keyError = document.querySelector("#key-error");
-      const REPO_FILE =
-        "https://raw.githubusercontent.com/muhammadmaalik/muhammadmaalik.github.io/main/blogs.json";
-      let saveUrl = "./blogs.json";
+      const editorNote = document.querySelector("#editor-note");
+      const saveStatus = document.querySelector("#save-status");
+      const publishButton = document.querySelector("#publish");
+      const unlockButton = document.querySelector("#unlock-button");
+
+      const local = location.hostname === "127.0.0.1" || location.hostname === "localhost";
       let posts = [];
-      let snapshot = "";
-      let key = sessionStorage.getItem("blog-key") || "";
+      let fileSha = null;
+      let key = sessionStorage.getItem("blog-key") || localStorage.getItem("blog-key") || "";
       let editing = false;
 
-      function localPage() {
-        return location.hostname === "127.0.0.1" || location.hostname === "localhost";
-      }
-
-      async function resolveSaveUrl() {
-        if (localPage()) return "./blogs.json";
-        try {
-          const response = await fetch("./editor.json?v=7", { cache: "no-store" });
-          if (!response.ok) return "./blogs.json";
-          const data = await response.json();
-          if (!data.save) return "./blogs.json";
-          return data.save.replace(/\/$/, "") + "/blogs.json";
-        } catch {
-          return "./blogs.json";
-        }
-      }
-
-      function escapeText(value) {
-        return value
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;");
-      }
-
-      function stamp() {
-        return new Date().toISOString();
-      }
+      keyHelp.textContent = local
+        ? "The key is in blog.key next to serve.py."
+        : "A GitHub fine-grained token for this repository with Contents: read and write. It stays in this browser only.";
+      editorNote.textContent = local
+        ? "Saving writes blogs.json on this computer. Commit it to publish."
+        : "Publishing commits blogs.json to GitHub. The live page follows in about a minute.";
 
       function showDate(value) {
         const date = new Date(value);
@@ -199,6 +225,16 @@
           hour: "numeric",
           minute: "2-digit",
         });
+      }
+
+      function stamp() {
+        return new Date().toISOString();
+      }
+
+      function status(message, isError) {
+        saveStatus.textContent = message;
+        saveStatus.hidden = !message;
+        saveStatus.style.color = isError ? "#8e0000" : "";
       }
 
       function render() {
@@ -256,110 +292,221 @@
         form.append(title, body, save, cancel);
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
-          post.title = title.value.trim();
-          post.body = body.value.trim();
+          const nextTitle = title.value.trim();
+          const nextBody = body.value.trim();
+          if (!nextTitle || !nextBody) return;
+          const previous = { ...post };
+          post.title = nextTitle;
+          post.body = nextBody;
           post.updated = stamp();
-          if (!post.title || !post.body) return;
-          await savePosts();
-          editing = false;
-          render();
+          save.disabled = true;
+          try {
+            await savePosts(`Edit blog post: ${nextTitle}`);
+            editing = false;
+            render();
+          } catch (error) {
+            Object.assign(post, previous);
+            save.disabled = false;
+          }
         });
         article.append(form);
         title.focus();
       }
 
-      async function readJson(url) {
-        const response = await fetch(url, { cache: "no-store" });
-        if (!response.ok) throw new Error(String(response.status));
-        return response.json();
-      }
+      // --- reading -------------------------------------------------------
 
-      async function loadPosts() {
-        if (editing) return;
-        const urls = [];
-        if (!localPage() && saveUrl.startsWith("http")) urls.push(saveUrl);
-        urls.push(REPO_FILE + "?t=" + Date.now());
-        urls.push("./blogs.json?t=" + Date.now());
-        let next = null;
-        for (const url of urls) {
-          try {
-            next = await readJson(url);
-            break;
-          } catch {
-            next = null;
+      async function loadPublished() {
+        try {
+          const response = await fetch(`./blogs.json?t=${Date.now()}`, { cache: "no-store" });
+          if (!response.ok) throw new Error(String(response.status));
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            posts = data;
+            render();
           }
+        } catch {
+          emptyEl.textContent = "The posts could not be loaded.";
+          emptyEl.hidden = false;
         }
-        if (!Array.isArray(next)) return;
-        const text = JSON.stringify(next);
-        if (text === snapshot) return;
-        snapshot = text;
-        posts = next;
-        if (!editing) render();
       }
 
-      function rejectSave(message) {
-        key = "";
-        sessionStorage.removeItem("blog-key");
-        unlock.hidden = false;
-        document.querySelector("#key-row").hidden = false;
-        editor.hidden = true;
-        keyError.textContent = message;
-        keyError.hidden = false;
-        render();
+      // --- GitHub ---------------------------------------------------------
+
+      function githubHeaders() {
+        return {
+          Authorization: `Bearer ${key}`,
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+        };
       }
 
-      async function savePosts() {
+      function contentsUrl() {
+        return `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${GITHUB.file}`;
+      }
+
+      function encodeBase64(text) {
+        const bytes = new TextEncoder().encode(text);
+        let binary = "";
+        for (const byte of bytes) binary += String.fromCharCode(byte);
+        return btoa(binary);
+      }
+
+      function decodeBase64(text) {
+        const binary = atob(text.replace(/\n/g, ""));
+        const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+        return new TextDecoder().decode(bytes);
+      }
+
+      async function githubVerify() {
+        const response = await fetch(`https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}`, {
+          headers: githubHeaders(),
+        });
+        if (response.status === 401) throw new Error("That key does not match.");
+        if (!response.ok) throw new Error("GitHub did not answer. Try again in a moment.");
+        const data = await response.json();
+        if (!data.permissions || !data.permissions.push) {
+          throw new Error("That token can read this repository but not write to it. Give it Contents: read and write.");
+        }
+      }
+
+      async function githubLoad() {
+        const response = await fetch(`${contentsUrl()}?ref=${GITHUB.branch}&t=${Date.now()}`, {
+          headers: githubHeaders(),
+          cache: "no-store",
+        });
+        if (!response.ok) throw new Error("Could not read blogs.json from GitHub.");
+        const data = await response.json();
+        fileSha = data.sha;
+        const parsed = JSON.parse(decodeBase64(data.content));
+        if (Array.isArray(parsed)) posts = parsed;
+      }
+
+      async function githubSave(message) {
+        const response = await fetch(contentsUrl(), {
+          method: "PUT",
+          headers: { ...githubHeaders(), "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message,
+            content: encodeBase64(JSON.stringify(posts, null, 2) + "\n"),
+            sha: fileSha,
+            branch: GITHUB.branch,
+          }),
+        });
+        if (response.status === 401 || response.status === 403) {
+          forgetKey("That key no longer works. Enter it again.");
+          throw new Error("unauthorised");
+        }
+        if (response.status === 409) {
+          await githubLoad();
+          render();
+          throw new Error("Someone else changed the posts first. The latest version is shown; try again.");
+        }
+        if (!response.ok) throw new Error(`GitHub refused the save (${response.status}).`);
+        const data = await response.json();
+        fileSha = data.content.sha;
+      }
+
+      // --- local serve.py -------------------------------------------------
+
+      async function localSave() {
         let response;
         try {
-          response = await fetch(saveUrl, {
+          response = await fetch("./blogs.json", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Blog-Key": key,
-            },
+            headers: { "Content-Type": "application/json", "X-Blog-Key": key },
             body: JSON.stringify(posts),
           });
         } catch {
-          rejectSave("Publishing needs this computer to be on. The key itself did not change.");
-          throw new Error("save failed");
+          throw new Error("serve.py is not running.");
         }
         if (response.status === 403) {
-          rejectSave("That key does not match.");
-          throw new Error("save failed");
+          forgetKey("That key does not match.");
+          throw new Error("unauthorised");
         }
-        if (!response.ok) {
-          rejectSave("GitHub cannot store the post by itself. Open the site on this computer, or try again in a moment.");
-          throw new Error("save failed");
+        if (!response.ok) throw new Error(`The local server refused the save (${response.status}).`);
+      }
+
+      // --- shared ---------------------------------------------------------
+
+      async function savePosts(message) {
+        status("Saving…");
+        try {
+          if (local) await localSave();
+          else await githubSave(message);
+          status(local ? "Saved to blogs.json." : "Published. The live page updates in about a minute.");
+        } catch (error) {
+          if (error.message !== "unauthorised") status(error.message, true);
+          throw error;
         }
-        snapshot = JSON.stringify(posts);
       }
 
       async function removePost(post) {
+        if (!confirm(`Delete “${post.title}”?`)) return;
         editing = false;
+        const before = posts;
         posts = posts.filter((item) => item !== post);
-        await savePosts();
+        try {
+          await savePosts(`Delete blog post: ${post.title}`);
+        } catch {
+          posts = before;
+        }
+        render();
+      }
+
+      function forgetKey(message) {
+        key = "";
+        sessionStorage.removeItem("blog-key");
+        localStorage.removeItem("blog-key");
+        fileSha = null;
+        unlock.hidden = false;
+        keyRow.hidden = false;
+        editor.hidden = true;
+        if (message) {
+          keyError.textContent = message;
+          keyError.hidden = false;
+        }
+        render();
+      }
+
+      async function openEditor() {
+        if (!local) await githubLoad();
+        unlock.hidden = true;
+        editor.hidden = false;
+        keyError.hidden = true;
+        status("");
         render();
       }
 
       document.querySelector("#show-edit").addEventListener("click", () => {
-        document.querySelector("#key-row").hidden = false;
+        keyRow.hidden = false;
         keyInput.focus();
       });
+
+      document.querySelector("#lock").addEventListener("click", () => forgetKey(""));
 
       unlock.addEventListener("submit", async (event) => {
         event.preventDefault();
         key = keyInput.value.trim();
+        if (!key) return;
         keyError.hidden = true;
+        unlockButton.disabled = true;
         try {
-          await loadPosts();
-          await savePosts();
-          sessionStorage.setItem("blog-key", key);
-          unlock.hidden = true;
-          editor.hidden = false;
-          render();
-        } catch {
+          if (local) {
+            await localSave();
+          } else {
+            await githubVerify();
+          }
+          (remember.checked ? localStorage : sessionStorage).setItem("blog-key", key);
+          keyInput.value = "";
+          await openEditor();
+        } catch (error) {
           key = "";
-          sessionStorage.removeItem("blog-key");
+          if (error.message !== "unauthorised") {
+            keyError.textContent = error.message;
+            keyError.hidden = false;
+          }
+        } finally {
+          unlockButton.disabled = false;
         }
       });
 
@@ -367,31 +514,30 @@
         event.preventDefault();
         const title = document.querySelector("#title");
         const body = document.querySelector("#body");
-        posts.unshift({
-          title: title.value.trim(),
-          body: body.value.trim(),
-          updated: stamp(),
-        });
-        await savePosts();
-        title.value = "";
-        body.value = "";
-        render();
-      });
-
-      if (key) {
-        unlock.hidden = true;
-        editor.hidden = false;
-      }
-
-      resolveSaveUrl().then((url) => {
-        saveUrl = url;
-        loadPosts();
-      });
-      setInterval(() => {
-        if (!editing && document.activeElement !== document.querySelector("#title") && document.activeElement !== document.querySelector("#body")) {
-          loadPosts();
+        const post = { title: title.value.trim(), body: body.value.trim(), updated: stamp() };
+        if (!post.title || !post.body) return;
+        publishButton.disabled = true;
+        posts.unshift(post);
+        try {
+          await savePosts(`Add blog post: ${post.title}`);
+          title.value = "";
+          body.value = "";
+        } catch {
+          posts = posts.filter((item) => item !== post);
+        } finally {
+          publishButton.disabled = false;
+          render();
         }
-      }, 2000);
+      });
+
+      loadPublished().then(async () => {
+        if (!key) return;
+        try {
+          await openEditor();
+        } catch {
+          forgetKey("The saved key no longer works. Enter it again.");
+        }
+      });
     </script>
   </body>
 </html>
