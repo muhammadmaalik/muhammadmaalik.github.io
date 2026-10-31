@@ -161,7 +161,7 @@ p {
   display: block;
   width: 100%;
   height: auto;
-  filter: grayscale(1) contrast(1.04);
+  filter: grayscale(1) brightness(1.06) contrast(1.12);
   mix-blend-mode: multiply;
 }
 
