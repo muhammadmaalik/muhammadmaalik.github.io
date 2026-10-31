@@ -157,16 +157,16 @@ p {
   color: var(--ink);
 }
 
-.mechanical-horse svg {
+.mechanical-horse img {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
-  filter: contrast(1.06);
+  filter: grayscale(1) contrast(1.04);
+  mix-blend-mode: multiply;
 }
 
 .mechanical-horse p {
-  margin: -9px 0 0;
+  margin: 0;
   border-top: 1px solid var(--ink);
   padding-top: 7px;
   font-size: 14px;
@@ -176,51 +176,6 @@ p {
 .mechanical-horse p span {
   color: #666;
   font-style: italic;
-}
-
-.horse-shadow {
-  fill: #111;
-  opacity: 0.2;
-  filter: url("#soft-shadow");
-}
-
-.gear-large {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: horse-gear-clockwise 16s linear infinite;
-}
-
-.gear-small {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: horse-gear-counter 9s linear infinite;
-}
-
-.horse-tail {
-  transform-origin: 98px 250px;
-  animation: horse-tail 7s ease-in-out infinite;
-}
-
-@keyframes horse-gear-clockwise {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes horse-gear-counter {
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-@keyframes horse-tail {
-  0%,
-  100% {
-    transform: rotate(-1deg);
-  }
-  50% {
-    transform: rotate(2.5deg);
-  }
 }
 
 .pane[hidden] {
@@ -482,13 +437,5 @@ canvas {
     grid-column: 2;
     width: min(42vw, 280px);
     margin: 2vh 0 0 auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gear-large,
-  .gear-small,
-  .horse-tail {
-    animation: none;
   }
 }
