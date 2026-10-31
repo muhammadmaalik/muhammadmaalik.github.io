@@ -142,14 +142,16 @@ rim.position.set(-0.4, 1.8, -3);
 scene.add(rim);
 
 const modelRoot = new THREE.Group();
-modelRoot.rotation.order = "YXZ";
+// Yaw first, then pitch, then roll, in the jet's own axes.
+modelRoot.rotation.order = "YZX";
 scene.add(modelRoot);
 
-// The nose points down -z in the exported model, so the camera starts behind
-// and to the right of the jet and watches it fly away.
-const NOSE_PITCH_SIGN = 1;
+// In the exported model the nose points down -x, so pitch is a rotation about
+// z and roll a rotation about x. The camera sits behind and to the side.
+const NOSE = new THREE.Vector3(-1, 0, 0);
 const GROUND_SPEED_SCALE = 0.1; // metres of real travel → scene units of grid scroll
 const TILE_AT_GROUND = 0.6; // scene units per grid square when sitting on the runway
+const PHYSICS_STEP = 1 / 120;
 
 const ground = {
   mesh: null,
@@ -157,9 +159,7 @@ const ground = {
   size: 60,
   y: 0,
   shadow: null,
-  shadowRadius: 0.4,
-  lastX: 0,
-  lastZ: 0,
+  forward: new THREE.Vector3(),
 };
 const fans = [];
 
@@ -518,22 +518,24 @@ function buildGround(y) {
   scene.add(mesh);
   ground.mesh = mesh;
   ground.texture = texture;
-  updateGround(0);
+  updateGround(0, 0);
 }
 
-function updateGround(altitude) {
+function updateGround(altitude, groundDistance) {
   if (!ground.texture) return;
   // Squares shrink as the jet climbs so the runway reads as farther away.
   const tile = TILE_AT_GROUND / (1 + altitude / 8);
   const repeat = ground.size / tile;
   ground.texture.repeat.set(repeat, repeat);
 
-  const dx = (flightState.x - ground.lastX) * GROUND_SPEED_SCALE;
-  const dz = (flightState.z - ground.lastZ) * GROUND_SPEED_SCALE;
-  ground.lastX = flightState.x;
-  ground.lastZ = flightState.z;
-  ground.texture.offset.x += dx / tile;
-  ground.texture.offset.y -= dz / tile;
+  // The jet stays put and the ground slides under it along the nose direction.
+  ground.forward.copy(NOSE).applyQuaternion(modelRoot.quaternion);
+  ground.forward.y = 0;
+  ground.forward.normalize();
+  const travel = groundDistance * GROUND_SPEED_SCALE;
+  // The ground plane is rotated -90° about x, so its texture v axis runs along -z.
+  ground.texture.offset.x += (ground.forward.x * travel) / tile;
+  ground.texture.offset.y -= (ground.forward.z * travel) / tile;
 
   if (ground.shadow) {
     const s = 1 / (1 + altitude / 3);
@@ -550,8 +552,8 @@ function poseModel(dt) {
   const s = flightState;
   const rad = Math.PI / 180;
   modelRoot.rotation.y = -s.heading * rad;
-  modelRoot.rotation.x = NOSE_PITCH_SIGN * s.pitch * rad;
-  modelRoot.rotation.z = s.bank * rad;
+  modelRoot.rotation.z = -s.pitch * rad;
+  modelRoot.rotation.x = -s.bank * rad;
   // Rotating about the centre would push the tail through the runway, so
   // lift the whole jet a little when it pitches up near the ground.
   const tailClearance = Math.sin(Math.abs(s.pitch) * rad) * 0.24;
@@ -634,11 +636,19 @@ bindFlightControls();
 function frame(now) {
   resize();
   controls.update();
-  const dt = Math.min(clock.getDelta(), 0.05);
+  // Fixed physics substeps keep the sim real-time even when the frame rate drops.
+  const dt = Math.min(clock.getDelta(), 0.25);
   if (modelRoot.children.length) {
-    flight.step(flightState, pilot, dt);
+    let remaining = dt;
+    let groundDistance = 0;
+    while (remaining > 1e-6) {
+      const h = Math.min(remaining, PHYSICS_STEP);
+      flight.step(flightState, pilot, h);
+      groundDistance += flightState.speed * Math.cos((flightState.gamma * Math.PI) / 180) * h;
+      remaining -= h;
+    }
     poseModel(dt);
-    updateGround(flightState.altitude);
+    updateGround(flightState.altitude, groundDistance);
     syncControls();
     updateReadouts(now || 0);
     projectAnchor("fan");
