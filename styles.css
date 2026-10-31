@@ -107,10 +107,10 @@ p {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(190px, 240px) minmax(0, 680px);
+  grid-template-columns: minmax(190px, 240px) minmax(0, 680px) minmax(190px, 280px);
   gap: 36px;
   align-items: start;
-  width: min(1080px, calc(100% - 56px));
+  width: min(1380px, calc(100% - 56px));
   margin: 0 auto;
   padding: 10vh 0 10vh;
 }
@@ -147,6 +147,35 @@ p {
 
 .reading {
   min-height: 40vh;
+}
+
+.mechanical-horse {
+  position: sticky;
+  top: 12vh;
+  align-self: start;
+  margin: -7vh 0 0;
+  color: var(--ink);
+}
+
+.mechanical-horse img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(1) brightness(1.06) contrast(1.12);
+  mix-blend-mode: multiply;
+}
+
+.mechanical-horse p {
+  margin: 0;
+  border-top: 1px solid var(--ink);
+  padding-top: 7px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.mechanical-horse p span {
+  color: #666;
+  font-style: italic;
 }
 
 .pane[hidden] {
@@ -219,6 +248,111 @@ canvas {
   right: 14px;
   top: 12px;
   bottom: auto;
+}
+
+.flight-phase {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  margin: 0;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.flight {
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px solid var(--ink);
+}
+
+.flight-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.flight-head h3 {
+  margin: 0;
+}
+
+.flight-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.flight-actions button {
+  border: 1px solid var(--ink);
+  padding: 4px 14px;
+  cursor: pointer;
+  background: var(--paper);
+}
+
+.flight-actions button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.flight-actions button:not(:disabled):hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.flight-controls {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.control {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) 56px;
+  align-items: center;
+  gap: 14px;
+}
+
+.control output {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.control input[type="range"] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--ink);
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px 16px;
+  margin: 16px 0 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.readouts div {
+  min-width: 0;
+}
+
+.readouts dt {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.readouts dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.formulas p {
+  margin: 8px 0 0;
+}
+
+.formulas em {
+  font-style: italic;
 }
 
 .hotspots {
@@ -386,5 +520,36 @@ canvas {
 
   .drawers {
     margin-top: 0;
+  }
+
+  .mechanical-horse {
+    position: relative;
+    top: auto;
+    width: min(78vw, 320px);
+    margin: 4vh auto 0;
+  }
+
+  .readouts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .control {
+    grid-template-columns: 70px minmax(0, 1fr) 50px;
+    gap: 10px;
+  }
+}
+
+@media (min-width: 801px) and (max-width: 1120px) {
+  .workspace {
+    grid-template-columns: minmax(170px, 210px) minmax(0, 1fr);
+    width: calc(100% - 48px);
+  }
+
+  .mechanical-horse {
+    position: relative;
+    top: auto;
+    grid-column: 2;
+    width: min(42vw, 280px);
+    margin: 2vh 0 0 auto;
   }
 }
