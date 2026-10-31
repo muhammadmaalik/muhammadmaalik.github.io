@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import * as flight from "./flight.js";
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -141,7 +142,46 @@ rim.position.set(-0.4, 1.8, -3);
 scene.add(rim);
 
 const modelRoot = new THREE.Group();
+modelRoot.rotation.order = "YXZ";
 scene.add(modelRoot);
+
+// The nose points down -z in the exported model, so the camera starts behind
+// and to the right of the jet and watches it fly away.
+const NOSE_PITCH_SIGN = 1;
+const GROUND_SPEED_SCALE = 0.1; // metres of real travel → scene units of grid scroll
+const TILE_AT_GROUND = 0.6; // scene units per grid square when sitting on the runway
+
+const ground = {
+  mesh: null,
+  texture: null,
+  size: 60,
+  y: 0,
+  shadow: null,
+  shadowRadius: 0.4,
+  lastX: 0,
+  lastZ: 0,
+};
+const fans = [];
+
+const flightState = flight.createState();
+const pilot = { throttle: 0, pitch: 0, bank: 0 };
+const clock = new THREE.Clock();
+
+const ui = {
+  phase: document.querySelector("#flight-phase"),
+  takeoff: document.querySelector("#takeoff"),
+  land: document.querySelector("#land"),
+  throttle: document.querySelector("#throttle"),
+  pitch: document.querySelector("#pitch"),
+  bank: document.querySelector("#bank"),
+  throttleOut: document.querySelector("#throttle-out"),
+  pitchOut: document.querySelector("#pitch-out"),
+  bankOut: document.querySelector("#bank-out"),
+  reads: Object.fromEntries(
+    [...document.querySelectorAll("#readouts [data-read]")].map((el) => [el.dataset.read, el]),
+  ),
+  constants: document.querySelector("#constants"),
+};
 
 const anchors = {
   fan: new THREE.Vector3(),
@@ -298,7 +338,8 @@ function projectAnchor(id) {
   if (id === "satellite") return;
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
-  const vector = anchors[id].clone().project(camera);
+  const world = anchors[id].clone().applyMatrix4(modelRoot.matrixWorld);
+  const vector = world.clone().project(camera);
   const x = (vector.x * 0.5 + 0.5) * width;
   const y = (-vector.y * 0.5 + 0.5) * height;
   const behind = vector.z > 1;
@@ -310,7 +351,7 @@ function projectAnchor(id) {
     button.classList.remove("is-dim");
     return;
   }
-  const direction = anchors[id].clone().sub(camera.position);
+  const direction = world.clone().sub(camera.position);
   const distance = direction.length();
   direction.normalize();
   raycaster.set(camera.position, direction);
@@ -355,6 +396,8 @@ loader.load(
     model.traverse((obj) => {
       if (!obj.isMesh) return;
       obj.userData.part = partOf(obj.name || "");
+      const lower = (obj.name || "").toLowerCase();
+      if (lower.includes("blade") || lower.includes("dome")) fans.push(obj);
       obj.castShadow = false;
       obj.receiveShadow = false;
       const materials = Array.isArray(obj.material) ? obj.material : [obj.material];
@@ -423,6 +466,11 @@ loader.load(
     shadow.rotation.x = -Math.PI / 2;
     shadow.position.y = whole.min.y - 0.004;
     scene.add(shadow);
+    ground.shadow = shadow;
+    ground.y = whole.min.y;
+
+    buildGround(whole.min.y - 0.006);
+    scene.fog = new THREE.Fog(0xffffff, distance * 1.8, distance * 5);
 
     loading.hidden = true;
     resize();
@@ -434,10 +482,165 @@ loader.load(
   },
 );
 
-function frame() {
+function buildGround(y) {
+  const tile = document.createElement("canvas");
+  tile.width = 128;
+  tile.height = 128;
+  const ctx = tile.getContext("2d");
+  ctx.clearRect(0, 0, 128, 128);
+  ctx.strokeStyle = "rgba(17, 17, 17, 0.55)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(1, 0);
+  ctx.lineTo(1, 128);
+  ctx.moveTo(0, 1);
+  ctx.lineTo(128, 1);
+  ctx.stroke();
+
+  const texture = new THREE.CanvasTexture(tile);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  texture.colorSpace = THREE.SRGBColorSpace;
+
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(ground.size, ground.size),
+    new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      opacity: 0.45,
+      depthWrite: false,
+    }),
+  );
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.position.y = y;
+  mesh.renderOrder = -1;
+  scene.add(mesh);
+  ground.mesh = mesh;
+  ground.texture = texture;
+  updateGround(0);
+}
+
+function updateGround(altitude) {
+  if (!ground.texture) return;
+  // Squares shrink as the jet climbs so the runway reads as farther away.
+  const tile = TILE_AT_GROUND / (1 + altitude / 8);
+  const repeat = ground.size / tile;
+  ground.texture.repeat.set(repeat, repeat);
+
+  const dx = (flightState.x - ground.lastX) * GROUND_SPEED_SCALE;
+  const dz = (flightState.z - ground.lastZ) * GROUND_SPEED_SCALE;
+  ground.lastX = flightState.x;
+  ground.lastZ = flightState.z;
+  ground.texture.offset.x += dx / tile;
+  ground.texture.offset.y -= dz / tile;
+
+  if (ground.shadow) {
+    const s = 1 / (1 + altitude / 3);
+    ground.shadow.scale.setScalar(Math.max(0.15, s));
+    ground.shadow.material.opacity = 0.28 / (1 + altitude / 2);
+  }
+}
+
+function visualAltitude(altitude) {
+  return 0.8 * (1 - Math.exp(-altitude / 6));
+}
+
+function poseModel(dt) {
+  const s = flightState;
+  const rad = Math.PI / 180;
+  modelRoot.rotation.y = -s.heading * rad;
+  modelRoot.rotation.x = NOSE_PITCH_SIGN * s.pitch * rad;
+  modelRoot.rotation.z = s.bank * rad;
+  // Rotating about the centre would push the tail through the runway, so
+  // lift the whole jet a little when it pitches up near the ground.
+  const tailClearance = Math.sin(Math.abs(s.pitch) * rad) * 0.24;
+  modelRoot.position.y = visualAltitude(s.altitude) + tailClearance * (s.altitude < 1 ? 1 : 0.4);
+  modelRoot.updateMatrixWorld(true);
+
+  const spin = (6 + 70 * s.throttle) * dt;
+  for (const fan of fans) fan.rotateZ(spin);
+
+  controls.target.y += (modelRoot.position.y - controls.target.y) * Math.min(1, dt * 4);
+}
+
+function syncControls() {
+  const s = flightState;
+  const automatic = s.auto || s.phase === "takeoff" || s.phase === "landing" || s.phase === "rollout";
+  if (automatic) {
+    ui.throttle.value = Math.round(s.throttle * 100);
+    ui.pitch.value = Math.round(s.pitch);
+    ui.bank.value = Math.round(s.bank);
+    pilot.throttle = s.throttle;
+    pilot.pitch = s.pitch;
+    pilot.bank = s.bank;
+  }
+  ui.throttleOut.value = `${Math.round(Number(ui.throttle.value))}%`;
+  ui.pitchOut.value = `${Math.round(Number(ui.pitch.value))}°`;
+  ui.bankOut.value = `${Math.round(Number(ui.bank.value))}°`;
+
+  const grounded = s.phase === "parked" || s.phase === "ground" || s.phase === "rollout";
+  ui.takeoff.disabled = !grounded || s.phase === "rollout";
+  ui.land.disabled = !(s.phase === "flying" || s.phase === "takeoff");
+}
+
+let lastReadout = 0;
+function updateReadouts(now) {
+  if (now - lastReadout < 120) return;
+  lastReadout = now;
+  const s = flightState;
+  const r = ui.reads;
+  r.speed.textContent = `${s.speed.toFixed(1)} m/s · ${(s.speed * 3.6).toFixed(0)} km/h`;
+  r.altitude.textContent = `${s.altitude.toFixed(1)} m`;
+  r.alpha.textContent = `${s.alpha.toFixed(1)}°${s.stalled ? " · stall" : ""}`;
+  r.lift.textContent = `${s.lift.toFixed(1)} N`;
+  r.drag.textContent = `${s.drag.toFixed(2)} N`;
+  r.thrust.textContent = `${s.thrust.toFixed(1)} N`;
+  r.weight.textContent = `${s.weight.toFixed(1)} N`;
+  r.ratio.textContent = s.drag > 0.05 ? (s.lift / s.drag).toFixed(1) : "—";
+  ui.phase.textContent = flight.describe(s);
+}
+
+function bindFlightControls() {
+  const p = flight.params;
+  ui.constants.textContent =
+    `m = ${p.mass} kg, S = ${p.area} m², ρ = ${p.rho} kg/m³, ` +
+    `C_L0 = ${p.cl0}, C_Lα = ${p.clAlpha} per degree, C_D0 = ${p.cd0}, k = ${p.k}, ` +
+    `T_max = ${p.thrustMax} N. Rotation speed ${flight.rotationSpeed().toFixed(1)} m/s, ` +
+    `stall speed ${flight.stallSpeed().toFixed(1)} m/s.`;
+
+  ui.takeoff.addEventListener("click", () => {
+    flight.takeOff(flightState);
+    syncControls();
+  });
+  ui.land.addEventListener("click", () => {
+    flight.land(flightState);
+    syncControls();
+  });
+
+  const manual = (key, scale) => (event) => {
+    flight.takeControl(flightState);
+    pilot[key] = Number(event.target.value) * scale;
+    syncControls();
+  };
+  ui.throttle.addEventListener("input", manual("throttle", 0.01));
+  ui.pitch.addEventListener("input", manual("pitch", 1));
+  ui.bank.addEventListener("input", manual("bank", 1));
+  syncControls();
+}
+
+bindFlightControls();
+
+function frame(now) {
   resize();
   controls.update();
+  const dt = Math.min(clock.getDelta(), 0.05);
   if (modelRoot.children.length) {
+    flight.step(flightState, pilot, dt);
+    poseModel(dt);
+    updateGround(flightState.altitude);
+    syncControls();
+    updateReadouts(now || 0);
     projectAnchor("fan");
     projectAnchor("airframe");
     projectAnchor("gear");

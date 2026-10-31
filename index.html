@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Muhammad Maalik</title>
-    <link rel="stylesheet" href="./styles.css?v=8" />
+    <link rel="stylesheet" href="./styles.css?v=9" />
   </head>
   <body>
     <a class="skip" href="#drawers">Skip to the folders</a>
@@ -83,7 +83,65 @@
               </p>
               <div class="hotspots" id="hotspots"></div>
               <p class="drag-hint">Drag to turn</p>
+              <p class="flight-phase" id="flight-phase" aria-live="polite">On the ground. Fans off.</p>
             </div>
+
+            <section class="flight" aria-labelledby="flight-title">
+              <div class="flight-head">
+                <h3 id="flight-title">Flight</h3>
+                <div class="flight-actions">
+                  <button type="button" id="takeoff">Take off</button>
+                  <button type="button" id="land" disabled>Land</button>
+                </div>
+              </div>
+
+              <div class="flight-controls">
+                <label class="control">
+                  <span class="control-name">Throttle</span>
+                  <input type="range" id="throttle" min="0" max="100" step="1" value="0" aria-describedby="flight-title" />
+                  <output id="throttle-out" for="throttle">0%</output>
+                </label>
+                <label class="control">
+                  <span class="control-name">Pitch</span>
+                  <input type="range" id="pitch" min="-15" max="15" step="1" value="0" />
+                  <output id="pitch-out" for="pitch">0°</output>
+                </label>
+                <label class="control">
+                  <span class="control-name">Bank</span>
+                  <input type="range" id="bank" min="-45" max="45" step="1" value="0" />
+                  <output id="bank-out" for="bank">0°</output>
+                </label>
+              </div>
+
+              <dl class="readouts" id="readouts">
+                <div><dt>Speed</dt><dd data-read="speed">0 m/s</dd></div>
+                <div><dt>Altitude</dt><dd data-read="altitude">0 m</dd></div>
+                <div><dt>Angle of attack</dt><dd data-read="alpha">0°</dd></div>
+                <div><dt>Lift</dt><dd data-read="lift">0 N</dd></div>
+                <div><dt>Drag</dt><dd data-read="drag">0 N</dd></div>
+                <div><dt>Thrust</dt><dd data-read="thrust">0 N</dd></div>
+                <div><dt>Weight</dt><dd data-read="weight">11.8 N</dd></div>
+                <div><dt>L / D</dt><dd data-read="ratio">—</dd></div>
+              </dl>
+
+              <div class="formulas">
+                <p>
+                  Lift <em>L</em> = ½ ρ <em>v</em>² <em>S</em> <em>C<sub>L</sub></em>,
+                  with <em>C<sub>L</sub></em> = <em>C<sub>L0</sub></em> + <em>C<sub>Lα</sub></em> α
+                  up to a 14° stall.
+                </p>
+                <p>
+                  Drag <em>D</em> = ½ ρ <em>v</em>² <em>S</em> <em>C<sub>D</sub></em>,
+                  with <em>C<sub>D</sub></em> = <em>C<sub>D0</sub></em> + <em>k</em> <em>C<sub>L</sub></em>².
+                </p>
+                <p>
+                  Along the path <em>m</em> d<em>v</em>/d<em>t</em> = <em>T</em> cos α − <em>D</em> − <em>W</em> sin γ.
+                  Across it <em>m v</em> dγ/d<em>t</em> = <em>L</em> cos φ + <em>T</em> sin α − <em>W</em> cos γ.
+                  Turn rate = <em>g</em> tan φ / <em>v</em>.
+                </p>
+                <p class="meta" id="constants"></p>
+              </div>
+            </section>
             <section class="panel" id="panel" hidden aria-labelledby="panel-title">
               <div class="panel-head">
                 <h2 id="panel-title"></h2>
@@ -230,6 +288,6 @@
         }
       }
     </script>
-    <script type="module" src="./main.js"></script>
+    <script type="module" src="./main.js?v=2"></script>
   </body>
 </html>
