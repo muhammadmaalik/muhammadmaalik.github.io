@@ -1,0 +1,292 @@
+[
+  {
+    "id": "psisat",
+    "title": "PsiSat",
+    "subtitle": "A 1U gamma-ray burst nanosatellite",
+    "category": "Space systems",
+    "date": "July 2026 - present",
+    "status": "Design study / proposal",
+    "tools": "Fusion 360, PCB design, detector integration",
+    "summary": "A student CubeSat proposal to detect short flashes of high-energy light from orbit, with a compact aluminum shell and six planned electronics layers.",
+    "body": [
+      [
+        "Purpose",
+        "A scintillator converts incoming gamma rays into light near 550 nm. A sensor reads each flash and a small computer records its timing."
+      ],
+      [
+        "My contribution",
+        "I started the project, recruited the team, and wrote the NASA CubeSat Launch Initiative proposal. The shell is modeled in Fusion 360. Jackson Boyle and Christian Tumanda are also on the proposal."
+      ],
+      [
+        "Packaging & status",
+        "The target envelope is about 10 x 10 x 11 cm, with mass below 1.33 kg. Six electronics layers are planned. Stage 4 is the power board and Stage 5 holds the batteries; four other boards remain in design. PsiSat has not launched."
+      ]
+    ],
+    "link": "https://github.com/leosgxsbu/Psi_Sat-1U-CubeSat-",
+    "images": [
+      {
+        "src": "psisat/power-layout.jpg",
+        "caption": "Stage 4: power board layout."
+      },
+      {
+        "src": "psisat/battery-layout.jpg",
+        "caption": "Stage 5: battery board layout."
+      },
+      {
+        "src": "psisat/power-board.jpg",
+        "caption": "Power board in 3D."
+      },
+      {
+        "src": "psisat/battery-board.jpg",
+        "caption": "Battery holders in 3D."
+      }
+    ]
+  },
+  {
+    "id": "jet",
+    "title": "3D-printed jet",
+    "subtitle": "Airframe, propulsion & flight-control development",
+    "category": "Flight & propulsion",
+    "date": "December 2025 - present",
+    "status": "In development",
+    "tools": "Fusion 360, Inventor, Ansys Mechanical, Ansys Fluent, PyTorch",
+    "summary": "A custom printed airframe with twin 80 mm electric ducted fans, developed around structural packaging, aerodynamics, and a target speed above 70 km/h.",
+    "body": [
+      [
+        "Airframe & integration",
+        "The airplane is drawn in Fusion 360 and printed in separate parts. The wing halves close over a battery bay, while two 80 mm electric ducted fans sit side by side at the rear."
+      ],
+      [
+        "Analysis & control",
+        "Structural and flow analysis inform the design. Thrust vectoring and onboard neural-network flight and landing control remain development goals. The 70 km/h figure is a design target, rather than a reported flight measurement."
+      ],
+      [
+        "Explore the model",
+        "The original interactive aircraft model and flight demonstration remain available on the main website."
+      ]
+    ],
+    "link": "./index.html?project=plane",
+    "images": [
+      {
+        "src": "jet/airframe.jpg",
+        "caption": "CAD model of the airframe, fans, and tail."
+      },
+      {
+        "src": "jet/printed-wing.jpg",
+        "caption": "Printed wing panels and battery bay."
+      },
+      {
+        "src": "jet/fan-assembly.jpg",
+        "caption": "Twin fan ducts and tail during assembly."
+      }
+    ]
+  },
+  {
+    "id": "vibration",
+    "title": "Vibration isolation",
+    "subtitle": "Crystal oscillator mounting study",
+    "category": "Analysis",
+    "date": "Summer internship, 2026",
+    "status": "Engineering study",
+    "tools": "Ansys Mechanical, modal analysis",
+    "summary": "A modal study of a 10 MHz crystal oscillator on four isolators, identifying the frequency ranges where its mounts amplify or reduce vibration.",
+    "body": [
+      [
+        "The assembly",
+        "At East End Assemblies, I studied a Wenzel 501-27521-11 oscillator mounted on a plate with four J-3112-2 isolators."
+      ],
+      [
+        "The analysis",
+        "I ran modal analysis in Ansys Mechanical and examined the first six natural frequencies. Low modes were near 30-50 Hz, where bench motion can be amplified. Isolation began to help above roughly 70 Hz; the mounts stiffened at higher frequencies."
+      ],
+      [
+        "Engineering purpose",
+        "The study described where the mounting system helps and where it does not before installation. These findings apply to the studied assembly and model."
+      ]
+    ],
+    "images": [
+      {
+        "src": "vibration/isolator-assembly.jpg",
+        "caption": "Oscillator plate and four isolators."
+      },
+      {
+        "src": "vibration/modal-results.jpg",
+        "caption": "Ansys results for modes 1-6."
+      }
+    ]
+  },
+  {
+    "id": "rover",
+    "title": "Rover structural analysis",
+    "subtitle": "Frame design, load cases & weight reduction",
+    "category": "Analysis",
+    "date": "September 2025 - present",
+    "status": "FEA lead / Stony Brook Robotics",
+    "tools": "SolidWorks, Ansys Mechanical, LS-DYNA",
+    "summary": "Design and analysis of the URC rover frame, using static and impact cases to guide structural changes before fabrication.",
+    "body": [
+      [
+        "My contribution",
+        "I design the URC rover frame in SolidWorks and evaluate it in Ansys Mechanical. LS-DYNA supports short impact cases. Successive load-case iterations reduced the rover mass by 6 kg."
+      ],
+      [
+        "Top-frame study",
+        "The September 2026 pass modeled aluminum 6061-T6 members with 5 mm joint connections. Loads of 100 N, 150 N, and 150 N were applied with selected faces fixed. This initial pass used the default mesh."
+      ],
+      [
+        "Design response",
+        "Peak deformation on the middle member pointed to the layout as the area to improve. Proposed changes included additional supports, filleted trusses or L-bars, and evaluation of 2 x 2 inch tubing."
+      ]
+    ],
+    "images": [
+      {
+        "src": "rover/safety-factor-2026-11-02.png",
+        "caption": "Static structural safety-factor plot (2 Nov 2026); displayed minimum 0.37395."
+      },
+      {
+        "src": "rover/frame.jpg",
+        "caption": "Top-frame model."
+      },
+      {
+        "src": "rover/load-case.jpg",
+        "caption": "Applied loads and fixed faces."
+      },
+      {
+        "src": "rover/deformation.jpg",
+        "caption": "Total deformation: middle member is the critical region."
+      }
+    ]
+  },
+  {
+    "id": "batman",
+    "title": "Batman",
+    "subtitle": "Autonomous trash-pickup robot",
+    "category": "Robotics",
+    "date": "SBU Hacks 2026",
+    "status": "Team prototype",
+    "tools": "Arduino UNO Q, Ultralytics YOLO11, Python, mecanum drive, TCP / Wi-Fi",
+    "summary": "A low-cost robot designed to find and collect campus litter, bringing computer vision, omnidirectional motion, and a two-servo claw into one hardware prototype.",
+    "body": [
+      [
+        "The idea",
+        "Litter collects under benches, beside bins, and along campus walkways. Our team built Batman to explore a small, affordable robot that can reach those spots and pick it up."
+      ],
+      [
+        "See, decide, move, grab",
+        "An iPhone streams video to a Windows laptop running a trash-trained YOLO11 model on an RTX 5060. Drive and arm commands travel over TCP on a shared hotspot to the UNO Q. Four motors and two HW-166 (TB6612) drivers power the mecanum base; lift and gripper servos operate the claw."
+      ],
+      [
+        "Integration & lessons",
+        "We tested the motors and servos separately before integrating vision. Stable logic power and a common ground resolved driver issues. The stock Zephyr core lacked Servo.h, so the team used soft 50 Hz servo pulses. A shared hotspot replaced campus Wi-Fi for the robot link."
+      ],
+      [
+        "Current state & next steps",
+        "The physical base, arm controller, and GPU detector are built. Reliable pickup remains a tuning task: center on detections, improve the grab sequence, tidy the harness, and extend battery runs. Obstacle sensing and onboard compute are future options."
+      ]
+    ],
+    "link": "https://github.com/muhammadmaalik/Batman",
+    "images": [
+      {
+        "src": "batman/prototype.jpg",
+        "caption": "The assembled prototype: mecanum base, iPhone camera, and two-servo claw."
+      },
+      {
+        "src": "batman/pickup-test.jpg",
+        "caption": "Claw and chassis during a can-pickup test."
+      },
+      {
+        "src": "batman/electronics.jpg",
+        "caption": "UNO Q, breadboards, motor wiring, and arm integration."
+      },
+      {
+        "src": "batman/assembly.jpg",
+        "caption": "Hardware assembly and wiring."
+      },
+      {
+        "src": "batman/outdoor-build.jpg",
+        "caption": "The green chassis and electronics outdoors."
+      }
+    ]
+  },
+  {
+    "id": "mit-make",
+    "title": "MIT Make - Harvard",
+    "subtitle": "Mobile rover & turret prototype",
+    "category": "Robotics",
+    "date": "Hackathon project",
+    "status": "Team prototype",
+    "tools": "Mechanical integration, camera vision, 3D printing",
+    "summary": "A wheeled rover carrying a small aiming turret, combining a camera-based recognition system with a compact mechanical assembly.",
+    "body": [
+      [
+        "The prototype",
+        "The robot combines a wheeled base, a small turret, and a launcher for short 3D-printed cylinders. Camera-based face recognition triggers the prototype behavior."
+      ],
+      [
+        "Mechanical integration",
+        "The mechanical task was to package the launcher, aiming hardware, and wiring on a rover that could still move. The photograph documents the bench prototype."
+      ]
+    ],
+    "images": [
+      {
+        "src": "mit-make/prototype.jpg",
+        "caption": "Rover and turret on the bench."
+      }
+    ]
+  },
+  {
+    "id": "thrust",
+    "title": "Thrust vector control",
+    "subtitle": "Compact rocket steering mechanism",
+    "category": "Flight & propulsion",
+    "date": "Completed",
+    "status": "Design & simulation",
+    "tools": "Fusion 360, OpenRocket",
+    "summary": "A compact mechanism that steers a rocket by tilting its engine, designed around a roughly 20 x 4 inch, 200 gram vehicle.",
+    "body": [
+      [
+        "Packaging & control",
+        "Modeled the system in Fusion 360 to fit the actuators, controller, and boards within the rocket. Tilting the engine changes thrust direction to counter disturbances."
+      ],
+      [
+        "Simulation",
+        "OpenRocket studies checked system compatibility, center of gravity, and center of pressure to assess the steering design before flight."
+      ]
+    ],
+    "images": []
+  },
+  {
+    "id": "hydrogen",
+    "title": "Hydrogen engine study",
+    "subtitle": "Comparative performance & operating constraints",
+    "category": "Analysis",
+    "date": "June 2024",
+    "status": "Comparative study",
+    "tools": "Research, Python, data analysis",
+    "summary": "An investigation of electrolysis-derived hydrogen in an internal combustion engine, comparing performance and operating demands with gasoline.",
+    "body": [
+      [
+        "Research question",
+        "Compared engine behavior and operating overhead for hydrogen and gasoline, focusing on efficiency, speed, and thermal demands."
+      ],
+      [
+        "Reported observations",
+        "The study reported 40% higher RPM and 60% higher operating temperature for the hydrogen-fueled engine relative to the gasoline baseline. The thermal result motivated closer attention to material constraints."
+      ],
+      [
+        "Design implication",
+        "The temperature result highlights thermal management and material constraints as priorities for subsequent investigation."
+      ]
+    ],
+    "images": [
+      {
+        "src": "hydrogen/engine-test-setup.png",
+        "caption": "Hydrogen engine experiment: gas-generation apparatus, tubing, and engine."
+      },
+      {
+        "src": "hydrogen/electrolysis-power-setup.png",
+        "caption": "Gas-generation apparatus connected to the battery supply."
+      }
+    ]
+  }
+]

@@ -13,7 +13,7 @@
         <div class="identity">
           <a class="mark" href="#top">Muhammad Maalik</a>
           <a href="./resume.pdf">Résumé</a>
-          <a href="./portfolio.pdf">Portfolio</a>
+          <a href="./portfolio.html">Portfolio</a>
           <a href="https://www.linkedin.com/in/muhammadmaalik">LinkedIn</a>
         </div>
         <svg class="diagram" viewBox="0 0 620 220" role="img" aria-label="Scintillation. An incoming photon is absorbed by a material. The material is excited, then emits a photon at 550 nanometers.">
@@ -46,8 +46,11 @@
           <button class="folder" type="button" data-open="experience" aria-expanded="false">Experience</button>
           <button class="folder" type="button" data-group="projects" aria-expanded="false">Projects</button>
           <div class="nest" hidden>
-            <button class="folder sub" type="button" data-open="plane" aria-expanded="false">Plane</button>
             <button class="folder sub" type="button" data-open="psisat" aria-expanded="false">PsiSat</button>
+            <button class="folder sub" type="button" data-open="plane" aria-expanded="false">Plane</button>
+            <a class="folder sub" href="./portfolio.html#vibration">Internship / vibration study</a>
+            <a class="folder sub" href="./portfolio.html#rover">Rover structural analysis</a>
+            <a class="folder sub" href="./portfolio.html#batman">Batman / SBU Hacks</a>
             <button class="folder sub" type="button" data-open="thrust" aria-expanded="false">Thrust vector</button>
           </div>
           <button class="folder" type="button" data-open="leadership" aria-expanded="false">Leadership</button>
@@ -240,7 +243,7 @@
     </div>
 
     <script>
-      const folders = document.querySelectorAll(".folder");
+      const folders = document.querySelectorAll("button.folder");
       const panes = document.querySelectorAll(".pane");
       const nest = document.querySelector(".nest");
       const group = document.querySelector("[data-group]");
@@ -279,6 +282,8 @@
           }
         });
       });
+      const requestedProject = new URLSearchParams(location.search).get("project");
+      if (requestedProject === "plane") document.querySelector('[data-open="plane"]').click();
     </script>
     <script type="importmap">
       {
