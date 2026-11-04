@@ -22,3 +22,5 @@ Copy this package into the repository checkout, review the changes, commit, and 
 LaTeX main.tex compiled successfully with the Codex desktop compiler. The supplied downloadable PDF was typeset separately from the same project content; its page layout may differ from the LaTeX preview. The PDF was rendered and visually reviewed. Website links and image files were checked locally, with browser review of desktop and mobile layouts.
 
 Batman is a team project. The personal division of work has not been supplied. No awards or pickup reliability claims were invented. Additional new projects beyond Batman await the owner's descriptions.
+
+Approved revision: the portfolio uses the minimal MEC&Physics @Stony Brook University header, omits the promotional introduction and roles/degree closing, and the printable PDF includes all 21 website project photographs and the same project paragraphs and captions.
