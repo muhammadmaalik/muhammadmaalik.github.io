@@ -1,0 +1,67 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=.7in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,graphicx,xcolor,titlesec,parskip,hyperref,fancyhdr}
+\definecolor{ink}{RGB}{32,37,31}
+\definecolor{accent}{RGB}{78,105,72}
+\definecolor{muted}{RGB}{94,102,89}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,pdftitle={Muhammad Maalik - Engineering Portfolio},pdfauthor={Muhammad Maalik}}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Muhammad Maalik}
+\fancyhead[R]{\small Engineering portfolio / 2026}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\titleformat{\subsection}{\normalsize\bfseries\color{accent}}{}{0pt}{}
+\titlespacing{\subsection}{0pt}{9pt}{3pt}
+\newcommand{\projecthead}[4]{{\small\color{accent}PROJECT #1 / #4}\par\smallskip{\huge #2}\par{\large\itshape #3}\par\medskip\hrule\medskip}
+\begin{document}
+\thispagestyle{empty}
+{\small\color{accent}MECHANICAL ENGINEERING \& PHYSICS}\par\vspace{.5in}
+{\Huge Muhammad Maalik}\par\medskip
+{\LARGE Engineering portfolio}\par\bigskip
+{\Large\itshape From an idea to something built.}\par\bigskip
+Robotics, flight, space systems, and engineering analysis. A selection of hardware, simulations, and the decisions connecting them.
+\par\bigskip
+\href{https://muhammadmaalik.github.io}{muhammadmaalik.github.io}\quad\textbar\quad\href{mailto:umermaalik24@gmail.com}{umermaalik24@gmail.com}
+\par\medskip
+Stony Brook University\par
+B.S. Mechanical Engineering \& Physics / August 2025 -- May 2030
+\vspace{.35in}
+{\large Project index}\par\medskip
+\hyperref[proj:psisat]{01 / PsiSat}\hfill Space systems\par\smallskip
+\hyperref[proj:jet]{02 / 3D-printed jet}\hfill Flight \& propulsion\par\smallskip
+\hyperref[proj:vibration]{03 / Vibration isolation}\hfill Analysis\par\smallskip
+\hyperref[proj:rover]{04 / Rover structural analysis}\hfill Analysis\par\smallskip
+\hyperref[proj:batman]{05 / Batman}\hfill Robotics\par\smallskip
+\hyperref[proj:mit-make]{06 / MIT Make - Harvard}\hfill Robotics\par\smallskip
+\hyperref[proj:thrust]{07 / Thrust vector control}\hfill Flight \& propulsion\par\smallskip
+\hyperref[proj:hydrogen]{08 / Hydrogen engine study}\hfill Analysis\par\smallskip
+\clearpage\phantomsection\label{proj:psisat}\input{sections/01-psisat}
+\clearpage\phantomsection\label{proj:jet}\input{sections/02-jet}
+\clearpage\phantomsection\label{proj:vibration}\input{sections/03-vibration}
+\clearpage\phantomsection\label{proj:rover}\input{sections/04-rover}
+\clearpage\phantomsection\label{proj:batman}\input{sections/05-batman}
+\clearpage\phantomsection\label{proj:mit-make}\input{sections/06-mit-make}
+\clearpage\phantomsection\label{proj:thrust}\input{sections/07-thrust}
+\clearpage\phantomsection\label{proj:hydrogen}\input{sections/08-hydrogen}
+\clearpage
+\projecthead{09}{Experience \& tools}{Engineering, teaching, and team leadership}{2026}
+\subsection*{Mechanical engineering intern / East End Assemblies}
+June 2026 -- present. CAD and engineering analysis for parts and assemblies, including the oscillator vibration study documented in this portfolio.
+\subsection*{FEA lead / Stony Brook Robotics}
+September 2025 -- present. Structural analysis for rover hardware. Work includes static and impact studies for the URC frame and Ansys structural and flow studies for the MATE rover.
+\subsection*{Teaching assistant / AMS 261}
+Multivariable Calculus, Stony Brook University.
+\subsection*{Autodesk ambassador}
+January 2026 -- present. Hosted a workshop on Fusion 360, analysis, and rendering for engineering and arts students.
+\subsection*{CAD / modeling}
+SolidWorks, Fusion 360, Inventor, Onshape, Solid Edge, Creo, Siemens NX.
+\subsection*{Analysis}
+Ansys Mechanical, Ansys Fluent, Workbench, LS-DYNA, OpenFOAM, SimScale, OpenRocket.
+\subsection*{Software / electronics}
+Python, C++, KiCad, PyTorch, Qiskit, \LaTeX.
+\end{document}
