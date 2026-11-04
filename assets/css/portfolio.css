@@ -3,3 +3,6 @@
 .extra-gallery{margin-top:20px}.extra-gallery img{height:260px}
 
 .gallery-rover figure:first-child{grid-column:1/-1}.gallery-rover figure:first-child img{height:auto;aspect-ratio:1219/509;object-fit:contain}
+
+/* Approved minimal portfolio header. */
+.intro{padding:32px 0}.intro .intro-label{font-family:CM,Georgia,serif;font-size:20px;font-weight:400;line-height:1.5;letter-spacing:0;margin:0;color:#20251f}
